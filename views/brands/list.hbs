@@ -2,15 +2,7 @@
 
 <p>Units List</p>
 <ul>
-    {{#units}}
-        <li>{{name}} -> {{description}}</li>
-    {{/units}}
-    
-    {{formatNumber num style="currency" currency="USD"}}
-    {{formatNumber num style="currency" currency="UYU"}}
-    {{formatNumber num style="currency" currency="CUP"}}
-    {{formatNumber num style="currency" currency="CUC"}}
-    {{formatNumber num style="currency" currency="ARS"}}
-    {{formatNumber num style="currency" currency="CLP"}}
-
+    {{#brands}}
+        <li>{{name}} -> {{description}} -> {{website}}</li>
+    {{/brands}}
 </ul>

@@ -4,7 +4,9 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/list', function(req, res, next) {
-  res.render("brands/list",{ "num":100, "units":listService.getUnits()});
+  listService.listBrand(function(brands){
+    res.render("brands/list",{"brands":brands});
+  });
 });
 
 router.get('/detail/:id', function(req, res, next) {
@@ -16,11 +18,20 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.get('/form', function(req, res, next) {
-  res.render("brands/form",{ });
+  if (req.query.id)
+    res.render("brands/form",listService.findBrandById(req.query.id));
+  else
+    res.render("brands/form");
 });
 
 router.post('/form', function(req, res, next) {
- // res.render("brands/form",{ "num":100, "units":listService.insertBrand(req.params)});
+
+  if (req.body.id)
+    listService.updateBrand(req.body.id,req.body);
+  else
+    listService.insertBrand(req.body);
+
+  res.redirect("/brands/list");
 });
 
 
