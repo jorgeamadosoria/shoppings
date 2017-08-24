@@ -3,6 +3,6 @@
 <p>Units List</p>
 <ul>
     {{#brands}}
-        <li><a href="form?id={{_id}}">{{_id}}</a> -- {{name}} -> {{description}} -> {{website}}</li>
+        <li>{{_id}} - {{name}} -> {{description}} -> {{website}} -> <a href="delete/{{_id}}">Delete</a>&nbsp;<a href="form?id={{_id}}">Update</a>&nbsp;<a href="detail/{{_id}}">detail</a></li>
     {{/brands}}
 </ul>

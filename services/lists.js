@@ -42,19 +42,17 @@ module.exports = {
     updateBrand: function (brandId, brand) {
         var id = mongoose.Types.ObjectId(brandId);
         brand._id = id;
-        brandModel.findByIdAndUpdate(id, brand, updateCallback);
+        return brandModel.findByIdAndUpdate(id, brand).exec();
     },
 
     deleteBrand: function (brandId) {
         var id = mongoose.Types.ObjectId(brandId);
-        brandModel.findByIdAndRemove(id, removeCallback);
+        return brandModel.findByIdAndRemove(id).exec();
     },
 
-    listBrand: function (renderCallback) {
+    listBrand: function () {
 
-        brandModel.find().lean().exec(function (err, docs) {
-            if (findCallback(err, docs)) renderCallback(docs);
-        });
+        return brandModel.find().lean().exec();
 
     },
 
