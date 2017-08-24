@@ -3,6 +3,19 @@
 <p>Units List</p>
 <ul>
     {{#brands}}
-        <li>{{_id}} - {{name}} -> {{description}} -> {{website}} -> <a href="delete/{{_id}}">Delete</a>&nbsp;<a href="form?id={{_id}}">Update</a>&nbsp;<a href="detail/{{_id}}">detail</a></li>
+        <li id="item-{{_id}}">{{name}} -> {{description}} -> {{website}} -> <a id="del-link" data-id = "{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>&nbsp;<a href="detail/{{_id}}"><i class="fa fa-eye"></i></a></li>
     {{/brands}}
 </ul>
+<script>
+    $("a#del-link").on("click",function(event){
+        $.ajax(
+            {
+                url: $(this).data("id"),
+                method: "DELETE",
+                success : function(data){
+                    $("#item-" + $(this).data("id")).remove();
+                }
+            }
+        );
+    });
+</script>
