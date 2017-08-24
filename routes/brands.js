@@ -19,15 +19,16 @@ router.delete('/:id', function(req, res, next) {
 
 router.get('/form', function(req, res, next) {
     if (req.query.id)
-        res.render("brands/form", listService.findBrandById(req.query.id));
+        listService.findBrandById(req.query.id).then(function (doc){
+           res.render("brands/form", doc);});
     else
         res.render("brands/form");
 });
 
 router.post('/form', function(req, res, next) {
 
-    if (req.body.id)
-        listService.updateBrand(req.body.id, req.body);
+    if (req.query.id)
+        listService.updateBrand(req.query.id, req.body);
     else
         listService.insertBrand(req.body);
 

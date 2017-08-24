@@ -1,6 +1,10 @@
 <form enctype="application/x-www-form-urlencoded" action="" method="post">
-    <input name="name" id="name" value="" />
-    <input name="website" id="website" value="" />
-    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+    {{#if _id}}
+        <input type="hidden" id="s_id" name="s_id" value="{{s_id}}" />
+    {{/if}}
+    <input id="s_id" name="s_id" value="id{{s_id}}" />
+    <input name="name" id="name" value="{{name}}" />
+    <input name="website" id="website" value="{{website}}" />
+    <textarea name="description" id="description" cols="30" rows="10">{{description}}</textarea>
         <button type="submit">Upsert</button>
 </form>
