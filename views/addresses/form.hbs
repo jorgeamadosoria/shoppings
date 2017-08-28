@@ -1,0 +1,38 @@
+<form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="" method="post">
+    <div class="form-group">
+        <label for="address" class="col-xs-2 control-label">Address</label>
+        <div class="col-xs-10">
+            <input class="form-control" placeholder="address" name="address" id="address" value="{{obj.address}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="country" class="col-xs-2 control-label">Country</label>
+        <div class="col-xs-10">
+            <select class="form-control" name="country" id="country">
+                {{#countries}}
+                    <option>{{this}}</option>
+                {{/countries}}
+                {{#if obj}}
+                    <option selected >{{obj.country}}</option>   
+                {{/if}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="region" class="col-xs-2 control-label">Region & city</label>
+        <div class="col-xs-10">
+            <input class="form-control col-10" placeholder="region" name="region" id="region" value="{{obj.region}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mapSrc" class="col-xs-2 control-label">Map url</label>
+        <div class="col-xs-10">
+            <input class="form-control col-10" placeholder="mapSrc" name="mapSrc" id="mapSrc" value="{{obj.mapSrc}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="pull-right col-xs-10">
+            <button class="pull-right btn btn-default" type="submit">Upsert</button>
+        </div>
+    </div>
+</form>

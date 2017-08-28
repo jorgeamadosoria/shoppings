@@ -1,0 +1,131 @@
+<form enctype="application/x-www-form-urlencoded" action="" method="post">
+    <div class="form-group">
+        <label for="date" class="control-label">Date</label> 
+        {{#if obj}}
+            <input class="form-control" type="date" placeholder="date" name="date" id="date" value='{{obj.date}}' /> 
+        {{else}}
+            <input class="form-control" type="date" placeholder="date" name="date" id="date" /> 
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="product" class="control-label">Product</label>
+        <input class="form-control" placeholder="product" name="product" id="product" value="{{obj.product}}" />
+    </div>
+    <div class="form-group">
+        <label for="brand" class="control-label">Brand</label>
+        <select class="form-control" name="brand" id="brand">
+            {{#brands}}
+                <option value="{{this._id}}">{{this.name}}</option>
+            {{/brands}}
+            {{#if obj}}
+                <option selected value="{{obj.brand._id}}">{{obj.brand.name}}</option>
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="upp" class="control-label">Units per product</label>
+        <input class="form-control" placeholder="upp" name="upp" id="upp" value="{{obj.upp}}" />
+    </div>
+    <div class="form-group">
+        <label for="weight" class="control-label">Weight</label>
+        <input class="form-control" placeholder="weight" name="weight" id="weight" value="{{obj.weight}}" />
+    </div>
+    <div class="form-group">
+        <label for="unit" class="control-label">Unit</label>
+        <select class="form-control" name="unit" id="unit">
+            {{#units}}
+                <option>{{this}}</option>
+            {{/units}}
+            {{#if obj}}
+                <option selected >{{obj.units}}</option>   
+            {{/if}}     
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="units_bought" class="control-label">Units bought</label>
+        <input class="form-control" placeholder="units_bought" name="units_bought" id="units_bought" value="{{obj.units_bought}}"
+        />
+    </div>
+    <div class="form-group">
+        <label for="unit_cost" class="control-label">Unit cost</label>
+        <input class="form-control" placeholder="unit_cost" name="unit_cost" id="unit_cost" value="{{obj.unit_cost}}" />
+    </div>
+    <div class="form-group">
+        <label for="item_cost" class="control-label">Item cost</label>
+        <input class="form-control" placeholder="item_cost" name="item_cost" id="item_cost" value="{{obj.item_cost}}" />
+    </div>
+    <div class="form-group">
+        <label for="reason" class="control-label">Reason</label>
+        <select class="form-control" name="reason" id="reason">
+            {{#reasons}}
+                <option>{{this}}</option>
+            {{/reasons}}
+            {{#if obj}}
+                <option selected >{{obj.reason}}</option>   
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="good_buy" class="control-label">Good buy</label> {{#if obj.good_buy}}
+        <input type="checkbox" class="form-control" name="good_buy" id="good_buy" checked/> {{else}}
+        <input type="checkbox" class="form-control" name="good_buy" id="good_buy" /> {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="promotion" class="control-label">Promotion</label> {{#if obj.promotion}}
+        <input type="checkbox" class="form-control" name="promotion" id="promotion" checked/> {{else}}
+        <input type="checkbox" class="form-control" name="promotion" id="promotion" /> {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="address" class="control-label">Address</label>
+        <select class="form-control" name="address" id="address">
+            {{#addresses}}
+                <option value="{{this._id}}">{{this.fullAddress}}</option>
+            {{/addresses}}
+            {{#if obj}}
+                <option selected value="{{obj.address._id}}">{{obj.address.name}}</option>
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="type" class="control-label">Type</label>
+        <select class="form-control" name="type" id="type">
+            {{#types}}
+                <option>{{this}}</option>
+            {{/types}}
+            {{#if obj}}
+                <option selected >{{obj.type}}</option>   
+            {{/if}}     
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="category" class="control-label">Category</label>
+        <select class="form-control" name="category" id="category">
+            {{#categories}}
+                <option>{{this}}</option>
+            {{/categories}}
+            {{#if obj}}
+                <option selected >{{obj.category}}</option>   
+            {{/if}}     
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Comments" class="control-label">Comments</label>
+        <input class="form-control" placeholder="Comments" name="Comments" id="Comments" value="{{obj.Comments}}" />
+    </div>
+    <div class="form-group">
+        <label for="currency" class="control-label">Currency</label>
+        <select class="form-control" name="currency" id="currency">
+            {{#currencies}}
+                <option>{{this}}</option>
+            {{/currencies}}
+            {{#if obj}}
+                <option selected >{{obj.currency}}</option>   
+            {{/if}}     
+        </select>
+    </div>
+    <div class="form-group">
+        <div class="pull-right col-xs-10">
+            <button class="pull-right btn btn-default" type="submit">Upsert</button>
+        </div>
+    </div>
+</form>

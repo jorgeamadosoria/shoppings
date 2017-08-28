@@ -1,25 +1,26 @@
 <div class="panel panel-black">
     <div class="panel-body">
-        <a class="add_link" href="/brands/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+        <a class="add_link" href="/addresses/form"><i class="fa fa-4x fa-plus-circle"></i></a>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Website</th>
+                    <th>Address</th>
+                    <th>Region</th>
+                    <th>Country</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {{#list}}
                 <tr id="item-{{_id}}">
-                    <td>{{name}}</td>
-                    <td>{{description}}</td>
-                    <td><a href="{{website}}">{{website}}</a></td>
+                    <td>{{address}}</td>
+                    <td>{{region}}</td>
+                    <td>{{country}}</td>
                     <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>&nbsp;
                         <a href="detail/{{_id}}"><i class="fa fa-eye"></i></a>
                     </td>
-                    {{/list}}
+                </tr>
+                {{/list}}
             </tbody>
         </table>
     </div>

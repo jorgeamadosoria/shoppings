@@ -7,13 +7,22 @@ var bodyParser = require('body-parser');
 
 
 var index = require('./routes/index');
+var Handlebars = require('hbs');
+Handlebars.registerHelper("select", function(value, options) {
+    return options.fn(this)
+      .split('\n')
+      .map(function(v) {
+        var t = 'value="' + value + '"'
+        return ! RegExp(t).test(v) ? v : v.replace(t, t + ' selected="selected"')
+      })
+      .join('\n')
+  })
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

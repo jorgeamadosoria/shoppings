@@ -1,5 +1,5 @@
 var express = require('express');
-var listService = require('../services/lists');
+var service = require('../services/brand');
 var router = express.Router();
 
 var handleError = function(err) {
@@ -8,21 +8,21 @@ var handleError = function(err) {
 };
 
 router.get('/list', function(req, res, next) {
-    listService.listBrand().then(function(brands) {
+    service.list().then(function(obj) {
         res.render("brands/list", {
-            "brands": brands
+            "list": obj
         });
     }, handleError());
 });
 
 router.get('/detail/:id', function(req, res, next) {
-    listService.findBrandById(req.params.id).then(function(brand) {
-        res.render("brands/detail", brand);
+    service.findById(req.params.id).then(function(obj) {
+        res.render("brands/detail", obj);
     }, handleError());
 });
 
 router.delete('/:id', function(req, res, next) {
-    listService.deleteBrand(req.params.id).then(function(brand) {
+    service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
     }, handleError());
 
@@ -30,8 +30,8 @@ router.delete('/:id', function(req, res, next) {
 
 router.get('/form', function(req, res, next) {
     if (req.query.id)
-        listService.findBrandById(req.query.id).then(function(brand) {
-            res.render("brands/form", brand);
+        service.findById(req.query.id).then(function(obj) {
+            res.render("brands/form", obj);
         }, handleError());
     else
         res.render("brands/form");
@@ -40,11 +40,11 @@ router.get('/form', function(req, res, next) {
 router.post('/form', function(req, res, next) {
 
     if (req.query.id)
-        listService.updateBrand(req.query.id, req.body).then(function(brand) {
+        service.update(req.query.id, req.body).then(function(obj) {
             res.redirect("list");
         }, handleError());
     else
-        listService.insertBrand(req.body).then(function(brand) {
+        service.insert(req.body).then(function(obj) {
             res.redirect("list");
         }, handleError());
 });

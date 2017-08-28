@@ -6,6 +6,5 @@ var brandModel = mongoose.model("Brand",new mongoose.Schema({
     "website":String
 }));
 
-
 module.exports = brandModel;
 
