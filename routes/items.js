@@ -24,7 +24,7 @@ router.get('/detail/:id', function (req, res, next) {
     service.findById(req.params.id).then(function (obj) {
         res.render("items/detail", obj);
     }, handleError());
-});
+}); 
 
 router.delete('/:id', function (req, res, next) {
     service.delete(req.params.id).then(function (obj) {
