@@ -6,25 +6,53 @@
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>Website</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="modal-row-container">
                 {{#list}}
-                <tr id="item-{{_id}}">
-                    <td>{{name}}</td>
-                    <td>{{description}}</td>
-                    <td><a href="{{website}}">{{website}}</a></td>
-                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>&nbsp;
-                        <a href="detail/{{_id}}"><i class="fa fa-eye"></i></a>
+                <tr id="{{_id}}" data-logo="{{logo}}">
+                    <td id="name">{{name}}&nbsp;
+                        {{#if website}}
+                            <a href="{{website}}"><i class="fa fa-external-link"></i></a>
+                        {{/if}}
                     </td>
-                    {{/list}}
+                    <td id= "description">{{description}}</td>
+                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a></td>
+                </tr>
+                {{/list}}
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+          <img onerror="this.src = 'https://image.ibb.co/eW2A6k/st4Sp6Aw.jpg';" id = "logo" class="img-logo img-rounded img-responsive"><p id="description"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
+    $("#modal-row-container td").on('click', function (e) {
+        //$("#myModal modal-body").text($(e.target).parent().attr("id"));
+        $("#myModal .modal-title").text($(e.target).parent().find("#name").text());
+        $("#myModal .modal-body #description").text($(e.target).parent().find("#description").text());
+        $("#myModal .modal-body #logo").attr("src",$(e.target).parent().data("logo"));
+        $("#myModal").modal();
+    });
+
+    
     $("a#del-link").on("click", function (event) {
         $.ajax(
             {

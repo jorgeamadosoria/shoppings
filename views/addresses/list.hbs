@@ -10,14 +10,13 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="modal-row-container">
                 {{#list}}
-                <tr id="item-{{_id}}">
+                <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
                     <td>{{address}}</td>
                     <td>{{region}}</td>
                     <td>{{country}}</td>
                     <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>&nbsp;
-                        <a href="detail/{{_id}}"><i class="fa fa-eye"></i></a>
                     </td>
                 </tr>
                 {{/list}}
@@ -25,7 +24,32 @@
         </table>
     </div>
 </div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Address details</h4>
+        </div>
+        <div class="modal-body">
+            <p id="full"></p>
+            <iframe id="mapSrc" src="" width="800" height="450" frameborder="0" style="border:0"></iframe>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
 <script>
+    $("#modal-row-container td").on('click', function (e) {
+        //$("#myModal modal-body").text($(e.target).parent().attr("id"));
+        $("#myModal .modal-body #full").text($(e.target).parent().data("full"));
+        $("#myModal .modal-body #mapSrc").attr("src",$(e.target).parent().data("src"));
+        $("#myModal").modal();
+    });
+
     $("a#del-link").on("click", function (event) {
         $.ajax(
             {

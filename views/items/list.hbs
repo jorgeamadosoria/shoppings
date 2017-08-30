@@ -23,7 +23,7 @@
                     {{#list}}
                     <tr id="item-{{_id}}">
                         <td><i class="{{status}}"></i>&nbsp;{{#if date}}
-                            {{dateFormat date "YYYY-MM-DD" "utc"}}
+                            {{dateFormat date "YYYY-MM-DD" ""}}
                             {{/if}}</td>
                         <td>{{product}}</td>
                         <td>{{brand.name}}</td>
@@ -44,6 +44,7 @@
             </table>
         </div>
     </div>
+    
 <script>
     $("a#del-link").on("click", function (event) {
         $.ajax(
@@ -56,5 +57,4 @@
             }
         );
     });
-
 </script>
