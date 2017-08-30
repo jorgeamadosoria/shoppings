@@ -18,5 +18,13 @@ module.exports = {
         var temp = list.slice();
         temp.splice(list.indexOf(item), 1);
         return temp;
+    },
+    prepareObj:function(list,obj){
+        var temp = [];
+        list.forEach(function(element) {
+            if (new String(element._id).valueOf() !== new String(obj._id).valueOf())
+                temp.push(element);  
+        });
+        return temp;
     }
 };

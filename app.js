@@ -8,16 +8,12 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var Handlebars = require('hbs');
-Handlebars.registerHelper("select", function(value, options) {
-    return options.fn(this)
-      .split('\n')
-      .map(function(v) {
-        var t = 'value="' + value + '"'
-        return ! RegExp(t).test(v) ? v : v.replace(t, t + ' selected="selected"')
-      })
-      .join('\n')
-  })
 
+Handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+
+Handlebars.registerHelper('json', function(context) {
+    return JSON.stringify(context);
+});
 var app = express();
 
 // view engine setup

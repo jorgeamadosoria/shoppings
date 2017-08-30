@@ -24,7 +24,7 @@ router.get('/detail/:id', function (req, res, next) {
     service.findById(req.params.id).then(function (obj) {
         res.render("items/detail", obj);
     }, handleError());
-}); 
+});
 
 router.delete('/:id', function (req, res, next) {
     service.delete(req.params.id).then(function (obj) {
@@ -45,25 +45,31 @@ router.get('/form', function (req, res, next) {
         var findPromise = service.findById(req.query.id).then(function (obj) {
             data.obj = obj;
             data.categories = lists.prepare(lists.categories, obj.category);
-                data.reasons = lists.prepare(lists.reasons, obj.reason);
-                data.units = lists.prepare(lists.units, obj.unit);
-                data.types = lists.prepare(lists.types, obj.type);
-                data.currencies = lists.prepare(lists.currencies, obj.currency);
+            data.reasons = lists.prepare(lists.reasons, obj.reason);
+            data.units = lists.prepare(lists.units, obj.unit);
+            data.types = lists.prepare(lists.types, obj.type);
+            data.currencies = lists.prepare(lists.currencies, obj.currency);
 
         }, handleError());
         promises.push(findPromise);
     } else {
 
         data.categories = lists.categories;
-            data.reasons = lists.reasons;
-            data.units = lists.units;
-            data.types = lists.types;
-            data.currencies = lists.currencies;
+        data.reasons = lists.reasons;
+        data.units = lists.units;
+        data.types = lists.types;
+        data.currencies = lists.currencies;
 
     }
 
     Promise.all(promises).then(function () {
-        console.log(JSON.stringify(data));
+        if (data.obj) {
+            console.log(typeof data.obj.date == typeof new Date());
+            data.brands = lists.prepareObj(data.brands, data.obj.brand);
+            data.addresses = lists.prepareObj(data.addresses, data.obj.address);
+        }
+      //  console.log(JSON.stringify(data.obj.brand));
+
         res.render("items/form", data);
     });
 
