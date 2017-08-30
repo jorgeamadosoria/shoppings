@@ -5,14 +5,14 @@ body {
 
 .add_link {
     position: absolute;
-    top: 7.8%;
+    top: 9.5%;
     background-color: white;
     color: #080808;
 }
 
 .panel-black {
     border-color: #080808;
-    padding-top:30px;
+    padding-top: 30px;
 }
 
 .pull-right {

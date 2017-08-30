@@ -1,8 +1,10 @@
+var s = require("underscore");
+
 module.exports = {
 
-    currencies: ["UYU", "USD", "CUC", "CUP","ARS","CLP"],
-    
-    status: ["fa fa-check-circle-o text-success","fa fa-warning text-warning"],
+    currencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP"],
+
+    status: ["fa fa-check-circle-o text-success", "fa fa-warning text-warning"],
 
     countries: ["Uruguay", "Chile", "Argentina", "Cuba"],
 
@@ -10,21 +12,24 @@ module.exports = {
 
     reasons: ["Need", "Want", "Exploration", "Amal", "Lunch", "Dinner", "Breakfast", "Error"],
 
-    types: ["Product","Service",  "Contribution", "Payment"],
+    types: ["Product", "Service", "Contribution", "Payment"],
 
-    units: ["kg","cc",  "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm", "N/A"],
+    units: ["kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm", "N/A"],
 
-    prepare:function(list,item){
+    prepare: function(list, item) {
         var temp = list.slice();
         temp.splice(list.indexOf(item), 1);
         return temp;
     },
-    prepareObj:function(list,obj){
-        var temp = [];
-        list.forEach(function(element) {
-            if (new String(element._id).valueOf() !== new String(obj._id).valueOf())
-                temp.push(element);  
-        });
-        return temp;
+    prepareObj: function(list, obj) {
+        if (obj) {
+            var temp = [];
+            list.forEach(function(element) {
+                if (!s.isEqual(element._id, obj._id))
+                    temp.push(element);
+            });
+            return temp;
+        } else
+            return list.slice();
     }
 };

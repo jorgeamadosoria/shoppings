@@ -2,7 +2,7 @@ var model = require('../data/item');
 
 module.exports = {
 
-    insert: function (obj) {
+    insert: function(obj) {
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
         console.log("Address:" + obj.address);
@@ -13,7 +13,7 @@ module.exports = {
         return model.create(obj);
     },
 
-    update: function (id, obj) {
+    update: function(id, obj) {
         obj._id = mongoose.Types.ObjectId(id);
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
@@ -26,16 +26,16 @@ module.exports = {
         return model.findByIdAndUpdate(obj._id, obj).exec();
     },
 
-    delete: function (id) {
+    delete: function(id) {
         var _id = mongoose.Types.ObjectId(id);
         return model.findByIdAndRemove(_id).exec();
     },
 
-    list: function () {
+    list: function() {
         return model.find().populate("brand").populate("address").exec();
     },
 
-    findById: function (id) {
+    findById: function(id) {
         var _id = mongoose.Types.ObjectId(id);
         return model.findById(_id).populate("brand").populate("address").exec();
     }

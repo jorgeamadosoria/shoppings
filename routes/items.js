@@ -1,4 +1,6 @@
 var express = require('express');
+var _ = require("underscore");
+var moment = require('moment');
 var lists = require('../data/lists');
 var service = require('../services/item');
 var brandService = require('../services/brand');
@@ -6,34 +8,33 @@ var addressService = require('../services/address');
 
 var router = express.Router();
 
-var handleError = function (err) {
+var handleError = function(err) {
     console.log("ERROR:" + err);
     return null;
 };
 
-router.get('/list', function (req, res, next) {
-    service.list().then(function (obj) {
-        console.log(JSON.stringify(obj));
+router.get('/list', function(req, res, next) {
+    service.list().then(function(obj) {
         res.render("items/list", {
             "list": obj
         });
-    }, handleError());
+    }, handleError);
 });
 
-router.get('/detail/:id', function (req, res, next) {
-    service.findById(req.params.id).then(function (obj) {
+router.get('/detail/:id', function(req, res, next) {
+    service.findById(req.params.id).then(function(obj) {
         res.render("items/detail", obj);
     }, handleError());
 });
 
-router.delete('/:id', function (req, res, next) {
-    service.delete(req.params.id).then(function (obj) {
+router.delete('/:id', function(req, res, next) {
+    service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
     }, handleError());
 
 });
 
-router.get('/form', function (req, res, next) {
+router.get('/form', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list()
         .then(docs => data.brands = docs);
@@ -42,15 +43,14 @@ router.get('/form', function (req, res, next) {
 
     var promises = [brandPromise, addressPromise];
     if (req.query.id) {
-        var findPromise = service.findById(req.query.id).then(function (obj) {
+        var findPromise = service.findById(req.query.id).then(function(obj) {
             data.obj = obj;
             data.categories = lists.prepare(lists.categories, obj.category);
             data.reasons = lists.prepare(lists.reasons, obj.reason);
             data.units = lists.prepare(lists.units, obj.unit);
             data.types = lists.prepare(lists.types, obj.type);
             data.currencies = lists.prepare(lists.currencies, obj.currency);
-
-        }, handleError());
+        }).catch(handleError);
         promises.push(findPromise);
     } else {
 
@@ -62,27 +62,31 @@ router.get('/form', function (req, res, next) {
 
     }
 
-    Promise.all(promises).then(function () {
+    Promise.all(promises).then(function() {
         if (data.obj) {
-            console.log(typeof data.obj.date == typeof new Date());
+            //   console.log(data.brands);
             data.brands = lists.prepareObj(data.brands, data.obj.brand);
+            console.log("-----------------------------");
+            //     console.log(data.brands);
+            //     console.log(data.obj.address);
             data.addresses = lists.prepareObj(data.addresses, data.obj.address);
+
         }
-      //  console.log(JSON.stringify(data.obj.brand));
+        //  console.log(JSON.stringify(data.obj.brand));
 
         res.render("items/form", data);
     });
 
 });
 
-router.post('/form', function (req, res, next) {
+router.post('/form', function(req, res, next) {
 
     if (req.query.id)
-        service.update(req.query.id, req.body).then(function (obj) {
+        service.update(req.query.id, req.body).then(function(obj) {
             res.redirect("list");
         }, handleError());
     else
-        service.insert(req.body).then(function (obj) {
+        service.insert(req.body).then(function(obj) {
             res.redirect("list");
         }, handleError());
 

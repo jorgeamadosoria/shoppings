@@ -1,48 +1,41 @@
-<div class="col-lg-12">
     <div class="panel panel-black">
         <div class="panel-body">
             <a class="add_link" href="/items/form"><i class="fa fa-4x fa-plus-circle"></i></a>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Status</th>
                         <th>Date</th>
                         <th>Product</th>
                         <th>Brand</th>
-                        <th>Weight</th>
+                        <th class="hidden-sm hidden-xs">Weight</th>
+                        <th class="hidden-sm hidden-xs">Unit</th>
+                        <th class="hidden-xs">Items</th>
+                        <th class="hidden-xs">Item Cost</th>
                         <th>Total Cost</th>
-                        <th>Unit</th>
-                        <th>Unit Bought</th>
-                        <th>Unit cost</th>
-                        <th>Item cost</th>
-                        <th>Reason</th>
-                        <th>Address</th>
-                        <th>Type</th>
-                        <th>Category</th>
-                        <th>Currency</th>
+                        <th class="hidden-xs">Address</th>
+                        <th class="hidden-md hidden-sm hidden-xs">Type</th>
+                        <th class="hidden-xs">Category</th>
+                        <th class="hidden-md hidden-sm hidden-xs">Currency</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#list}}
                     <tr id="item-{{_id}}">
-                        <td><i class="{{status}}"></i></td>
-                        <td>{{#if date}}
-                            {{formatDate date day="numeric" month="numeric" year="numeric"}}
+                        <td><i class="{{status}}"></i>&nbsp;{{#if date}}
+                            {{dateFormat date "YYYY-MM-DD" "utc"}}
                             {{/if}}</td>
                         <td>{{product}}</td>
                         <td>{{brand.name}}</td>
-                        <td>{{weight}}</td>
+                        <td class="hidden-sm hidden-xs">{{weight}}</td>
+                        <td class="hidden-sm hidden-xs">{{unit}}</td>
+                        <td class="hidden-xs">{{units_bought}}</td>
+                        <td class="hidden-xs">{{item_cost}}</td>
                         <td>{{totalItemCost}}</td>
-                        <td>{{unit}}</td>
-                        <td>{{units_bought}}</td>
-                        <td>{{unit_cost}}</td>
-                        <td>{{item_cost}}</td>
-                        <td>{{reason}}</td>
-                        <td>{{address.fullAddress}}</td>
-                        <td>{{type}}</td>
-                        <td>{{category}}</td>
-                        <td>{{currency}}</td>
+                        <td class="hidden-xs">{{address.fullAddress}}</td>
+                        <td class="hidden-md hidden-sm hidden-xs">{{type}}</td>
+                        <td class="hidden-xs">{{category}}</td>
+                        <td class="hidden-md hidden-sm hidden-xs">{{currency}}</td>
                         <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
                         </td>
                     </tr>
@@ -51,7 +44,6 @@
             </table>
         </div>
     </div>
-</div>
 <script>
     $("a#del-link").on("click", function (event) {
         $.ajax(

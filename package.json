@@ -10,10 +10,11 @@
     "cookie-parser": "*",
     "debug": "*",
     "express": "*",
+    "handlebars-intl": "*",
     "hbs": "*",
+    "moment": "^2.18.1",
+    "mongoose": "*",
     "morgan": "*",
-    "serve-favicon": "*",
-    "mongoose":"*",
-    "handlebars-intl":"*"
+    "serve-favicon": "*"
   }
 }
