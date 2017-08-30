@@ -1,10 +1,22 @@
 mongoose = require('./connect');
 
 var AddressSchema = new mongoose.Schema({
-    "address":String,
-    "country":String,
-    "region":String,
-    "mapSrc":String
+    "address": {
+        type: String,
+        default: ""
+    },
+    "country": {
+        type: String,
+        default: ""
+    },
+    "region": {
+        type: String,
+        default: ""
+    },
+    "mapSrc": {
+        type: String,
+        default: ""
+    }
 }, {
     toObject: {
         virtuals: true
@@ -16,10 +28,9 @@ var AddressSchema = new mongoose.Schema({
 
 
 AddressSchema.virtual('fullAddress')
-.get(function () {
-    return this.address + ',' + this.region  + ',' + this.country;
-});
-var addressModel = mongoose.model("Address",AddressSchema);
+    .get(function() {
+        return this.address + ',' + this.region + ',' + this.country;
+    });
+var addressModel = mongoose.model("Address", AddressSchema);
 
 module.exports = addressModel;
-
