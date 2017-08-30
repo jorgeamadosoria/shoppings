@@ -18,7 +18,8 @@
                         {{/if}}
                     </td>
                     <td id= "description">{{description}}</td>
-                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a></td>
+                    <td id="actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
+                    </td>
                 </tr>
                 {{/list}}
             </tbody>
@@ -38,31 +39,39 @@
           <img onerror="this.src = 'https://image.ibb.co/eW2A6k/st4Sp6Aw.jpg';" id = "logo" class="img-logo img-rounded img-responsive"><p id="description"></p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" >Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 <script>
-    $("#modal-row-container td").on('click', function (e) {
-        //$("#myModal modal-body").text($(e.target).parent().attr("id"));
+     
+    
+    $("a#del-link").on("click", function (event) {
+        event.preventDefault();
+        var id =  $(this).data("id");
+        bootbox.confirm("This is the default confirm!", 
+        function(result){ 
+            if (result){
+                $.ajax(
+                    {
+                        url: id,
+                        method: "DELETE",
+                        success: function (data) {
+                            $("#" + id).remove();
+                        }
+                    }
+                );
+            }
+        });
+    });
+        
+   $("#modal-row-container td:not(#actions)").on('click', function (e) {
         $("#myModal .modal-title").text($(e.target).parent().find("#name").text());
         $("#myModal .modal-body #description").text($(e.target).parent().find("#description").text());
         $("#myModal .modal-body #logo").attr("src",$(e.target).parent().data("logo"));
         $("#myModal").modal();
-    });
-
-    
-    $("a#del-link").on("click", function (event) {
-        $.ajax(
-            {
-                url: $(this).data("id"),
-                method: "DELETE",
-                success: function (data) {
-                    $("#item-" + $(this).data("id")).remove();
-                }
-            }
-        );
     });
 
 </script>
