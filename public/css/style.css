@@ -17,7 +17,11 @@ body {
 }
 
 .pull-right {
-    float: right !important; // Use of important emulates bootstrap
+    float: right !important;
+}
+
+textarea {
+    resize: none;
 }
 
 iframe {

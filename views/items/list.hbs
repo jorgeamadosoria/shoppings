@@ -1,154 +1,6 @@
 <div class="panel panel-black">
     <div class="panel-body">
-        <form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="" method="post">
-            <div class="row">
-                <div class="form-group col-lg-3">
-                    <label for="date" class="control-label">Date</label> {{#if obj}}
-                    <input class="form-control" type="date" placeholder="date" name="date" id="date" value="{{dateFormat obj.date " YYYY-MM-DD
-                        "}}" /> {{else}}
-                    <input class="form-control" type="date" placeholder="date" name="date" id="date" value="{{dateFormat now " YYYY-MM-DD
-                        "}}" /> {{/if}}
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="product" class="control-label">Product</label>
-                    <input class="form-control" placeholder="product" name="product" id="product" value="{{obj.product}}" />
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="brand" class="control-label">Brand</label>
-                    <select class="form-control" name="brand" id="brand">
-                        {{#if obj}}
-                            {{#if obj.brand}}
-                                <option value="{{obj.brand._id}}" selected>{{obj.brand.name}}</option>
-                            {{/if}}
-                        {{/if}}
-                        
-                        {{#brands}}
-                            <option value="{{this._id}}">{{this.name}}</option>
-                        {{/brands}}
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg-3">
-                    <label for="upp" class="control-label">Units per product</label>
-                    <input class="form-control" placeholder="upp" name="upp" id="upp" value="{{obj.upp}}" />
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="weight" class="control-label">Weight</label>
-                    <input class="form-control" placeholder="weight" name="weight" id="weight" value="{{obj.weight}}" />
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="unit" class="control-label">Unit</label>
-                    <select class="form-control" name="unit" id="unit">
-                        {{#units}}
-                            <option>{{this}}</option>
-                        {{/units}}
-                        {{#if obj}}
-                            <option selected >{{obj.unit}}</option>   
-                        {{/if}}     
-                    </select>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="units_bought" class="control-label">Units bought</label>
-                    <input class="form-control" placeholder="units_bought" name="units_bought" id="units_bought" value="{{obj.units_bought}}"
-                    />
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg-3">
-                    <label for="unit_cost" class="control-label">Unit cost</label>
-                    <input class="form-control" placeholder="unit_cost" name="unit_cost" id="unit_cost" value="{{obj.unit_cost}}" />
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="item_cost" class="control-label">Item cost</label>
-                    <input class="form-control" placeholder="item_cost" name="item_cost" id="item_cost" value="{{obj.item_cost}}" />
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="reason" class="control-label">Reason</label>
-                    <select class="form-control" name="reason" id="reason">
-                        {{#reasons}}
-                            <option>{{this}}</option>
-                        {{/reasons}}
-                        {{#if obj}}
-                            <option selected >{{obj.reason}}</option>   
-                        {{/if}}
-                    </select>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="good_buy" class="control-label">Good buy</label> {{#if obj.good_buy}}
-                    <input type="checkbox" class="form-control" name="good_buy" id="good_buy" checked/> {{else}}
-                    <input type="checkbox" class="form-control" name="good_buy" id="good_buy" /> {{/if}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg-3">
-                    <label for="promotion" class="control-label">Promotion</label> {{#if obj.promotion}}
-                    <input type="checkbox" class="form-control" name="promotion" id="promotion" checked/> {{else}}
-                    <input type="checkbox" class="form-control" name="promotion" id="promotion" /> {{/if}}
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="address" class="control-label">Address</label>
-                    <select class="form-control" name="address" id="address">
-                        {{#addresses}}
-                            <option value="{{this._id}}">{{this.fullAddress}}</option>
-                        {{/addresses}}
-                        {{#if obj}}
-                            <option selected value="{{obj.address._id}}">{{obj.address.fullAddress}}</option>
-                        {{/if}}
-                    </select>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="type" class="control-label">Type</label>
-                    <select class="form-control" name="type" id="type">
-                        {{#types}}
-                            <option>{{this}}</option>
-                        {{/types}}
-                        {{#if obj}}
-                            <option selected >{{obj.type}}</option>   
-                        {{/if}}     
-                    </select>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="category" class="control-label">Category</label>
-                    <select class="form-control" name="category" id="category">
-                        {{#categories}}
-                            <option>{{this}}</option>
-                        {{/categories}}
-                        {{#if obj}}
-                            <option selected >{{obj.category}}</option>   
-                        {{/if}}     
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg-3">
-                    <label for="Comments" class="control-label">Comments</label>
-                    <input class="form-control" placeholder="Comments" name="comments" id="comments" value="{{obj.comments}}" />
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="currency" class="control-label">Currency</label>
-                    <select class="form-control" name="currency" id="currency">
-                        {{#currencies}}
-                            <option>{{this}}</option>
-                        {{/currencies}}
-                        {{#if obj}}
-                            <option selected >{{obj.currency}}</option>   
-                        {{/if}}     
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg-12">
-                    <div class="pull-right">
-                        <button class="pull-right btn btn-default" type="submit">Upsert</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="panel panel-black">
-    <div class="panel-body">
+        <a class="add_link" data-toggle="modal" data-target="#upsertModal" href=""><i class="fa fa-4x fa-plus-circle"></i></a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -170,7 +22,7 @@
             <tbody>
                 {{#list}}
                 <tr id="{{_id}}">
-                    <td><i class="{{status}}"></i>&nbsp;{{#if date}} {{dateFormat date "YYYY-MM-DD" ""}} {{/if}}
+                    <td><i class="{{status}}"></i>&nbsp;{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
                     </td>
                     <td>{{product}}</td>
                     <td>{{brand.name}}</td>
@@ -183,7 +35,7 @@
                     <td class="hidden-md hidden-sm hidden-xs">{{type}}</td>
                     <td class="hidden-xs">{{category}}</td>
                     <td class="hidden-md hidden-sm hidden-xs">{{currency}}</td>
-                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
+                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a id="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
                 {{/list}}
@@ -192,6 +44,124 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div id="upsertModal" class="modal fade" role="dialog">
+    <form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="" method="post">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                Item upsert
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" id="id" />
+                <div class="form-group">
+                    <div class="col-lg-3">
+                        <label for="date" class="control-label">Date</label> 
+                        <input class="form-control" type="date" placeholder="date" name="date" id="date" value="" />
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="product" class="control-label">Product</label>
+                        <input class="form-control" placeholder="product" name="product" id="product" value="" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="brand" class="control-label">Brand</label>
+                        <select class="form-control" name="brand" id="brand">
+                            {{#brands}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                            {{/brands}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="upp" class="control-label">UPP</label>
+                        <input class="form-control" placeholder="upp" name="upp" id="upp" value="" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="weight" class="control-label">Weight</label>
+                        <input class="form-control" placeholder="weight" name="weight" id="weight" value="" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="unit" class="control-label">Unit</label>
+                        <select class="form-control" name="unit" id="unit">
+                            {{#units}}
+                                <option>{{this}}</option>
+                            {{/units}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="units_bought" class="control-label">Items</label>
+                        <input class="form-control" placeholder="items qty" name="units_bought" id="units_bought" value="" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="unit_cost" class="control-label">Unit cost</label>
+                        <input class="form-control" placeholder="unit cost" name="unit_cost" id="unit_cost" value="" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="item_cost" class="control-label">Cost</label>
+                        <input class="form-control" placeholder="item cost" name="item_cost" id="item_cost" value="" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="reason" class="control-label">Reason</label>
+                        <select class="form-control" name="reason" id="reason">
+                            {{#reasons}}
+                                <option>{{this}}</option>
+                            {{/reasons}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="currency" class="control-label">Currency</label>
+                        <select class="form-control" name="currency" id="currency">
+                            {{#currencies}}
+                                <option>{{this}}</option>
+                            {{/currencies}}
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="address" class="control-label">Address</label>
+                        <select class="form-control" name="address" id="address">
+                            {{#addresses}}
+                                <option value="{{this._id}}">{{this.fullAddress}}</option>
+                            {{/addresses}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="type" class="control-label">Type</label>
+                        <select class="form-control" name="type" id="type">
+                            {{#types}}
+                                <option>{{this}}</option>
+                            {{/types}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="category" class="control-label">Category</label>
+                        <select class="form-control" name="category" id="category">
+                            {{#categories}}
+                                <option>{{this}}</option>
+                            {{/categories}}
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="promotion" class="control-label">Prom</label>
+                        <input type="checkbox" class="form-control" name="promotion" id="promotion" />
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="good_buy" class="control-label">Good</label>
+                        <input type="checkbox" class="form-control" name="good_buy" id="good_buy" />
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="Comments" class="control-label">Comments</label>
+                        <textarea class="form-control" placeholder="Comments" name="comments" id="comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                        <button class="pull-right btn btn-default" type="submit">Upsert</button>
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
 <script>
     $("a#del-link").on("click", function (event) {
         event.preventDefault();
@@ -212,17 +182,33 @@
             });
     });
 
-
-    $("a#del-link").on("click", function (event) {
-        $.ajax(
-            {
-                url: $(this).data("id"),
-                method: "DELETE",
-                success: function (data) {
-                    $("#item-" + $(this).data("id")).remove();
-                }
-            }
-        );
+    $("a#update-link").on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+                    url: "detail/" + $(this).data("id"),
+                    method: "GET",
+                    success: function (data) {
+                        $("#upsertModal .modal-body #id").val(data.id);
+                        $("#upsertModal .modal-body #date").val(moment(data.date).utc().format("YYYY-MM-DD"));
+                        $("#upsertModal .modal-body #product").val(data.product);
+                        if (data.brand)
+                            $("#upsertModal .modal-body #brand").val(data.brand._id);
+                        $("#upsertModal .modal-body #upp").val(data.upp);
+                        $("#upsertModal .modal-body #weight").val(data.weight);
+                        $("#upsertModal .modal-body #unit").val(data.unit);
+                        $("#upsertModal .modal-body #units_bought").val(data.units_bought);
+                        $("#upsertModal .modal-body #unit_cost").val(data.unit_cost);
+                        $("#upsertModal .modal-body #item_cost").val(data.item_cost);
+                        $("#upsertModal .modal-body #reason").val(data.reason);
+                        $("#upsertModal .modal-body #currency").val(data.currency);
+                        $("#upsertModal .modal-body #address").val(data.address);
+                        $("#upsertModal .modal-body #type").val(data.type);
+                        $("#upsertModal .modal-body #category").val(data.category);
+                        $("#upsertModal .modal-body #promotion").val(data.promotion);
+                        $("#upsertModal .modal-body #good_buy").prop('checked', data.good_buy);
+                        $("#upsertModal .modal-body #comments").prop('checked', data.comments);
+                        $("#upsertModal").modal();
+                    }
+        });
     });
-
 </script>
