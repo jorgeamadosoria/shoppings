@@ -18,7 +18,9 @@
                         {{/if}}
                     </td>
                     <td id= "description">{{description}}</td>
-                    <td id="actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
+                    <td id="actions">
+                        <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
+                        <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
                 {{/list}}
@@ -39,19 +41,17 @@
           <img onerror="this.src = 'https://image.ibb.co/eW2A6k/st4Sp6Aw.jpg';" id = "logo" class="img-logo img-rounded img-responsive"><p id="description"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" >Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 <script>
-     
     
     $("a#del-link").on("click", function (event) {
         event.preventDefault();
         var id =  $(this).data("id");
-        bootbox.confirm("This is the default confirm!", 
+        bootbox.confirm("Are you sure you want to delete this item?", 
         function(result){ 
             if (result){
                 $.ajax(

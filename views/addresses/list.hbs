@@ -16,7 +16,7 @@
                     <td>{{address}}</td>
                     <td>{{region}}</td>
                     <td>{{country}}</td>
-                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>&nbsp;
+                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
                 {{/list}}
@@ -43,6 +43,27 @@
   </div>
 </div>
 <script>
+
+    $("a#del-link").on("click", function (event) {
+        event.preventDefault();
+        var id =  $(this).data("id");
+        bootbox.confirm("This is the default confirm!", 
+        function(result){ 
+            if (result){
+                $.ajax(
+                    {
+                        url: id,
+                        method: "DELETE",
+                        success: function (data) {
+                            $("#" + id).remove();
+                        }
+                    }
+                );
+            }
+        });
+    });
+
+
     $("#modal-row-container td").on('click', function (e) {
         //$("#myModal modal-body").text($(e.target).parent().attr("id"));
         $("#myModal .modal-body #full").text($(e.target).parent().data("full"));
