@@ -25,6 +25,7 @@ router.get('/list', function(req, res, next) {
         data.reasons = lists.reasons;
         data.units = lists.units;
         data.types = lists.types;
+        data.status = lists.status;
         data.currencies = lists.currencies;
         res.render("items/list", data);
     }, handleError);
@@ -91,15 +92,13 @@ router.get('/form', function(req, res, next) {
 
 router.post(['/list', '/form'], function(req, res, next) {
 
-    if (req.body.id){
+    if (req.body.id) {
         console.log(JSON.stringify(req.body));
-        console.log(req.body.good_buy);
-        console.log(req.body.promotion);
+
         service.update(req.body.id, req.body).then(function(obj) {
             res.redirect("list");
         }, handleError);
-    }
-    else
+    } else
         service.insert(req.body).then(function(obj) {
             res.redirect("list");
         }, handleError);

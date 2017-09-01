@@ -14,6 +14,10 @@ module.exports = {
     },
 
     update: function(id, obj) {
+
+        obj.good_buy = (obj.good_buy) ? true : false;
+        obj.promotion = (obj.promotion) ? true : false;
+
         obj._id = mongoose.Types.ObjectId(id);
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);

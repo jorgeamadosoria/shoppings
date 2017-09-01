@@ -1,6 +1,6 @@
 <div class="panel panel-black">
     <div class="panel-body">
-        <a class="add_link" href="/brands/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+        <a class="add-link" href="/brands/form"><i class="fa fa-4x fa-plus-circle"></i></a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -33,9 +33,9 @@
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="bg-dark modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"></h4>
+        <h4 class="modal-title">Brand details</h4>
       </div>
       <div class="modal-body">
           <img onerror="this.src = 'https://image.ibb.co/eW2A6k/st4Sp6Aw.jpg';" id = "logo" class="img-logo img-rounded img-responsive"><p id="description"></p>
@@ -71,7 +71,7 @@
         $("#myModal .modal-title").text($(e.target).parent().find("#name").text());
         $("#myModal .modal-body #description").text($(e.target).parent().find("#description").text());
         $("#myModal .modal-body #logo").attr("src",$(e.target).parent().data("logo"));
-        $("#myModal").modal();
+        $("#myModal").modal({keyboard: true});
     });
 
 </script>

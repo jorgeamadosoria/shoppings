@@ -4,7 +4,7 @@ module.exports = {
 
     currencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP", "N/A"],
 
-    status: ["fa fa-check-circle-o text-success", "fa fa-warning text-warning"],
+    status: { "Promotion": "fa fa-thumbs-up text-success", "Good buy": "fa fa-thumbs-o-up text-success", "Bad buy": "fa fa-thumbs-o-down text-danger", "Missing data": "fa fa-warning text-warning" },
 
     countries: ["Uruguay", "Chile", "Argentina", "Cuba", "N/A"],
 
@@ -14,7 +14,7 @@ module.exports = {
 
     types: ["Product", "Service", "Contribution", "Payment", "N/A"],
 
-    units: ["kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm", "N/A"],
+    units: ["N/A", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm"],
 
     prepare: function(list, item) {
         var temp = list.slice();

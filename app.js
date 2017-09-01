@@ -14,6 +14,15 @@ Handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);
 });
+
+Handlebars.registerHelper('map', function(obj, options) {
+    return options.fn(Object.keys(obj).map((k) => {
+        return {
+            key: k,
+            val: obj[k]
+        };
+    }));
+});
 var app = express();
 
 // view engine setup
