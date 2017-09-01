@@ -76,7 +76,6 @@ router.get('/form', function(req, res, next) {
         if (data.obj) {
             //   console.log(data.brands);
             data.brands = lists.prepareObj(data.brands, data.obj.brand);
-            console.log("-----------------------------");
             //     console.log(data.brands);
             //     console.log(data.obj.address);
             data.addresses = lists.prepareObj(data.addresses, data.obj.address);
@@ -92,14 +91,18 @@ router.get('/form', function(req, res, next) {
 
 router.post(['/list', '/form'], function(req, res, next) {
 
-    if (req.body.id)
+    if (req.body.id){
+        console.log(JSON.stringify(req.body));
+        console.log(req.body.good_buy);
+        console.log(req.body.promotion);
         service.update(req.body.id, req.body).then(function(obj) {
             res.redirect("list");
-        }, handleError());
+        }, handleError);
+    }
     else
         service.insert(req.body).then(function(obj) {
             res.redirect("list");
-        }, handleError());
+        }, handleError);
 
 
 });

@@ -201,12 +201,12 @@
                         $("#upsertModal .modal-body #item_cost").val(data.item_cost);
                         $("#upsertModal .modal-body #reason").val(data.reason);
                         $("#upsertModal .modal-body #currency").val(data.currency);
-                        $("#upsertModal .modal-body #address").val(data.address);
+                        $("#upsertModal .modal-body #address").val(data.address._id);
                         $("#upsertModal .modal-body #type").val(data.type);
                         $("#upsertModal .modal-body #category").val(data.category);
-                        $("#upsertModal .modal-body #promotion").val(data.promotion);
+                        $("#upsertModal .modal-body #promotion").prop('checked', data.promotion);
                         $("#upsertModal .modal-body #good_buy").prop('checked', data.good_buy);
-                        $("#upsertModal .modal-body #comments").prop('checked', data.comments);
+                        $("#upsertModal .modal-body #comments").val(data.comments);
                         $("#upsertModal").modal();
                     }
         });
