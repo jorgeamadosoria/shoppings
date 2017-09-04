@@ -1,6 +1,7 @@
 var express = require('express');
 var _ = require("underscore");
 var moment = require('moment');
+var Item = require('../data/item');
 var lists = require('../data/lists');
 var service = require('../services/item');
 var brandService = require('../services/brand');
@@ -21,6 +22,10 @@ router.get('/list', function(req, res, next) {
     var itemListPromise = service.list().then(docs => data.list = docs);
 
     Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
+        //    console.log(_.filter(_.map(searchItem.schema.paths, k => { return { path: k.path, type: k.instance }; }), v => !v.path.startsWith("_")));
+        //    data.searchObjs = itemSchema.toSearchObject();
+
+        data.searchObjs = new Item().toSearchObject();
         data.categories = lists.categories;
         data.reasons = lists.reasons;
         data.units = lists.units;
