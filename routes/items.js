@@ -90,7 +90,7 @@ router.get('/form', function(req, res, next) {
 });
 
 
-router.post(['/list', '/form'], function(req, res, next) {
+router.post(['/'], function(req, res, next) {
 
     if (req.body.id) {
         console.log(JSON.stringify(req.body));

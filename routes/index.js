@@ -1,10 +1,53 @@
 var express = require('express');
+var _ = require("underscore");
+var moment = require('moment');
+var lists = require('../data/lists');
+var service = require('../services/item');
+var brandService = require('../services/brand');
+var addressService = require('../services/address');
 
 var router = express.Router();
 
-/* GET home page. */
+var handleError = function(err) {
+    console.log("ERROR:" + err);
+    return null;
+};
+
+
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Shoppings' });
+    var data = {};
+    var brandPromise = brandService.list().then(docs => data.brands = docs);
+    var addressPromise = addressService.list().then(docs => data.addresses = docs);
+
+    var itemListPromise = service.list().then(docs => data.list = docs);
+
+    Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
+        data.categories = lists.categories;
+        data.reasons = lists.reasons;
+        data.units = lists.units;
+        data.types = lists.types;
+        data.status = lists.status;
+        data.currencies = lists.currencies;
+        res.render("index", data);
+    }, handleError);
 });
+
+
+router.post(['/'], function(req, res, next) {
+    
+        if (req.body.id) {
+            console.log(JSON.stringify(req.body));
+    
+            service.update(req.body.id, req.body).then(function(obj) {
+                res.redirect("/");
+            }, handleError);
+        } else
+            service.insert(req.body).then(function(obj) {
+                res.redirect("/");
+            }, handleError);
+    
+    
+    });
+    
 
 module.exports = router;
