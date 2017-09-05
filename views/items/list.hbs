@@ -1,169 +1,169 @@
-<form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="" method="post">
+<form class="form-horizontal">
     <div class="row">
-                <div class="col-lg-2">
-                    <select class="form-control" name="field" id="field">
-                        <option selected value="all">All records</option>
-                        {{#each searchObjs}}
-                            <option value="{{this.search}}">{{this.path}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                <div class="col-lg-6">
-                    <div id = "date-search" data-elements='["from","to"]' class="hide search-box">
-                        <div class="col-lg-4">
-                            <input class="form-control" type="date" name="from" id="from" />
-                        </div>
-                        <div class="col-lg-1">
-                            <label class="control-label">-</label>
-                        </div>
-                        <div class="col-lg-4">
-                            <input class="form-control" type="date" name="to" id="to" />
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "number-search" data-elements='["from_n","to_n"]' class="hide search-box">
-                        <div class="col-lg-4">
-                            <input class="form-control" type="number" min="0" name="from_n" id="from_n"/>
-                        </div>
-                        <div class="col-lg-1">
-                             <label class="control-label">-</label>
-                        </div>
-                        <div class="col-lg-4">
-                            <input class="form-control" type="number" min="0" name="to_n" id="to_n"/>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "currency-search" data-elements='["from_c","to_c"]' class="hide search-box">
-                        <div class="col-lg-4">
-                            <input class="form-control" step=".01" min="0" type="number" name="from_c" id="from_c" />
-                        </div>
-                        <div class="col-lg-1">
-                             <label class="control-label">-</label>
-                        </div>
-                        <div class="col-lg-4">
-                            <input class="form-control" step=".01" min="0" type="number" name="to_c" id="to_c" />
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "string-search" data-elements='["string"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <input class="form-control" name="string" id="string"/>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>   
-                    <div id = "weight-search" data-elements='["weight","unit"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <div class="input-group">
-                                <input class="form-control" step=".001" min="0" type="number" name="weight" id="weight" />
-                                <select id = "unit" class="selectpicker">
-                                    {{#units}}
-                                        <option value="{{this}}">{{this}}</option>
-                                    {{/units}}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "reasons-search" data-elements='["reason"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id = "reason" class="selectpicker" multiple class="form-control">
-                                {{#reasons}}
-                                    <option value= "{{this}}" >{{this}}</option>
-                                {{/reasons}}
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "currencies-search" data-elements='["currency"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id="currency" multiple class="selectpicker">
-                                {{#currencies}}
-                                    <option value="{{this}}">{{this}}</option>
-                                {{/currencies}}
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "addresses-search" data-elements='["address"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id ="address" class="selectpicker" multiple class="form-control">
-                                {{#addresses}}
-                                    <option value="{{this._id}}">{{this.fullAddress}}</option>
-                                {{/addresses}}
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "brands-search" data-elements='["brand"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id="brand" class="selectpicker" multiple class="form-control">
-                                {{#brands}}
-                                    <option value="{{this._id}}">{{this.name}}</option>
-                                {{/brands}}
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "types-search" data-elements='["type"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id = "type" class="selectpicker" multiple class="form-control">
-                                {{#types}}
-                                    <option value= "{{this}}" >{{this}}</option>
-                                {{/types}}
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "categories-search" data-elements='["category"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id="category" class="selectpicker" multiple class="form-control">
-                                {{#categories}}
-                                    <option value= "{{this}}" >{{this}}</option>
-                                {{/categories}}
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                    <div id = "boolean-search" data-elements='["bool"]' class="hide search-box">
-                        <div class="col-lg-9">
-                            <select id="bool" class="form-control">
-                                <option value="true" >Is</option>
-                                <option value="false">Is not</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="add-button btn btn-default">Add</button>
-                        </div>
-                    </div>
-                </div>
-            <div class="col-lg-10">
+            <div class="col-lg-2">
+                <select class="form-control" name="field" id="field">
+                    <option selected value="all">All records</option>
+                    {{#each searchObjs}}
+                        <option value="{{this.search}}">{{this.path}}</option>
+                    {{/each}}
+                </select>
             </div>
-    </div>
-    <div class="row">
-            <div class="col-lg-10 criteria">
-                
+            <div class="col-lg-6">
+                <div id = "date-search" class="hide search-box">
+                    <div class="col-lg-4">
+                        <input class="form-control" type="date" name="from" id="from" />
+                    </div>
+                    <div class="col-lg-1">
+                        <label class="control-label">-</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <input class="form-control" type="date" name="to" id="to" />
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "number-search" class="hide search-box">
+                    <div class="col-lg-4">
+                        <input class="form-control" type="number" min="0" name="from" id="from"/>
+                    </div>
+                    <div class="col-lg-1">
+                            <label class="control-label">-</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <input class="form-control" type="number" min="0" name="to" id="to"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "currency-search" class="hide search-box">
+                    <div class="col-lg-4">
+                        <input class="form-control" step=".01" min="0" type="number" name="from" id="from" />
+                    </div>
+                    <div class="col-lg-1">
+                            <label class="control-label">-</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <input class="form-control" step=".01" min="0" type="number" name="to" id="to" />
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "string-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <input class="form-control" id="value"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>   
+                <div id = "weight-search" class="hide search-box">
+                    <div class="col-lg-3">
+                        <input class="form-control" step=".001" min="0" type="number" name="from" id="from" />
+                    </div>
+                    <div class="col-lg-1">
+                        <label class="control-label">-</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input class="form-control" step=".001" min="0" type="number" name="to" id="to" />
+                    </div>
+                    <div class="col-lg-2">
+                        <select id = "string" class="form-control">
+                            <option value=""></option>
+                            {{#units}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/units}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "reasons-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id = "select" class="selectpicker" multiple >
+                            {{#reasons}}
+                                <option value= "{{this}}" >{{this}}</option>
+                            {{/reasons}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "currencies-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id="select" multiple class="selectpicker">
+                            {{#currencies}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/currencies}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "addresses-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id ="select" class="selectpicker" multiple>
+                            {{#addresses}}
+                                <option value="{{this._id}}">{{this.fullAddress}}</option>
+                            {{/addresses}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "brands-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id="select" class="selectpicker" multiple >
+                            {{#brands}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                            {{/brands}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "types-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id = "select" class="selectpicker" multiple>
+                            {{#types}}
+                                <option value= "{{this}}" >{{this}}</option>
+                            {{/types}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "categories-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id="select" class="selectpicker" multiple >
+                            {{#categories}}
+                                <option value= "{{this}}" >{{this}}</option>
+                            {{/categories}}
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
+                <div id = "boolean-search" class="hide search-box">
+                    <div class="col-lg-9">
+                        <select id="value" class="form-control">
+                            <option value="true" >Is</option>
+                            <option value="false">Is not</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="add-button btn btn-default">Add</button>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-1">
                 <button class="pull-right btn btn-default" type="submit">Save...</button>
@@ -172,8 +172,16 @@
                 <button class="pull-right btn btn-default btn-dark" type="submit">Search</button>
             </div>
     </div>
+    <br/>
+    <div class="row">
+            <div class="col-lg-12 criteria">
+                <p class="hide btn btn-primary criterion">
+                    <span id="text"></span>&nbsp;&nbsp;<span class="badge">&times;</span>
+                </p>   
+            </div>
+            
+    </div>
 </form>
-<br/>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-black">
@@ -434,34 +442,75 @@
         $("#" + $(event.target).val()).removeClass("hide");
     });
 
-    $(".add-button").click(function(event){
-        event.preventDefault();
+
+    function createCriterion(){
         var criterion = {};
         criterion.name = $( "#field option:selected" ).text();
-        var ids = $(".search-box:not(.hide)").data("elements");
-        $.each(ids,function(idx,value){
-            
-            criterion[value] = {};
-            if ($(".search-box:not(.hide) #" + value + ".selectpicker[multiple=multiple]").length){
-                criterion[value].value = $("#" + value).val();
-                criterion[value].text = [];
-                $.each($("#" + value).val(),function(idx,ele){
-                    criterion[value].text.push($("#" + value).find("option[value=" + ele + "]").text());    
-                });
-            }
-            else if ($(".search-box:not(.hide) #" + value + ".selectpicker").length){
-                criterion[value].value = [];
-                criterion[value].value[0] = $("#" + value).val();
-                criterion[value].text = [];
-                criterion[value].text[0] = $("#" + value).find("option[value=" + ele + "]").text();    
-            }
-            else
-                criterion[value] = $("#" + value).val();
+        criterion.fields = [];
+        var searchBox = $(".search-box:not(.hide)");
+        var str = $(searchBox).find("#value").val();
+        if (str){
+            criterion.fields.push({key:"value",value:str});
+        }
 
-            
+        str = $(searchBox).find("#from").val();
+        if (str){
+            criterion.fields.push({key:"from",value:str});
+        }
+
+        str = $(searchBox).find("#to").val();
+        if (str){
+            criterion.fields.push({key:"to",value:str});
+        }
+
+        str = $(searchBox).find("#select").val();
+        if (str){
+            $.each(str,function(idx,value){
+                var val = {};
+                if ($(searchBox).find("#select").length){
+                    val.key = value;
+                    val.value = $(searchBox).find("#select option[value=" + value + "]").text(); 
+                }
+                criterion.fields.push(val);
+            });
+        }
+        return criterion;
+    };
+
+    function updateCriteria(criterion){
+        var criteria = $(".criteria").data("criteria");
+        if (!criteria) criteria = {};
+        criteria[criterion.name] = criterion;
+        
+        $(".criteria").data("criteria",criteria);
+        return $(".criteria").data("criteria");
+    }
+
+    function updateVisualCriteria(criterion){
+        var button = $(".criteria").find("p#" + criterion.name);
+        if (button){
+            $(".criteria p#" + criterion.name).remove();
+        }
+        $(".criteria p.hide").clone().attr("id",criterion.name).find("#text").text(criterionText(criterion)).end().removeClass("hide").find("span.badge").click(e => $(e.target).parent().remove()).end().appendTo(".criteria");
+    }
+
+    function criterionText(criterion){
+        var text = criterion.name + ":";
+        $.each(criterion.fields,function(idx,value){
+            if (_.contains(['from', 'to', 'select', 'string'], value.key))
+                text += " " + value.key + " = " + value.value;
+            else
+                text += " " + value.value;
         });
         
-        $(".criteria").append(JSON.stringify(criterion));
+        return text;
+    }
+
+    $(".add-button").click(function(event){
+        event.preventDefault();
+        var criterion = createCriterion();
+        var criteria = updateCriteria(criterion);
+        updateVisualCriteria(criterion);
     });
 
     $("a#del-link").on("click", itemDeleteCallback);
