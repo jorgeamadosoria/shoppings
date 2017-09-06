@@ -1,0 +1,261 @@
+
+<div class="panel panel-black">
+    <div class="panel-body">
+        <a class="add-link"  href=""><i class="fa fa-4x fa-plus-circle"></i></a>
+        <div class="col-lg-offset-8 col-lg-4 ">
+            <div class="pull-right">
+                &nbsp;|&nbsp;
+                    {{#map status}}
+                        {{#each this}}
+                            <i class="{{this.val}}"></i>&nbsp;{{this.key}}&nbsp;|&nbsp;
+                        {{/each}}
+                    {{/map}}
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th class="hidden-sm hidden-xs">Weight</th>
+                    <th class="hidden-sm hidden-xs">Unit</th>
+                    <th class="hidden-xs">Items</th>
+                    <th class="hidden-xs">Item Cost</th>
+                    <th>Total Cost</th>
+                    <th class="hidden-xs">Address</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Type</th>
+                    <th class="hidden-xs">Category</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Currency</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="modal-row-container">
+                {{#list}}
+                <tr id="{{_id}}" >
+                    <td><i class="{{status}}"></i></td>
+                    <td>{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
+                    </td>
+                    <td>{{product}}</td>
+                    <td>{{brand.name}}</td>
+                    <td class="hidden-sm hidden-xs">{{weight}}</td>
+                    <td class="hidden-sm hidden-xs">{{unit}}</td>
+                    <td class="hidden-xs">{{units_bought}}</td>
+                    <td class="hidden-xs">{{item_cost}}</td>
+                    <td>{{totalItemCost}}</td>
+                    <td class="hidden-xs">{{address.fullAddress}}</td>
+                    <td class="hidden-md hidden-sm hidden-xs">{{type}}</td>
+                    <td class="hidden-xs">{{category}}</td>
+                    <td class="hidden-md hidden-sm hidden-xs">{{currency}}</td>
+                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+                {{/list}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="upsertModal" class="modal fade" role="dialog">
+    <form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="/items/list" method="post">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="bg-dark modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Item upsert</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="id" />
+                    <div class="form-group">
+                        <div class="col-lg-3">
+                            <label for="date" class="control-label">Date</label>
+                            <input class="form-control" type="date" name="date" id="date" value="" />
+                        </div>
+                        <div class="col-lg-5">
+                            <label for="product" class="control-label">Product</label>
+                            <input class="form-control" name="product" id="product" value="" />
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="brand" class="control-label">Brand</label>
+                            <select class="form-control" name="brand" id="brand">
+                            {{#brands}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                            {{/brands}}
+                        </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="reason" class="control-label">Reason</label>
+                            <select class="form-control" name="reason" id="reason">
+                            {{#reasons}}
+                                <option>{{this}}</option>
+                            {{/reasons}}
+                        </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="upp" class="control-label">UPP</label>
+                            <input type="number" min="0" class="form-control" name="upp" id="upp" value="" />
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="weight" class="control-label">Weight</label>
+                            <div class="input-group">
+                                <input class="form-control" step=".001" min="0" type="number" name="weight" id="weight" />
+                                <select class="selectpicker" name="unit" id="unit">
+                                {{#units}}
+                                    <option>{{this}}</option>
+                                {{/units}}
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="unit_cost" class="control-label">Unit cost</label>
+                            <input class="form-control" step=".01" min="0" type="number" name="unit_cost" id="unit_cost" />
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="units_bought" class="control-label">Items</label>
+                            <input class="form-control" min="0" type="number" name="units_bought" id="units_bought" value="" />
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="item_cost" class="control-label">Cost</label>
+                            <div class="input-group">
+                                <input class="form-control" name="item_cost" id="item_cost" type="number" step=".01" min="0" />
+                                <select class="selectpicker" name="currency" id="currency">
+                            {{#currencies}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/currencies}}
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="address" class="control-label">Address</label>
+                            <select class="form-control" name="address" id="address">
+                            {{#addresses}}
+                                <option value="{{this._id}}">{{this.fullAddress}}</option>
+                            {{/addresses}}
+                        </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="type" class="control-label">Type</label>
+                            <select class="form-control" name="type" id="type">
+                            {{#types}}
+                                <option>{{this}}</option>
+                            {{/types}}
+                        </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="category" class="control-label">Category</label>
+                            <select class="form-control" name="category" id="category">
+                            {{#categories}}
+                                <option>{{this}}</option>
+                            {{/categories}}
+                        </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <label for="promotion" class="control-label">Prom</label>
+                            <input type="checkbox" class="form-control" name="promotion" id="promotion" />
+                        </div>
+                        <div class="col-lg-1">
+                            <label for="good_buy" class="control-label">Good</label>
+                            <input type="checkbox" class="form-control" name="good_buy" id="good_buy" />
+                        </div>
+                        <div class="col-lg-12">
+                            <label for="Comments" class="control-label">Comments</label>
+                            <textarea class="form-control" placeholder="Comments are optional" name="comments" id="comments"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="pull-right btn btn-default" type="submit">Upsert</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="detailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="bg-dark modal-header">
+                <b>Item details</b>
+                <button type="button" class="close" data-dismiss="modal"><b>&times;</b></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label for="date" class="control-label">Date</label>
+                        <div id="date"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="product" class="control-label">Product</label>
+                        <div id="product"></div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="brand" class="control-label">Brand</label>
+                        <div id="brand"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="units_bought" class="control-label">Items</label>
+                        <div id="units_bought"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="reason" class="control-label">Reason</label>
+                        <div id="reason"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="promotion" class="control-label">Prom</label>
+                        <div>
+                            <center><i id="promotion"></i></center>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="good_buy" class="control-label">Good</label>
+                        <div>
+                            <center><i id="good_buy"></i></center>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-1">
+                        <label for="upp" class="control-label">UPP</label>
+                        <div id="upp"></div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="weight" class="control-label">Weight Cost</label>
+                        <div><span id="weight"></span><span id="unit"></span> x <span id="unit_cost"></span></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="item_cost" class="control-label">Cost</label>
+                        <div id="item_cost"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="type" class="control-label">Type</label>
+                        <div id="type"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="category" class="control-label">Category</label>
+                        <div id="category"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="address" class="control-label">Address</label>
+                        <div id="address"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="Comments" class="control-label">Comments</label>
+                        <div id="comments"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <b>Total Cost:</b> <span id="totalItemCost"></span>&nbsp;<span id="currency"></span>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

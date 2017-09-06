@@ -21,6 +21,9 @@ Handlebars.registerHelper('map', function(obj, options) {
         };
     }));
 });
+
+Handlebars.registerPartials(path.join(__dirname, 'views/partials'));
+
 var app = express();
 
 // view engine setup

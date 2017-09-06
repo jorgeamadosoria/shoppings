@@ -13,7 +13,6 @@
     
     .panel-black {
         border-color: #080808;
-        padding-top: 30px;
     }
     
     .pull-right {
@@ -46,14 +45,29 @@
         background-color: #080808;
         border-color: #080808;
     }
-    
+
     .modal-header {
         border-radius: 5px 5px 0px 0px;
     }
     
+    .criterion .badge {
+        position:static;
+        background-color: #080808;
+    }
+
+
     .criterion {
-        margin-right: 10px;
-        margin-bottom: 10px;
+        margin: 5px;
+        color: white;
+        background-color: #1b1e21;
+        border-color: #080808;
+    }
+
+    .criterion:hover {
+        margin: 5px;
+        color: #080808;
+        background-color: white;
+        border-color: #1b1e21;
     }
     
     .modal-footer {

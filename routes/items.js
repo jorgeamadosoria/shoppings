@@ -94,5 +94,20 @@ router.get('/form', function(req, res, next) {
 
 });
 
+router.post(['/list'], function(req, res, next) {
+    
+        if (req.body.id) {
+            console.log(JSON.stringify(req.body));
+    
+            service.update(req.body.id, req.body).then(function(obj) {
+                res.redirect("/");
+            }, handleError);
+        } else
+            service.insert(req.body).then(function(obj) {
+                res.redirect("/");
+            }, handleError);
+    
+    
+    });
 
 module.exports = router;

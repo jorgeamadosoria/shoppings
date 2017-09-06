@@ -2,12 +2,12 @@ function itemDeleteCallback(event) {
     event.preventDefault();
     var id = $(this).data("id");
     bootbox.confirm("Are you sure you want to delete this item?",
-        function(result) {
+        function (result) {
             if (result) {
                 $.ajax({
                     url: "/items/" + id,
                     method: "DELETE",
-                    success: function(data) {
+                    success: function (data) {
                         $("#" + id).remove();
                     }
                 });
@@ -40,7 +40,9 @@ function itemDetailCallback(data) {
     $("#detailModal .modal-body #good_buy").removeClass("fa fa-check fa-close text-success text-danger").addClass((data.good_buy) ? "fa fa-check text-success" : "fa fa-close text-danger");
     $("#detailModal .modal-body #comments").html(data.comments ? data.comments : "<i class='text-muted'>No comments</i>");
     $("#detailModal .modal-footer #totalItemCost").text(data.totalItemCost);
-    $("#detailModal").modal({ keyboard: true });
+    $("#detailModal").modal({
+        keyboard: true
+    });
 };
 
 function itemUpsertCallback(data) {
@@ -80,5 +82,36 @@ function itemUpsertCallback(data) {
     $("#upsertModal .modal-body #good_buy").prop('checked', data.good_buy);
     $("#upsertModal .modal-body #comments").val(data.comments);
     $('.selectpicker').selectpicker('refresh')
-    $("#upsertModal").modal({ keyboard: true });
+    $("#upsertModal").modal({
+        keyboard: true
+    });
 };
+
+function initItemListCallbacks() {
+    $("a#del-link").on("click", itemDeleteCallback);
+
+    $("a.add-link").on('click', function (e) {
+        e.preventDefault();
+        itemUpsertCallback();
+        $("#upsertModal").modal({
+            keyboard: true
+        });
+    });
+
+    $("a.update-link").on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/items/detail/" + $(e.target).parent().data("id"),
+            method: "GET",
+            success: itemUpsertCallback
+        });
+    });
+
+    $("#modal-row-container td:not(#actions)").on('click', function (e) {
+        $.ajax({
+            url: "/items/detail/" + $(e.target).parent().attr("id"),
+            method: "GET",
+            success: itemDetailCallback
+        });
+    });
+}
