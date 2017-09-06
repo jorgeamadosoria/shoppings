@@ -19,9 +19,8 @@ router.get('/list', function(req, res, next) {
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
 
-    var itemListPromise = service.list().then(docs => data.list = docs);
 
-    Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise]).then(function(obj) {
         //    console.log(_.filter(_.map(searchItem.schema.paths, k => { return { path: k.path, type: k.instance }; }), v => !v.path.startsWith("_")));
         //    data.searchObjs = itemSchema.toSearchObject();
 
@@ -35,6 +34,15 @@ router.get('/list', function(req, res, next) {
         res.render("items/list", data);
     }, handleError);
 });
+
+router.post('/search', function(req, res, next) {
+    console.log(JSON.stringify(req.body));
+    service.list(req.body).then(function(docs) {
+
+        res.render("partials/items", { data: docs, layout: false });
+    }, handleError);
+});
+
 
 router.get('/detail/:id', function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
@@ -94,20 +102,16 @@ router.get('/form', function(req, res, next) {
 
 });
 
-router.post(['/list'], function(req, res, next) {
-    
-        if (req.body.id) {
-            console.log(JSON.stringify(req.body));
-    
-            service.update(req.body.id, req.body).then(function(obj) {
-                res.redirect("/");
-            }, handleError);
-        } else
-            service.insert(req.body).then(function(obj) {
-                res.redirect("/");
-            }, handleError);
-    
-    
-    });
+router.post('/list', function(req, res, next) {
+
+    if (req.body.id) {
+        service.update(req.body.id, req.body).then(function(obj) {
+            res.redirect("/");
+        }, handleError);
+    } else
+        service.insert(req.body).then(function(obj) {
+            res.redirect("/");
+        }, handleError);
+});
 
 module.exports = router;

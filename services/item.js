@@ -35,7 +35,7 @@ module.exports = {
         return model.findByIdAndRemove(_id).exec();
     },
 
-    list: function() {
+    list: function(query) {
         return model.find().populate("brand").populate("address").exec();
     },
 

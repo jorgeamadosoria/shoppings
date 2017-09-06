@@ -169,7 +169,7 @@
             <button class="pull-right btn btn-default" type="submit">Save...</button>
         </div>
         <div class="col-lg-1 col-sm-1">
-            <button class="pull-right btn btn-default btn-dark" type="submit">Search</button>
+            <button id="search" class="pull-right btn btn-default btn-dark">Search</button>
         </div>
     </div>
     <br/>
@@ -184,12 +184,26 @@
     </div>
 </form>
 <div class="row">
-    <div class="col-lg-12">
-        {{> items }}
+    <div id = "searchResults" class="col-lg-12">
     </div>
 </div>
 
 <script>
+
+    $("button#search").click(function(e){
+        e.preventDefault();
+        var query= $(".criteria").data("criteria");
+        $.ajax({
+            url: "/items/search",
+            data: query,
+            method: "POST",
+            success: function(data){
+                $("#searchResults").html(data);
+            }
+        });
+    });
+
+    //we need to remove the add button from the partial
     $("a.add-link").remove();
 
     $("#field").on("change", function (event) {
@@ -240,12 +254,19 @@
         return $(".criteria").data("criteria");
     }
 
+    function removeCriterion(e){
+        var criterion = $(e.target).parent();
+        var criterionName = criterion.attr("id");
+        delete $(".criteria").data("criteria")[criterionName];
+        criterion.remove();
+    }
+
     function updateVisualCriteria(criterion) {
         var button = $(".criteria").find("p#" + criterion.name);
         if (button) {
             $(".criteria p#" + criterion.name).remove();
         }
-        $(".criteria p.hide").clone().attr("id", criterion.name).find("#text").text(criterionText(criterion)).end().removeClass("hide").find("span.badge").click(e => $(e.target).parent().remove()).end().appendTo(".criteria");
+        $(".criteria p.hide").clone().attr("id", criterion.name).find("#text").text(criterionText(criterion)).end().removeClass("hide").find("span.badge").click(removeCriterion).end().appendTo(".criteria");
     }
 
     function criterionText(criterion) {
