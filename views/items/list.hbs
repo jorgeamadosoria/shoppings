@@ -199,12 +199,10 @@
             method: "POST",
             success: function(data){
                 $("#searchResults").html(data);
+                initItemListCallbacks();
             }
         });
     });
-
-    //we need to remove the add button from the partial
-    $("a.add-link").remove();
 
     $("#field").on("change", function (event) {
         $(".search-box").addClass("hide");
@@ -299,7 +297,5 @@
         var criteria = updateCriteria(criterion);
         updateVisualCriteria(criterion);
     });
-
-    initItemListCallbacks();
 
 </script>

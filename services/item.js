@@ -27,7 +27,7 @@ module.exports = {
         }
 
 
-        return model.findByIdAndUpdate(obj._id, obj).exec();
+        return model.findByIdAndUpdate(obj._id, obj).populate("brand").populate("address").exec();
     },
 
     delete: function(id) {

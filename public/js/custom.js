@@ -2,12 +2,12 @@ function itemDeleteCallback(event) {
     event.preventDefault();
     var id = $(this).data("id");
     bootbox.confirm("Are you sure you want to delete this item?",
-        function (result) {
+        function(result) {
             if (result) {
                 $.ajax({
                     url: "/items/" + id,
                     method: "DELETE",
-                    success: function (data) {
+                    success: function(data) {
                         $("#" + id).remove();
                     }
                 });
@@ -48,7 +48,7 @@ function itemDetailCallback(data) {
 function itemUpsertCallback(data) {
     if (!data)
         data = {};
-    $("#upsertModal .modal-body #id").val(data.id);
+    $("#upsertModal .modal-body #id").val(data._id);
     $("#upsertModal .modal-body #date").val(moment(data.date).utc().format("YYYY-MM-DD"));
     $("#upsertModal .modal-body #product").val(data.product);
     if (data.brand)
@@ -87,10 +87,43 @@ function itemUpsertCallback(data) {
     });
 };
 
+
+function itemRowUpsertCallback(data) {
+    if (_.isString(data)) {
+        window.location.reload(true);
+    }
+    row = $(".modal-row-container tr#" + data._id);
+
+    row.find("#status i").addClass(data.status);
+    if (data.date)
+        row.find("#date").text(moment(data.date).utc().format("YYYY-MM-DD"));
+    row.find("#product").text(data.product);
+    if (data.brand)
+        row.find("#brand").text(data.brand.name);
+
+    row.find("#weight").text(data.weight);
+    row.find("#unit").text(data.unit);
+    row.find("#upp").text(data.upp);
+    row.find("#reason").text(data.reason);
+    row.find("#units_bought").text(data.units_bought);
+    row.find("#unit_cost").text(data.unit_cost);
+    row.find("#item_cost").text(data.item_cost);
+    row.find("#totalItemCost").text(data.totalItemCost);
+    row.find("#totalItemCost").text(data.totalItemCost);
+    if (data.address)
+        row.find("#address").text(data.address.fullAddress);
+    row.find("#type").text(data.type);
+    row.find("#category").text(data.category);
+    row.find("#currency").text(data.currency);
+    row.find("#promotion").text(data.promotion);
+    row.find("#good_buy").text(data.good_buy);
+    row.find("#comments").text(data.comments);
+}
+
 function initItemListCallbacks() {
     $("a#del-link").on("click", itemDeleteCallback);
 
-    $("a.add-link").on('click', function (e) {
+    $("a.add-link").on('click', function(e) {
         e.preventDefault();
         itemUpsertCallback();
         $("#upsertModal").modal({
@@ -98,20 +131,32 @@ function initItemListCallbacks() {
         });
     });
 
-    $("a.update-link").on('click', function (e) {
+    $("a.update-link").on('click', function(e) {
         e.preventDefault();
-        $.ajax({
-            url: "/items/detail/" + $(e.target).parent().data("id"),
-            method: "GET",
-            success: itemUpsertCallback
-        });
+        var url = "/items/detail/" + $(e.target).parent().attr("data-id");
+
+        $.get(
+            url, null,
+            itemUpsertCallback
+        );
     });
 
-    $("#modal-row-container td:not(#actions)").on('click', function (e) {
+    $("#modal-row-container td:not(#actions)").on('click', function(e) {
         $.ajax({
             url: "/items/detail/" + $(e.target).parent().attr("id"),
             method: "GET",
             success: itemDetailCallback
+        });
+    });
+
+
+    $("#upsertModal button#upsert").on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/items/update/",
+            data: $('#upsertModal form').serialize(),
+            method: "POST",
+            success: itemRowUpsertCallback
         });
     });
 }

@@ -1,7 +1,6 @@
 
 <div class="panel panel-black">
     <div class="panel-body">
-        <a class="add-link"  href=""><i class="fa fa-4x fa-plus-circle"></i></a>
         <div class="col-lg-offset-8 col-lg-4 ">
             <div class="pull-right">
                 &nbsp;|&nbsp;
@@ -32,23 +31,41 @@
                 </tr>
             </thead>
             <tbody id="modal-row-container">
+                <tr class="hide" >
+                    <td id="status"><i class=""></i></td>
+                    <td id="date">
+                    </td>
+                    <td id="product"></td>
+                    <td id="brand"></td>
+                    <td id="weight" class="hidden-sm hidden-xs"></td>
+                    <td id="unit" class="hidden-sm hidden-xs"></td>
+                    <td id="units_bought" class="hidden-xs"></td>
+                    <td id="item_cost" class="hidden-xs"></td>
+                    <td id="totalItemCost"></td>
+                    <td id="address" class="hidden-xs"></td>
+                    <td id="type" class="hidden-md hidden-sm hidden-xs"></td>
+                    <td id="category" class="hidden-xs"></td>
+                    <td id="currency" class="hidden-md hidden-sm hidden-xs"></td>
+                    <td id = "actions"><a id="del-link" data-id="" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="" href=""><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
                 {{#list}}
                 <tr id="{{_id}}" >
-                    <td><i class="{{status}}"></i></td>
-                    <td>{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
+                    <td id="status"><i class="{{status}}"></i></td>
+                    <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
                     </td>
-                    <td>{{product}}</td>
-                    <td>{{brand.name}}</td>
-                    <td class="hidden-sm hidden-xs">{{weight}}</td>
-                    <td class="hidden-sm hidden-xs">{{unit}}</td>
-                    <td class="hidden-xs">{{units_bought}}</td>
-                    <td class="hidden-xs">{{item_cost}}</td>
-                    <td>{{totalItemCost}}</td>
-                    <td class="hidden-xs">{{address.fullAddress}}</td>
-                    <td class="hidden-md hidden-sm hidden-xs">{{type}}</td>
-                    <td class="hidden-xs">{{category}}</td>
-                    <td class="hidden-md hidden-sm hidden-xs">{{currency}}</td>
-                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
+                    <td id="product">{{product}}</td>
+                    <td id="brand">{{brand.name}}</td>
+                    <td id="weight" class="hidden-sm hidden-xs">{{weight}}</td>
+                    <td id="unit" class="hidden-sm hidden-xs">{{unit}}</td>
+                    <td id="units_bought" class="hidden-xs">{{units_bought}}</td>
+                    <td id="item_cost" class="hidden-xs">{{item_cost}}</td>
+                    <td id="totalItemCost">{{totalItemCost}}</td>
+                    <td id="address" class="hidden-xs">{{address.fullAddress}}</td>
+                    <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
+                    <td id="category" class="hidden-xs">{{category}}</td>
+                    <td id="currency" class="hidden-md hidden-sm hidden-xs">{{currency}}</td>
+                    <td id = "actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
                 {{/list}}
@@ -59,7 +76,7 @@
 
 
 <div id="upsertModal" class="modal fade" role="dialog">
-    <form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="/items/list" method="post">
+    <form class="form-horizontal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="bg-dark modal-header">
@@ -121,9 +138,9 @@
                             <div class="input-group">
                                 <input class="form-control" name="item_cost" id="item_cost" type="number" step=".01" min="0" />
                                 <select class="selectpicker" name="currency" id="currency">
-                            {{#currencies}}
-                                <option value="{{this}}">{{this}}</option>
-                            {{/currencies}}
+                                {{#currencies}}
+                                    <option value="{{this}}">{{this}}</option>
+                                {{/currencies}}
                             </select>
                             </div>
                         </div>
@@ -167,7 +184,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="pull-right btn btn-default" type="submit">Upsert</button>
+                    <button id = "upsert" class="pull-right btn btn-default" data-dismiss="modal">Upsert</button>
                 </div>
             </div>
         </div>

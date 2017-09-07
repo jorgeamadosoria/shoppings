@@ -6,6 +6,7 @@
     .add-link {
         position: absolute;
         top: 5.2em;
+        left: 2.2em;
         background-color: white;
         color: #080808;
         padding: 0px 5px 0px 5px;
@@ -45,24 +46,23 @@
         background-color: #080808;
         border-color: #080808;
     }
-
+    
     .modal-header {
         border-radius: 5px 5px 0px 0px;
     }
     
     .criterion .badge {
-        position:static;
+        position: static;
         background-color: #080808;
     }
-
-
+    
     .criterion {
         margin: 5px;
         color: white;
         background-color: #1b1e21;
         border-color: #080808;
     }
-
+    
     .criterion:hover {
         margin: 5px;
         color: #080808;

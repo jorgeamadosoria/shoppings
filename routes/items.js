@@ -36,26 +36,38 @@ router.get('/list', function(req, res, next) {
 });
 
 router.post('/search', function(req, res, next) {
-    console.log(JSON.stringify(req.body));
-    service.list(req.body).then(function(docs) {
+    console.log("body " + JSON.stringify(req.body));
 
-        res.render("partials/items", { data: docs, layout: false });
+    var data = {};
+    var brandPromise = brandService.list().then(docs => data.brands = docs);
+    var addressPromise = addressService.list().then(docs => data.addresses = docs);
+
+    var itemListPromise = service.list(req.body).then(docs => data.list = docs);
+
+    Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
+        data.categories = lists.categories;
+        data.reasons = lists.reasons;
+        data.units = lists.units;
+        data.types = lists.types;
+        data.status = lists.status;
+        data.currencies = lists.currencies;
+        res.render("items/search", data);
     }, handleError);
+
 });
 
 
 router.get('/detail/:id', function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(obj));
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(obj));
     }, handleError);
 });
 
 router.delete('/:id', function(req, res, next) {
     service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
-    }, handleError());
-
+    }, handleError);
 });
 
 router.get('/form', function(req, res, next) {
@@ -102,15 +114,16 @@ router.get('/form', function(req, res, next) {
 
 });
 
-router.post('/list', function(req, res, next) {
-
+router.post('/update', function(req, res, next) {
+    console.log(req.body);
     if (req.body.id) {
         service.update(req.body.id, req.body).then(function(obj) {
-            res.redirect("/");
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify(obj));
         }, handleError);
     } else
         service.insert(req.body).then(function(obj) {
-            res.redirect("/");
+            res.sendStatus(200).end();
         }, handleError);
 });
 
