@@ -1,20 +1,20 @@
-var s = require("underscore");
+var _ = require("underscore");
 
 module.exports = {
 
-    currencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP", "N/A"],
+    currencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP", "NA"],
 
     status: { "Promotion": "fa fa-thumbs-up text-success", "Good buy": "fa fa-thumbs-o-up text-success", "Bad buy": "fa fa-thumbs-o-down text-danger", "Missing data": "fa fa-warning text-warning" },
 
-    countries: ["Uruguay", "Chile", "Argentina", "Cuba", "N/A"],
+    countries: ["Uruguay", "Chile", "Argentina", "Cuba", "NA"],
 
-    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "N/A"],
+    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "NA"],
 
-    reasons: ["Need", "Want", "Exploration", "Amal", "Lunch", "Dinner", "Breakfast", "Error", "N/A"],
+    reasons: ["Need", "Want", "Exploration", "Amal", "Lunch", "Dinner", "Breakfast", "Error", "NA"],
 
-    types: ["Product", "Service", "Contribution", "Payment", "N/A"],
+    types: ["Product", "Service", "Contribution", "Payment", "NA"],
 
-    units: ["N/A", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm"],
+    units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm"],
 
     prepare: function(list, item) {
         var temp = list.slice();
@@ -25,7 +25,7 @@ module.exports = {
         if (obj) {
             var temp = [];
             list.forEach(function(element) {
-                if (!s.isEqual(element._id, obj._id))
+                if (!_.isEqual(element._id, obj._id))
                     temp.push(element);
             });
             return temp;

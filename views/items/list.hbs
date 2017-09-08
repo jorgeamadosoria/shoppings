@@ -183,16 +183,14 @@
         </div>
     </div>
 </form>
-<div class="row">
-    <div id="searchResults" class="col-lg-12">
-    </div>
+<div id="searchResults" class="row">
 </div>
 
 <script>
     $("button#search").click(function (e) {
         e.preventDefault();
-        var query = $(".criteria").data("criteria");
-     //   alert(JSON.stringify(query));
+        var query = $(".criteria").data();
+        
         $.ajax({
             headers: {
                 "Content-Type":"application/json"
@@ -201,6 +199,7 @@
             data: JSON.stringify(query),
             method: "POST",
             success: function (data) {
+             //   alert(data);
                 $("#searchResults").html(data);
                 initItemListCallbacks();
             }
@@ -247,18 +246,17 @@
     };
 
     function updateCriteria(criterion) {
-        var criteria = $(".criteria").data("criteria");
+        var criteria = $(".criteria").data();
         if (!criteria) criteria = {};
         criteria[criterion.name] = criterion;
-
-        $(".criteria").data("criteria", criteria);
-        return $(".criteria").data("criteria");
+        $(".criteria").data(criteria);
+        return $(".criteria").data();
     }
 
     function removeCriterion(e) {
         var criterion = $(e.target).parent();
         var criterionName = criterion.attr("id");
-        delete $(".criteria").data("criteria")[criterionName];
+        delete $(".criteria").data()[criterionName];
         criterion.remove();
     }
 
@@ -297,7 +295,7 @@
     $(".add-button").click(function (event) {
         event.preventDefault();
         var criterion = createCriterion();
-        var criteria = updateCriteria(criterion);
+        updateCriteria(criterion);
         updateVisualCriteria(criterion);
     });
 
