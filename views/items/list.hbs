@@ -184,20 +184,23 @@
     </div>
 </form>
 <div class="row">
-    <div id = "searchResults" class="col-lg-12">
+    <div id="searchResults" class="col-lg-12">
     </div>
 </div>
 
 <script>
-
-    $("button#search").click(function(e){
+    $("button#search").click(function (e) {
         e.preventDefault();
-        var query= $(".criteria").data("criteria");
+        var query = $(".criteria").data("criteria");
+     //   alert(JSON.stringify(query));
         $.ajax({
+            headers: {
+                "Content-Type":"application/json"
+            },
             url: "/items/search",
-            data: query,
+            data: JSON.stringify(query),
             method: "POST",
-            success: function(data){
+            success: function (data) {
                 $("#searchResults").html(data);
                 initItemListCallbacks();
             }
@@ -252,7 +255,7 @@
         return $(".criteria").data("criteria");
     }
 
-    function removeCriterion(e){
+    function removeCriterion(e) {
         var criterion = $(e.target).parent();
         var criterionName = criterion.attr("id");
         delete $(".criteria").data("criteria")[criterionName];

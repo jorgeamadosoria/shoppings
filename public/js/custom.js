@@ -92,12 +92,11 @@ function itemRowUpsertCallback(data) {
     if (_.isString(data)) {
         window.location.reload(true);
     }
-    row = $(".modal-row-container tr#" + data._id);
-
+    row = $("#modal-row-container tr#" + data._id);
     row.find("#status i").addClass(data.status);
     if (data.date)
         row.find("#date").text(moment(data.date).utc().format("YYYY-MM-DD"));
-    row.find("#product").text(data.product);
+    row.find("td#product").text(data.product);
     if (data.brand)
         row.find("#brand").text(data.brand.name);
 

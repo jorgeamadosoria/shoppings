@@ -5,9 +5,7 @@ module.exports = {
     insert: function(obj) {
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
-        console.log("Address:" + obj.address);
         if (obj.address) {
-            console.log("Address:" + obj.address);
             obj.address = mongoose.Types.ObjectId(obj.address);
         }
         return model.create(obj);
@@ -27,7 +25,7 @@ module.exports = {
         }
 
 
-        return model.findByIdAndUpdate(obj._id, obj).populate("brand").populate("address").exec();
+        return model.findByIdAndUpdate(obj._id, obj,{new:true}).populate("brand").populate("address").exec();
     },
 
     delete: function(id) {
@@ -36,7 +34,7 @@ module.exports = {
     },
 
     list: function(query) {
-        return model.find().populate("brand").populate("address").exec();
+        return model.find(query).populate("brand").populate("address").exec();
     },
 
     findById: function(id) {
