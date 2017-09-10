@@ -1,6 +1,8 @@
 mongoose = require('./connect');
 lists = require('./lists');
 var _ = require("underscore");
+var paginate = require('mongoose-paginate');
+
 
 var ItemSchema = new mongoose.Schema({
     "date": {
@@ -124,5 +126,7 @@ ItemSchema.methods.toSearchObject = function() {
     //  console.log(_.filter(_.map(this.schema.paths, k => { return { path: k.path, search: k.options.search, type: k.instance }; }), v => !v.path.startsWith("_")));
     return _.filter(_.map(this.schema.paths, k => { return { path: k.path, search: k.options.search, type: k.instance }; }), v => v.search && !v.path.startsWith("_"));
 };
+
+ItemSchema.plugin(paginate);
 
 module.exports = mongoose.model("Item", ItemSchema);

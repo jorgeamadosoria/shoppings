@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
 
-    var itemListPromise = service.list().then(docs => data.list = docs);
+    var itemListPromise = service.list({"date":{"name":"date","fields":[{"key":"from","value":new moment().format("YYYY-MM-DD")}]}}).then(docs => data.list = docs);
 
     Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
         data.categories = lists.categories;

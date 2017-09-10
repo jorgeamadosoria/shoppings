@@ -183,27 +183,41 @@
         </div>
     </div>
 </form>
+
+
 <div id="searchResults" class="row">
 </div>
 
 <script>
-    $("button#search").click(function (e) {
-        e.preventDefault();
+    function triggerSearch(page) {
+                    alert(page);
         var query = $(".criteria").data();
-        
+        query.page = page;
         $.ajax({
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
             url: "/items/search",
             data: JSON.stringify(query),
             method: "POST",
             success: function (data) {
-             //   alert(data);
+                //   alert(data);
                 $("#searchResults").html(data);
+                $(".pagination .page-item a.page-link").on("click", function (e) {
+                    e.preventDefault();
+                    $(".pagination .page-item").removeClass("active");
+                    triggerSearch($(e.target).text());
+                //    $(e.target).parent().addClass("active");
+                });
                 initItemListCallbacks();
             }
         });
+    };
+
+
+    $("button#search").click(function (e) {
+        e.preventDefault();
+        triggerSearch(1);
     });
 
     $("#field").on("change", function (event) {

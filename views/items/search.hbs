@@ -1,1 +1,16 @@
-{{> items list=list }}
+
+<nav aria-label="Page navigation example">
+    <center>
+        <ul class="pagination">
+            {{#times list.pages}}
+                {{#equal @root.list.page this}} 
+                    <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+                {{else}}
+                    <li class="page-item"><a class="page-link" href="#">{{this}}</a></li>
+                {{/equal}}
+            {{/times}}
+        </ul>
+    </center>
+    {{json list.total}}
+</nav>
+{{> items list=list.docs }}

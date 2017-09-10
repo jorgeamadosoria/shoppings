@@ -14,7 +14,8 @@
     "handlebars-intl": "*",
     "hbs": "*",
     "moment": "^2.18.1",
-    "mongoose": "*",
+    "mongoose": "^4.11.10",
+    "mongoose-paginate": "*",
     "morgan": "*",
     "serve-favicon": "*"
   }

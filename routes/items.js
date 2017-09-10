@@ -40,7 +40,7 @@ router.post('/search', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var itemListPromise = service.list(req.body).then(docs => data.list = docs);
+    var itemListPromise = service.paginate(req.body).then(docs => data.list = docs,handleError);
 
     Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
         data.categories = lists.categories;
@@ -50,6 +50,8 @@ router.post('/search', function(req, res, next) {
         data.status = lists.status;
         data.currencies = lists.currencies;
         res.locals = data;
+        console.log("data.list =",data.list);
+        console.log("data.list.docs =",data.list.docs);
         res.render("items/search", { layout: false });
     }, handleError);
 

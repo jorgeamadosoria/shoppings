@@ -22,6 +22,22 @@ Handlebars.registerHelper('map', function(obj, options) {
     }));
 });
 
+Handlebars.registerHelper('times', function(n, block) {
+    var accum = '';
+    for(var i = 1; i <= n; ++i)
+        accum += block.fn(i);
+    return accum;
+});
+
+Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
+    console.log(lvalue +" - " + rvalue);
+    if(lvalue!=rvalue ) {
+        return options.inverse(this);
+    } else {
+        return options.fn(this);
+    }
+});
+
 Handlebars.registerPartials(path.join(__dirname, 'views/partials'));
 
 var app = express();
