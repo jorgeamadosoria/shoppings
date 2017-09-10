@@ -190,7 +190,7 @@
 
 <script>
 
-    $("button#search").click
+    
 
     function triggerSearch(page) {
                 //    alert(page);
@@ -216,6 +216,10 @@
         });
     };
 
+    $("button#save").click(function (e) {
+        e.preventDefault();
+        triggerSearch(1);
+    });
 
     $("button#search").click(function (e) {
         e.preventDefault();
