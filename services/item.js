@@ -4,7 +4,7 @@ var moment = require('moment');
 
 module.exports = {
 
-    insert: function (obj) {
+    insert: function(obj) {
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
         if (obj.address) {
@@ -13,7 +13,7 @@ module.exports = {
         return model.create(obj);
     },
 
-    update: function (id, obj) {
+    update: function(id, obj) {
 
         obj.good_buy = (obj.good_buy) ? true : false;
         obj.promotion = (obj.promotion) ? true : false;
@@ -32,24 +32,24 @@ module.exports = {
         }).populate("brand").populate("address").exec();
     },
 
-    delete: function (id) {
+    delete: function(id) {
         var _id = mongoose.Types.ObjectId(id);
         return model.findByIdAndRemove(_id).exec();
     },
 
-    
-    list: function (query) {
+
+    list: function(query) {
         return model.find(this.parsed(query)).populate("brand").populate("address").exec();
     },
 
-    paginate: function (query) {
+    paginate: function(query) {
 
 
 
         console.log("query " + JSON.stringify(query));
         return model.paginate(this.parsed(query), {
-            page: 1,//query.page?query.page:1,
-            limit: 2,//query.limit?query.limit:10,
+            page: query.page, //query.page?query.page:1,
+            limit: 10, //query.limit?query.limit:10,
             sort: {
                 date: 'desc'
             },
@@ -57,14 +57,14 @@ module.exports = {
         });
     },
 
-    findById: function (id) {
+    findById: function(id) {
         var _id = mongoose.Types.ObjectId(id);
         return model.findById(_id).populate("brand").populate("address").exec();
     },
 
-    parsed: function (clientQuery) {
+    parsed: function(clientQuery) {
         console.log(clientQuery);
-        var _in = function (moongoseQ, clientQuery, field) {
+        var _in = function(moongoseQ, clientQuery, field) {
             if (clientQuery[field]) {
                 if (clientQuery[field].fields.length) {
                     moongoseQ.where(field).in(_.map(clientQuery[field].fields, (ele) => ele.key));
@@ -72,21 +72,21 @@ module.exports = {
             }
         };
 
-        var _regexp = function (moongoseQ, clientQuery, field) {
+        var _regexp = function(moongoseQ, clientQuery, field) {
             if (clientQuery[field]) {
                 if (clientQuery[field].fields.length && clientQuery[field].fields[0].value)
                     moongoseQ.where(field).equals(new RegExp(clientQuery[field].fields[0].value));
             }
         };
 
-        var _bool = function (moongoseQ, clientQuery, field) {
+        var _bool = function(moongoseQ, clientQuery, field) {
             if (clientQuery[field]) {
                 if (clientQuery[field].fields.length && clientQuery[field].fields[0].value)
                     moongoseQ.where(field).equals(clientQuery[field].fields[0].value);
             }
         };
 
-        var _date = function (moongoseQ, clientQuery, field) {
+        var _date = function(moongoseQ, clientQuery, field) {
             if (clientQuery[field]) {
                 if (clientQuery[field].fields.length) {
                     _.each(clientQuery[field].fields, (ele) => {
@@ -101,7 +101,7 @@ module.exports = {
             }
         };
 
-        var _range = function (moongoseQ, clientQuery, field) {
+        var _range = function(moongoseQ, clientQuery, field) {
             if (clientQuery[field]) {
                 if (clientQuery[field].fields.length) {
                     _.each(clientQuery[field].fields, (ele) => {
@@ -116,7 +116,7 @@ module.exports = {
             }
         };
 
-        var _weight = function (moongoseQ, clientQuery, field, field2) {
+        var _weight = function(moongoseQ, clientQuery, field, field2) {
             if (clientQuery[field]) {
                 if (clientQuery[field].fields.length) {
                     _.each(clientQuery[field].fields, (ele) => {

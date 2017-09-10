@@ -12,6 +12,10 @@
         padding: 0px 5px 0px 5px;
     }
     
+    .pagebar {
+        margin: 0px 0;
+    }
+    
     .panel-black {
         border-color: #080808;
     }
@@ -39,6 +43,19 @@
         height: 150px;
         float: left;
         margin: 10px 10px 10px 10px;
+    }
+    
+    .pagination>.active-dark>a,
+    .pagination>.active-dark>a:focus,
+    .pagination>.active-dark>a:hover,
+    .pagination>.active-dark>span,
+    .pagination>.active-dark>span:focus,
+    .pagination-dark>.active>span:hover {
+        z-index: 3;
+        color: #fff;
+        cursor: default;
+        background-color: #080808;
+        border-color: #080808b7;
     }
     
     .btn-dark {

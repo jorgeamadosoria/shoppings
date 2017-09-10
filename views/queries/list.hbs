@@ -1,4 +1,4 @@
-<a class="add-link" href="/brands/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+<a class="add-link" href="/queries/form"><i class="fa fa-4x fa-plus-circle"></i></a>
 <div class="panel panel-black">
     <div class="panel-body">
         <div class="col-lg-offset-8 col-lg-4 ">
@@ -10,19 +10,17 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Description</th>
+                    <th>Query</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="modal-row-container">
                 {{#list}}
-                <tr id="{{_id}}" data-logo="{{logo}}">
+                <tr id="{{_id}}">
                     <td id="name">{{name}}&nbsp;
-                        {{#if website}}
-                            <a href="{{website}}"><i class="fa fa-external-link"></i></a>
-                        {{/if}}
                     </td>
-                    <td id= "description">{{description}}</td>
+                    <td id="query">{{query}}&nbsp;
+                    </td>
                     <td id="actions">
                         <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
                         <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
@@ -40,10 +38,10 @@
     <div class="modal-content">
       <div class="bg-dark modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Brand details</h4>
+        <h4 class="modal-title">Query details</h4>
       </div>
       <div class="modal-body">
-          <img onerror="this.src = 'https://image.ibb.co/eW2A6k/st4Sp6Aw.jpg';" id = "logo" class="img-logo img-rounded img-responsive"><p id="description"></p>
+          <p id="description"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -73,9 +71,7 @@
     });
         
    $("#modal-row-container td:not(#actions)").on('click', function (e) {
-        $("#detailsModal .modal-title").text($(e.target).parent().find("#name").text());
-        $("#detailsModal .modal-body #description").text($(e.target).parent().find("#description").text());
-        $("#detailsModal .modal-body #logo").attr("src",$(e.target).parent().data("logo"));
+        $("#detailsModal .modal-title").text($(e.target).parent().find("#description").text());
         $("#detailsModal").modal({keyboard: true});
     });
 

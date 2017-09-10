@@ -9,6 +9,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>Name</th>
                     <th>Address</th>
                     <th>Region</th>
                     <th>Country</th>
@@ -18,6 +19,7 @@
             <tbody id="modal-row-container">
                 {{#list}}
                 <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
+                    <td>{{name}}</td>
                     <td>{{address}}</td>
                     <td>{{region}}</td>
                     <td>{{country}}</td>
@@ -30,7 +32,7 @@
     </div>
 </div>
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="detailsModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
         <div class="bg-dark modal-header">
@@ -70,9 +72,9 @@
 
     $("#modal-row-container td").on('click', function (e) {
         //$("#myModal modal-body").text($(e.target).parent().attr("id"));
-        $("#myModal .modal-title").text($(e.target).parent().data("full"));
-        $("#myModal .modal-body #mapSrc").attr("src",$(e.target).parent().data("src"));
-        $("#myModal").modal({keyboard: true});
+        $("#detailsModal .modal-title").text($(e.target).parent().data("full"));
+        $("#detailsModal .modal-body #mapSrc").attr("src",$(e.target).parent().data("src"));
+        $("#detailsModal").modal({keyboard: true});
     });
 
     $("a#del-link").on("click", function (event) {

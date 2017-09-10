@@ -1,6 +1,10 @@
 mongoose = require('./connect');
 
 var AddressSchema = new mongoose.Schema({
+    "name": {
+        type: String,
+        default: ""
+    },
     "address": {
         type: String,
         default: ""
@@ -29,7 +33,7 @@ var AddressSchema = new mongoose.Schema({
 
 AddressSchema.virtual('fullAddress')
     .get(function() {
-        return this.address + ',' + this.region + ',' + this.country;
+        return this.name + ',' + this.address + ',' + this.region + ',' + this.country;
     });
 var addressModel = mongoose.model("Address", AddressSchema);
 

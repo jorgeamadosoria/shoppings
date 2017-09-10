@@ -166,7 +166,7 @@
             </div>
         </div>
         <div class="col-lg-1 col-sm-1">
-            <button class="pull-right btn btn-default" type="submit">Save...</button>
+            <button id="save" class="pull-right btn btn-default" type="submit">Save...</button>
         </div>
         <div class="col-lg-1 col-sm-1">
             <button id="search" class="pull-right btn btn-default btn-dark">Search</button>
@@ -185,12 +185,15 @@
 </form>
 
 
-<div id="searchResults" class="row">
+<div id="searchResults">
 </div>
 
 <script>
+
+    $("button#search").click
+
     function triggerSearch(page) {
-                    alert(page);
+                //    alert(page);
         var query = $(".criteria").data();
         query.page = page;
         $.ajax({
@@ -201,13 +204,12 @@
             data: JSON.stringify(query),
             method: "POST",
             success: function (data) {
-                //   alert(data);
                 $("#searchResults").html(data);
                 $(".pagination .page-item a.page-link").on("click", function (e) {
                     e.preventDefault();
-                    $(".pagination .page-item").removeClass("active");
+                     $(".pagination .page-item").removeClass("active active-dark");
+                    $(e.target).parent().addClass("active active-dark");
                     triggerSearch($(e.target).text());
-                //    $(e.target).parent().addClass("active");
                 });
                 initItemListCallbacks();
             }
