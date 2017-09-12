@@ -33,21 +33,21 @@ router.get('/form', function(req, res, next) {
     if (req.query.id)
         service.findById(req.query.id).then(function(obj) {
             res.render("queries/form", obj);
-        }, handleError());
+        }, handleError);
     else
         res.render("queries/form");
 });
 
 router.post('/form', function(req, res, next) {
-
+console.log(JSON.stringify(req.body));
     if (req.query.id)
         service.update(req.query.id, req.body).then(function(obj) {
             res.redirect("list");
-        }, handleError());
+        }, handleError);
     else
         service.insert(req.body).then(function(obj) {
             res.redirect("list");
-        }, handleError());
+        }, handleError);
 });
 
 module.exports = router;

@@ -3,6 +3,7 @@ var model = require('../data/query');
 module.exports = {
 
     insert: function(obj) {
+        console.log("insert" + JSON.stringify(obj));
         return model.create(obj);
     },
 
