@@ -17,13 +17,15 @@
             <tbody id="modal-row-container">
                 {{#list}}
                 <tr id="{{_id}}" data-logo="{{logo}}">
-                    <td id="name">{{name}}&nbsp;
+                    <td id="name" class="col-lg-2">
                         {{#if website}}
-                            <a href="{{website}}"><i class="fa fa-external-link"></i></a>
+                            <a href="{{website}}">{{name}}</a>
+                        {{else}}
+                            {{name}}
                         {{/if}}
                     </td>
-                    <td id= "description">{{description}}</td>
-                    <td id="actions">
+                    <td id= "description" class="col-lg-9">{{description}}</td>
+                    <td id="actions" class="col-lg-1">
                         <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
                         <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
                     </td>

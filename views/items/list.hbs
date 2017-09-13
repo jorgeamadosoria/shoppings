@@ -1,6 +1,14 @@
 <form class="form-horizontal">
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-2">
+            <select class="form-control" name="query" id="query">
+                    <option selected value="">Custom</option>
+                    {{#each queries}}
+                        <option value="{{this.query}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2">
             <select class="form-control" name="field" id="field">
                     <option selected value="all">All records</option>
                     {{#each searchObjs}}
@@ -8,7 +16,7 @@
                     {{/each}}
                 </select>
         </div>
-        <div class="col-lg-8 col-sm-8">
+        <div class="col-lg-6 col-sm-6">
             <div id="date-search" class="hide search-box">
                 <div class="col-lg-4 col-sm-4">
                     <input class="form-control" type="date" name="from" id="from" />
@@ -144,10 +152,10 @@
             <div id="categories-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" class="selectpicker" multiple>
-                            {{#categories}}
-                                <option value= "{{this}}" >{{this}}</option>
-                            {{/categories}}
-                        </select>
+                        {{#categories}}
+                            <option value= "{{this}}" >{{this}}</option>
+                        {{/categories}}
+                    </select>
                 </div>
                 <div class="col-lg-2 col-sm-2">
                     <button class="add-button btn btn-default">Add</button>
@@ -188,9 +196,43 @@
 <div id="searchResults">
 </div>
 
+<div id="queryModal" class="modal fade" role="dialog">
+    <form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="/queries/form" method="post">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="bg-dark modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Item upsert</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name" class="col-xs-2 control-label">Name</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" placeholder="name" name="name" id="name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-xs-2 control-label">Description</label>
+                        <div class="col-xs-10">
+                            <textarea class="form-control col-10" placeholder="description" name="description" id="description" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label for="query" class="col-xs-2 control-label">Query</label>
+                        <div class="col-xs-10">
+                            <textarea class="form-control col-10" placeholder="query" name="query" id="query" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id = "upsert" class="pull-right btn btn-default" type="submit" data-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+  
 <script>
-
-    
 
     function triggerSearch(page) {
                 //    alert(page);
@@ -218,10 +260,17 @@
 
     $("button#save").click(function (e) {
         e.preventDefault();
-        triggerSearch(1);
+        var query = $(".criteria").data();
+        $("#queryModal").find("#query").val(JSON.stringify(query));
+        $("#queryModal").modal({keyboard: true});
+    });
+
+    $("#queryModal button#upsert").click(function (e) {
+        $("#queryModal form").submit();
     });
 
     $("button#search").click(function (e) {
+      //  alert(JSON.stringify($(".criteria").data()));
         e.preventDefault();
         triggerSearch(1);
     });
@@ -229,6 +278,17 @@
     $("#field").on("change", function (event) {
         $(".search-box").addClass("hide");
         $("#" + $(event.target).val()).removeClass("hide");
+    });
+
+    $("#query").on("change", function (event) {
+        if ($("#query").val())
+        {
+            $(".search-box").addClass("hide");
+            $("#field").addClass("hide");
+        }
+        else
+            $("#field").removeClass("hide");
+        $(".criteria").data(JSON.parse($("#query").val()));
     });
 
     function createCriterion() {

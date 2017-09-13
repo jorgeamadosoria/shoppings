@@ -6,6 +6,7 @@ var lists = require('../data/lists');
 var service = require('../services/item');
 var brandService = require('../services/brand');
 var addressService = require('../services/address');
+var queryService = require('../services/query');
 
 var router = express.Router();
 
@@ -18,9 +19,10 @@ router.get('/list', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    var queryPromise = queryService.list().then(docs => data.queries = docs);
 
 
-    Promise.all([brandPromise, addressPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, queryPromise]).then(function(obj) {
         //    console.log(_.filter(_.map(searchItem.schema.paths, k => { return { path: k.path, type: k.instance }; }), v => !v.path.startsWith("_")));
         //    data.searchObjs = itemSchema.toSearchObject();
 

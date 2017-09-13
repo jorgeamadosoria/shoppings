@@ -10,18 +10,18 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Query</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="modal-row-container">
                 {{#list}}
-                <tr id="{{_id}}">
-                    <td id="name">{{name}}&nbsp;
+                <tr id="{{_id}}" data-query="{{query}}">
+                    <td id="name" class="col-lg-2">{{name}}&nbsp;
                     </td>
-                    <td id="query">{{query}}&nbsp;
+                    <td id="description" class="col-lg-9">{{description}}&nbsp;
                     </td>
-                    <td id="actions">
+                    <td id="actions" class="col-lg-1">
                         <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
                         <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
                     </td>
@@ -42,6 +42,7 @@
       </div>
       <div class="modal-body">
           <p id="description"></p>
+          <p id="query"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -71,7 +72,9 @@
     });
         
    $("#modal-row-container td:not(#actions)").on('click', function (e) {
-        $("#detailsModal .modal-title").text($(e.target).parent().find("#description").text());
+        $("#detailsModal .modal-title").text($(e.target).parent().find("#name").text());
+        $("#detailsModal .modal-body #description").text($(e.target).parent().find("#description").text());
+        $("#detailsModal .modal-body #query").text(JSON.stringify($(e.target).parent().data("query")));
         $("#detailsModal").modal({keyboard: true});
     });
 

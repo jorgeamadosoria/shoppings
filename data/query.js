@@ -9,6 +9,10 @@ var QuerySchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    "description": {
+        type: String,
+        default: "",
+    },
     "query": {
         type: String,
         default: "{}",

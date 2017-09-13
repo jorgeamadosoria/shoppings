@@ -19,11 +19,11 @@
             <tbody id="modal-row-container">
                 {{#list}}
                 <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
-                    <td>{{name}}</td>
-                    <td>{{address}}</td>
-                    <td>{{region}}</td>
-                    <td>{{country}}</td>
-                    <td><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
+                    <td class="col-lg-3">{{name}}</td>
+                    <td class="col-lg-5">{{address}}</td>
+                    <td class="col-lg-2">{{region}}</td>
+                    <td class="col-lg-1">{{country}}</td>
+                    <td class="col-lg-1"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
                 {{/list}}
