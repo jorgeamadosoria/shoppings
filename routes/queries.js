@@ -3,7 +3,7 @@ var service = require('../services/query');
 var router = express.Router();
 
 var handleError = function(err) {
-    console.log("ERROR:" + err);
+    console.log("ERROR:" + err.message);
     return null;
 };
 
@@ -12,19 +12,19 @@ router.get('/list', function(req, res, next) {
         res.render("queries/list", {
             "list": obj
         });
-    }, handleError());
+    }, handleError);
 });
 
 router.get('/detail/:id', function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
         res.render("queries/detail", obj);
-    }, handleError());
+    }, handleError);
 });
 
 router.delete('/:id', function(req, res, next) {
     service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
-    }, handleError());
+    }, handleError);
 
 });
 
@@ -32,6 +32,7 @@ router.get('/form', function(req, res, next) {
     console.log("query " + req.query.id);
     if (req.query.id)
         service.findById(req.query.id).then(function(obj) {
+            console.log("obj " + JSON.stringify(obj));
             res.render("queries/form", obj);
         }, handleError);
     else
@@ -39,7 +40,6 @@ router.get('/form', function(req, res, next) {
 });
 
 router.post('/form', function(req, res, next) {
-console.log(JSON.stringify(req.body));
     if (req.query.id)
         service.update(req.query.id, req.body).then(function(obj) {
             res.redirect("list");

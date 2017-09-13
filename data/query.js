@@ -5,7 +5,7 @@ var paginate = require('mongoose-paginate');
 
 
 var QuerySchema = new mongoose.Schema({
-    "data": {
+    "name": {
         type: String,
         default: "",
     },
