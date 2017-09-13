@@ -30,7 +30,6 @@ Handlebars.registerHelper('times', function(n, block) {
 });
 
 Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
-    console.log(lvalue + " - " + rvalue);
     if (lvalue != rvalue) {
         return options.inverse(this);
     } else {
