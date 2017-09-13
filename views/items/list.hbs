@@ -182,11 +182,11 @@
     </div>
     <br/>
     <div class="row">
-        <div class="col-lg-12  col-sm-12 ">
-            <div class="panel panel-black criteria">
-                <p class="hide btn btn-dark criterion">
+        <div class="col-lg-12 col-sm-12 ">
+            <p class="hide btn btn-dark criterion">
                     <span id="text"></span>&nbsp;&nbsp;<span class="badge">&times;</span>
-                </p>
+            </p>
+            <div class="panel panel-black criteria">
             </div>
         </div>
     </div>
@@ -270,7 +270,6 @@
     });
 
     $("button#search").click(function (e) {
-      //  alert(JSON.stringify($(".criteria").data()));
         e.preventDefault();
         triggerSearch(1);
     });
@@ -281,14 +280,17 @@
     });
 
     $("#query").on("change", function (event) {
+        $(".criteria").text("");
+        $(".criteria").removeData();
+        $("#field").removeClass("hide");
         if ($("#query").val())
         {
             $(".search-box").addClass("hide");
             $("#field").addClass("hide");
+            $(".criteria").data(JSON.parse($("#query").val()));
         }
         else
-            $("#field").removeClass("hide");
-        $(".criteria").data(JSON.parse($("#query").val()));
+            $("#field").val("all");
     });
 
     function createCriterion() {
@@ -345,7 +347,7 @@
         if (button) {
             $(".criteria p#" + criterion.name).remove();
         }
-        $(".criteria p.hide").clone().attr("id", criterion.name).find("#text").text(criterionText(criterion)).end().removeClass("hide").find("span.badge").click(removeCriterion).end().appendTo(".criteria");
+        $(".criteria").parent().find("p.hide").clone().attr("id", criterion.name).find("#text").text(criterionText(criterion)).end().removeClass("hide").find("span.badge").click(removeCriterion).end().appendTo(".criteria");
     }
 
     function criterionText(criterion) {
