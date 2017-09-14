@@ -10,19 +10,19 @@ var queryService = require('../services/query');
 
 var router = express.Router();
 
-var handleError = function(err) {
+var handleError = function (err) {
     console.log("ERROR:" + err);
     return null;
 };
 
-router.get('/list', function(req, res, next) {
+router.get('/list', function (req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
     var queryPromise = queryService.list().then(docs => data.queries = docs);
 
 
-    Promise.all([brandPromise, addressPromise, queryPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, queryPromise]).then(function (obj) {
         //    console.log(_.filter(_.map(searchItem.schema.paths, k => { return { path: k.path, type: k.instance }; }), v => !v.path.startsWith("_")));
         //    data.searchObjs = itemSchema.toSearchObject();
 
@@ -37,14 +37,19 @@ router.get('/list', function(req, res, next) {
     }, handleError);
 });
 
-router.post('/search', function(req, res, next) {
+router.post('/search', function (req, res, next) {
 
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    
+  /*  var aggPromise = service.aggregate(req.body).then(docs => {
+        data.aggregate = docs;
+        console.log("aggPromise " + JSON.stringify(data.aggregate));
+    }, handleError);*/
     var itemListPromise = service.paginate(req.body).then(docs => data.list = docs, handleError);
-
-    Promise.all([brandPromise, addressPromise, itemListPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, itemListPromise/*, aggPromise*/]).then(function (obj) {
+        console.log("agg " + JSON.stringify(data.aggregate));
         data.categories = lists.categories;
         data.reasons = lists.reasons;
         data.units = lists.units;
@@ -52,26 +57,28 @@ router.post('/search', function(req, res, next) {
         data.status = lists.status;
         data.currencies = lists.currencies;
         res.locals = data;
-        res.render("items/search", { layout: false });
+        res.render("items/search", {
+            layout: false
+        });
     }, handleError);
 
 });
 
 
-router.get('/detail/:id', function(req, res, next) {
-    service.findById(req.params.id).then(function(obj) {
+router.get('/detail/:id', function (req, res, next) {
+    service.findById(req.params.id).then(function (obj) {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify(obj));
     }, handleError);
 });
 
-router.delete('/:id', function(req, res, next) {
-    service.delete(req.params.id).then(function(obj) {
+router.delete('/:id', function (req, res, next) {
+    service.delete(req.params.id).then(function (obj) {
         res.sendStatus(200).end();
     }, handleError);
 });
 
-router.get('/form', function(req, res, next) {
+router.get('/form', function (req, res, next) {
     var data = {};
     var brandPromise = brandService.list()
         .then(docs => data.brands = docs);
@@ -80,7 +87,7 @@ router.get('/form', function(req, res, next) {
 
     var promises = [brandPromise, addressPromise];
     if (req.query.id) {
-        var findPromise = service.findById(req.query.id).then(function(obj) {
+        var findPromise = service.findById(req.query.id).then(function (obj) {
             data.obj = obj;
             data.categories = lists.prepare(lists.categories, obj.category);
             data.reasons = lists.prepare(lists.reasons, obj.reason);
@@ -99,7 +106,7 @@ router.get('/form', function(req, res, next) {
 
     }
 
-    Promise.all(promises).then(function() {
+    Promise.all(promises).then(function () {
         if (data.obj) {
             //   console.log(data.brands);
             data.brands = lists.prepareObj(data.brands, data.obj.brand);
@@ -115,14 +122,14 @@ router.get('/form', function(req, res, next) {
 
 });
 
-router.post('/update', function(req, res, next) {
+router.post('/update', function (req, res, next) {
     if (req.body.id) {
-        service.update(req.body.id, req.body).then(function(obj) {
+        service.update(req.body.id, req.body).then(function (obj) {
             res.setHeader("Content-Type", "application/json");
             res.end(JSON.stringify(obj));
         }, handleError);
     } else
-        service.insert(req.body).then(function(obj) {
+        service.insert(req.body).then(function (obj) {
             res.sendStatus(200).end();
         }, handleError);
 });

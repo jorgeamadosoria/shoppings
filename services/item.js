@@ -4,7 +4,7 @@ var moment = require('moment');
 
 module.exports = {
 
-    insert: function(obj) {
+    insert: function (obj) {
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
         if (obj.address) {
@@ -13,7 +13,7 @@ module.exports = {
         return model.create(obj);
     },
 
-    update: function(id, obj) {
+    update: function (id, obj) {
 
         obj.good_buy = (obj.good_buy) ? true : false;
         obj.promotion = (obj.promotion) ? true : false;
@@ -32,22 +32,138 @@ module.exports = {
         }).populate("brand").populate("address").exec();
     },
 
-    delete: function(id) {
+    delete: function (id) {
         var _id = mongoose.Types.ObjectId(id);
         return model.findByIdAndRemove(_id).exec();
     },
 
 
-    list: function(query) {
+    list: function (query) {
         return model.find(this.parsed(query)).populate("brand").populate("address").exec();
     },
 
-    paginate: function(query) {
+    buildQuery: function (clientQuery) {
+
+        var _in = function (query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    query[field] = {};
+                    query[field]["$in"] = _.map(clientQuery[field].fields, (ele) => ele.key);
+                }
+            }
+        };
+
+        var _regexp = function (query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length && clientQuery[field].fields[0].value) {
+                    query[field] = {};
+                    query[field] = new RegExp(clientQuery[field].fields[0].value);
+                }
+            }
+        };
+
+        var _bool = function (query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length && clientQuery[field].fields[0].value) {
+                    query[field] = {};
+                    query[field] = clientQuery[field].fields[0].value;
+                }
+            }
+        };
+
+        var _date = function (query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    _.each(clientQuery[field].fields, (ele) => {
+                        if (ele.key === 'to' && ele.value) {
+                            query[field] = {};
+                            query[field]["$lte"] = moment(ele.value).format("YYYY-MM-DD");
+                        }
+                        if (ele.key === 'from' && ele.value) {
+                            if (!query[field])
+                                query[field] = {};
+                            query[field]["$gte"] = moment(ele.value).format("YYYY-MM-DD");
+                        }
+                    });
+                }
+            }
+        };
+
+        var _range = function (query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    _.each(clientQuery[field].fields, (ele) => {
+                        if (ele.key === 'to' && ele.value) {
+                            query[field] = {};
+                            query[field]["$lte"] = ele.value;
+                        }
+                        if (ele.key === 'from' && ele.value) {
+                            if (!query[field])
+                                query[field] = {};
+                            query[field]["$gte"] = ele.value;
+                        }
+                    });
+                }
+            }
+        };
+
+        var _weight = function (query, clientQuery, field, field2) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    _.each(clientQuery[field].fields, (ele) => {
+                        if (ele.key === 'to' && ele.value) {
+                            query[field] = {};
+                            query[field]["$lte"] = ele.value;
+                        }
+                        if (ele.key === 'from' && ele.value) {
+                            if (!query[field])
+                                query[field] = {};
+                            query[field]["$gte"] = ele.value;
+                        }
+                        if (ele.key === 'value' && ele.value) {
+                            query[field2] = {};
+                            query[field2] = ele.value;
+                        }
+                    });
+                }
+            }
+        };
 
 
+        var query = {};
 
-        console.log("query " + JSON.stringify(query));
-        return model.paginate(this.parsed(query), {
+        _date(query, clientQuery, "date");
+        _regexp(query, clientQuery, "product");
+        _regexp(query, clientQuery, "comments");
+        _in(query, clientQuery, "brand");
+        _in(query, clientQuery, "address");
+        _in(query, clientQuery, "category");
+        _in(query, clientQuery, "currency");
+        _range(query, clientQuery, "upp");
+        _range(query, clientQuery, "units_bought");
+        _range(query, clientQuery, "unit_cost");
+        _range(query, clientQuery, "item_cost");
+        _range(query, clientQuery, "item_cost");
+        _weight(query, clientQuery, "weight", "unit");
+        _bool(query, clientQuery, "promotion");
+        _bool(query, clientQuery, "good_buy");
+
+        return query;
+    },
+
+    aggregate: function(clientQuery){
+        console.log("match: " + JSON.stringify(clientQuery));
+        var query = this.buildQuery(clientQuery);
+        console.log("match: " + JSON.stringify(query));
+      //  agg = {};
+        agg["$match"] = query;
+        return model.aggregate([agg]).exec();
+    },
+
+    paginate: function (query) {
+
+     //   console.log("query " + JSON.stringify(query));
+        return model.paginate(this.buildQuery(query), {
             page: query.page, //query.page?query.page:1,
             limit: 10, //query.limit?query.limit:10,
             sort: {
@@ -57,110 +173,9 @@ module.exports = {
         });
     },
 
-    findById: function(id) {
+    findById: function (id) {
         var _id = mongoose.Types.ObjectId(id);
         return model.findById(_id).populate("brand").populate("address").exec();
-    },
-
-    parsed: function(clientQuery) {
-        console.log(clientQuery);
-        var _in = function(moongoseQ, clientQuery, field) {
-            if (clientQuery[field]) {
-                if (clientQuery[field].fields.length) {
-                    moongoseQ.where(field).in(_.map(clientQuery[field].fields, (ele) => ele.key));
-                }
-            }
-        };
-
-        var _regexp = function(moongoseQ, clientQuery, field) {
-            if (clientQuery[field]) {
-                if (clientQuery[field].fields.length && clientQuery[field].fields[0].value)
-                    moongoseQ.where(field).equals(new RegExp(clientQuery[field].fields[0].value));
-            }
-        };
-
-        var _bool = function(moongoseQ, clientQuery, field) {
-            if (clientQuery[field]) {
-                if (clientQuery[field].fields.length && clientQuery[field].fields[0].value)
-                    moongoseQ.where(field).equals(clientQuery[field].fields[0].value);
-            }
-        };
-
-        var _date = function(moongoseQ, clientQuery, field) {
-            if (clientQuery[field]) {
-                if (clientQuery[field].fields.length) {
-                    _.each(clientQuery[field].fields, (ele) => {
-                        if (ele.key === 'to' && ele.value) {
-                            moongoseQ.where(field).lte(moment(ele.value).format("YYYY-MM-DD"));
-                        }
-                        if (ele.key === 'from' && ele.value) {
-                            moongoseQ.where(field).gte(moment(ele.value).format("YYYY-MM-DD"));
-                        }
-                    });
-                }
-            }
-        };
-
-        var _range = function(moongoseQ, clientQuery, field) {
-            if (clientQuery[field]) {
-                if (clientQuery[field].fields.length) {
-                    _.each(clientQuery[field].fields, (ele) => {
-                        if (ele.key === 'to' && ele.value) {
-                            moongoseQ.where(field).lte(ele.value);
-                        }
-                        if (ele.key === 'from' && ele.value) {
-                            moongoseQ.where(field).gte(ele.value);
-                        }
-                    });
-                }
-            }
-        };
-
-        var _weight = function(moongoseQ, clientQuery, field, field2) {
-            if (clientQuery[field]) {
-                if (clientQuery[field].fields.length) {
-                    _.each(clientQuery[field].fields, (ele) => {
-                        if (ele.key === 'to' && ele.value) {
-                            moongoseQ.where(field).lte(ele.value);
-                        }
-                        if (ele.key === 'from' && ele.value) {
-                            moongoseQ.where(field).gte(ele.value);
-                        }
-                        if (ele.key === 'value' && ele.value) {
-                            moongoseQ.where(field2).equals(ele.value);
-                        }
-                    });
-                }
-            }
-        };
-
-
-        var moongoseQ = model.find({});
-        console.log("mongoose " + JSON.stringify(clientQuery));
-        _date(moongoseQ, clientQuery, "date");
-        _regexp(moongoseQ, clientQuery, "product");
-        _regexp(moongoseQ, clientQuery, "comments");
-        _in(moongoseQ, clientQuery, "brand");
-        _in(moongoseQ, clientQuery, "address");
-        _in(moongoseQ, clientQuery, "category");
-        _in(moongoseQ, clientQuery, "currency");
-        _range(moongoseQ, clientQuery, "upp");
-        _range(moongoseQ, clientQuery, "units_bought");
-        _range(moongoseQ, clientQuery, "unit_cost");
-        _range(moongoseQ, clientQuery, "item_cost");
-        _range(moongoseQ, clientQuery, "item_cost");
-        _weight(moongoseQ, clientQuery, "weight", "unit");
-        _bool(moongoseQ, clientQuery, "promotion");
-        _bool(moongoseQ, clientQuery, "good_buy");
-        /*
-                if (clientQuery.) {
-                    if (clientQuery..fields.length) {
-                        moongoseQ.where("brand").in(_.map(clientQuery..fields, (ele) => ele.key));
-                    }
-                }
-        */
-        //   console.log("after " + JSON.stringify(mongooseQ));
-        return moongoseQ;
     }
 
 };
