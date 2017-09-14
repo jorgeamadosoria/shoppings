@@ -14,7 +14,7 @@ module.exports = {
 
     types: ["Product", "Service", "Contribution", "Payment", "NA"],
 
-    units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm"],
+    units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "cm^2", "cm"],
 
     prepare: function(list, item) {
         var temp = list.slice();
