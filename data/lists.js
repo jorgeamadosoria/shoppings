@@ -8,7 +8,7 @@ module.exports = {
 
     countries: ["Uruguay", "Chile", "Argentina", "Cuba", "NA"],
 
-    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "NA"],
+    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Causes", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "NA"],
 
     reasons: ["Need", "Want", "Exploration", "Amal", "Lunch", "Dinner", "Breakfast", "Error", "NA"],
 

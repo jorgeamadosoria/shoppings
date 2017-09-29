@@ -12,6 +12,10 @@
         padding: 0px 5px 0px 5px;
     }
     
+    td#date {
+        font-size: 80%
+    }
+    
     .pagebar {
         margin: 0px 0;
     }
