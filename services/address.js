@@ -17,7 +17,7 @@ module.exports = {
 
     list: function () {
         //can't use lean because of virtuals
-        return model.find().sort({address:'asc'}).exec();
+        return model.find().sort({name:'asc'}).exec();
 
     },
 

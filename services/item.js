@@ -39,7 +39,7 @@ module.exports = {
 
 
     list: function (query) {
-        return model.find(this.parsed(query)).populate("brand").populate("address").exec();
+        return model.find(this.buildQuery(query)).populate("brand").populate("address").exec();
     },
 
     buildQuery: function (clientQuery) {
