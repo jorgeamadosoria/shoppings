@@ -8,13 +8,13 @@ module.exports = {
 
     countries: ["Uruguay", "Chile", "Argentina", "Cuba", "NA"],
 
-    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "NA"],
+    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Causes", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "NA"],
 
     reasons: ["Need", "Want", "Exploration", "Amal", "Lunch", "Dinner", "Breakfast", "Error", "NA"],
 
     types: ["Product", "Service", "Contribution", "Payment", "NA"],
 
-    units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "kg+", "-kg", "cm^2", "cm"],
+    units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "cm^2", "cm"],
 
     prepare: function(list, item) {
         var temp = list.slice();

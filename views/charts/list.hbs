@@ -1,0 +1,29 @@
+<a class="add-link" href="/monthly/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+<div class="panel panel-black">
+    <div class="panel-body">
+        <div class="col-lg-12">
+            <canvas id="categoriesChart" width="500" height="50"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    $.ajax({
+            headers: {
+                "Content-Type": "application/json"
+            },
+            url: "/categoriesChart",
+            data: JSON.stringify(query),
+            method: "POST",
+            success: function (data) {
+                $("#categoriesChart").html(data);
+                $(".pagination .page-item a.page-link").on("click", function (e) {
+                    e.preventDefault();
+                     $(".pagination .page-item").removeClass("active active-dark");
+                    $(e.target).parent().addClass("active active-dark");
+                    triggerSearch($(e.target).text());
+                });
+                initItemListCallbacks();
+            }
+        });
+</script>
