@@ -58,6 +58,7 @@ app.use('/addresses', require('./routes/addresses'));
 app.use('/items', require('./routes/items'));
 app.use('/queries', require('./routes/queries'));
 app.use('/monthly', require('./routes/monthly'));
+app.use('/charts', require('./routes/charts'));
 
 
 // catch 404 and forward to error handler

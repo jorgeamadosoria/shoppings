@@ -10,8 +10,14 @@ var handleError = function(err) {
     return null;
 };
 
+router.get('/list', function(req, res, next) {
+    res.render("charts/list");
+});
+
+
 router.get('/categoriesChart', function(req, res, next) {
-    service.categoriesChart().then(function(obj) {
+    console.log(req.query.currency);
+    service.categoriesChart(req.query.currency).then(function(obj) {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify(obj));
     }, handleError);

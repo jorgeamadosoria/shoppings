@@ -1,10 +1,11 @@
-<a class="add-link" href="/monthly/form"><i class="fa fa-4x fa-plus-circle"></i></a>
-<div class="panel panel-black">
-    <div class="panel-body">
-        <div class="col-lg-12">
-            <canvas id="categoriesChart" width="500" height="50"></canvas>
+        <div class="col-lg-4">
+            <canvas id="categoriesChart" width="50px" height="50px"></canvas>
         </div>
-    </div>
+        <div class="col-lg-4">
+            <canvas id="categoriesChart" width="50" height="50"></canvas>
+        </div>
+        <div id = "debug" class="col-lg-12">
+        </div>
 </div>
 
 <script>
@@ -12,18 +13,22 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            url: "/categoriesChart",
-            data: JSON.stringify(query),
-            method: "POST",
+            url: "categoriesChart?currency=USD",
+            method: "GET",
             success: function (data) {
-                $("#categoriesChart").html(data);
-                $(".pagination .page-item a.page-link").on("click", function (e) {
-                    e.preventDefault();
-                     $(".pagination .page-item").removeClass("active active-dark");
-                    $(e.target).parent().addClass("active active-dark");
-                    triggerSearch($(e.target).text());
+                var dataset = _.map(data, (e) => e.total);
+                var labels = _.map(data, (e) => e._id.category + "(" + e._id.currency + ")");
+             //   $("#debug").text( dataset);
+                var ctx = document.getElementById("categoriesChart");
+                var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: dataset
+                        }],
+                        labels: labels
+                    }
                 });
-                initItemListCallbacks();
             }
         });
 </script>
