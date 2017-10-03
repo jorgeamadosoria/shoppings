@@ -4,6 +4,8 @@ module.exports = {
 
     currencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP", "NA"],
 
+    effectiveCurrencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP"],
+
     status: { "Promotion": "fa fa-thumbs-up text-success", "Good buy": "fa fa-thumbs-o-up text-success", "Bad buy": "fa fa-thumbs-o-down text-danger", "Missing data": "fa fa-warning text-warning" },
 
     countries: ["Uruguay", "Chile", "Argentina", "Cuba", "NA"],
