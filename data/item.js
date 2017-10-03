@@ -116,6 +116,7 @@ ItemSchema.virtual('status')
 
 ItemSchema.virtual('totalItemCost')
     .get(function() {
+
         if (this.units_bought && this.item_cost)
             return (this.units_bought * this.item_cost).toFixed(2);
         return null;

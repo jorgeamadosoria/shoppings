@@ -1,6 +1,5 @@
 var express = require('express');
 var _ = require("underscore");
-var moment = require('moment');
 var Item = require('../data/item');
 var lists = require('../data/lists');
 var service = require('../services/item');

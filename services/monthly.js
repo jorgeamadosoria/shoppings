@@ -16,7 +16,7 @@ module.exports = {
     },
 
     list: function() {
-        return model.find().sort({ name: 'asc' }).lean().exec();
+        return model.find().sort({ name: 'asc' }).exec();
     },
 
     findById: function(id) {

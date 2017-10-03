@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Template</th>
+                    <th>Last Paid Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -20,7 +20,7 @@
                     <td id="name" class="col-lg-2">
                         {{name}}
                     </td>
-                    <td id= "template" class="col-lg-9">{{template}}</td>
+                    <td id= "template" class="col-lg-9">{{#if lastPaidDate}} {{dateFormat lastPaidDate "YYYY-MM-DD" true}} {{/if}}</td>
                     <td id="actions" class="col-lg-1">
                         <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
                         <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
@@ -32,23 +32,6 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div id="detailsModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="bg-dark modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Monthly payment details</h4>
-      </div>
-      <div class="modal-body">
-          <p id="template"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 <script>
     
     $("a#del-link").on("click", function (event) {
@@ -68,12 +51,6 @@
                 );
             }
         });
-    });
-        
-   $("#modal-row-container td:not(#actions)").on('click', function (e) {
-        $("#detailsModal .modal-title").text($(e.target).parent().find("#name").text());
-        $("#detailsModal .modal-body #template").text($(e.target).parent().find("#template").text());
-        $("#detailsModal").modal({keyboard: true});
     });
 
 </script>

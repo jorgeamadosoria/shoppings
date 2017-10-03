@@ -122,7 +122,7 @@ function itemRowUpsertCallback(data) {
 function initItemListCallbacks() {
     $("a#del-link").on("click", itemDeleteCallback);
 
-    $("a.add-link").on('click', function(e) {
+    $("a.add-link,a.pay-link").on('click', function(e) {
         e.preventDefault();
         itemUpsertCallback();
         $("#upsertModal").modal({
