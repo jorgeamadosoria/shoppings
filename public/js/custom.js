@@ -172,7 +172,7 @@ function pieChart(card, hue, cur) {
         method: "GET",
         beforeSend: function() {
             $("#" + card).html("");
-            $("#" + card).append("<span><a><i class='fa fa-cog fa-spin fa-3x fa-fw'></i></a></span>");
+            $("#" + card).append("<center><a><i class='fa fa-3x fa-circle-o faa-burst animated'></i></a></center>");
         },
         success: function(data) {
             $("#" + card).html("");
