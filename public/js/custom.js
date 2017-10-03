@@ -159,3 +159,52 @@ function initItemListCallbacks() {
         });
     });
 }
+//----------------------------------
+//charts
+//----------------------------------
+function pieChart(card, hue, cur) {
+
+    $.ajax({
+        headers: {
+            "Content-Type": "application/json"
+        },
+        url: card + "?currency=" + cur,
+        method: "GET",
+        beforeSend: function() {
+            $("#" + card).html("");
+            $("#" + card).append("<span><a><i class='fa fa-cog fa-spin fa-3x fa-fw'></i></a></span>");
+        },
+        success: function(data) {
+            $("#" + card).html("");
+            $("#" + card).append("<canvas id='chart'></canvas>");
+            var dataset = _.map(data, (e) => e.total);
+            var labels = _.map(data, (e) => e._id.value);
+            //   $("#debug").text( dataset);
+            new Chart($("#" + card + " #chart"), {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: dataset,
+                        backgroundColor: randomColor({
+                            count: dataset.length,
+                            //red, orange, yellow, green, blue, purple, pink and monochrom
+                            hue: hue,
+                            //to always return the same colors
+                            seed: card,
+                            //bright, light or dark.
+                            luminosity: 'bright'
+                        }),
+                        borderColor: '#000000'
+                    }],
+                    labels: labels
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+    });
+}
+//----------------------------------
+//----------------------------------

@@ -1,47 +1,37 @@
-        <div class="col-lg-6">
-            <canvas id="categoriesChart"></canvas>
+        <div class="col-lg-12">
+            <div class="panel panel-black">
+                <div class="panel-body">
+                    <select id="currency">
+                        {{#currencies}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/currencies}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="panel col-lg-4">
+            <div class="panel panel-black">
+                <div id="categoriesChart" class="panel-body">
+                </div>
+            </div>
         </div>
         <div class="col-lg-4">
-           
+            <div class="panel panel-black">
+                <div id="reasonsChart" class="panel-body">
+                </div>
+            </div>
         </div>
         <div id = "debug" class="col-lg-12">
         </div>
-</div>
 
 <script>
-    $.ajax({
-            headers: {
-                "Content-Type": "application/json"
-            },
-            url: "categoriesChart?currency=USD",
-            method: "GET",
-            success: function (data) {
-                var dataset = _.map(data, (e) => e.total);
-                var labels = _.map(data, (e) => e._id.category + "(" + e._id.currency + ")");
-             //   $("#debug").text( dataset);
-                var myChart = new Chart(document.getElementById("categoriesChart"), {
-                    type: 'pie',
-                    data: {
-                        datasets: [{
-                            data: dataset,
-                            backgroundColor: randomColor({
-                                count: dataset.length,
-                                //red, orange, yellow, green, blue, purple, pink and monochrom
-                                hue: 'green',
-                                //to always return the same colors
-                                seed : "categoriesChart",
-                                //bright, light or dark.
-                                luminosity: 'bright'
-                            }),
-                            borderColor: '#000000'
-                        }],
-                        labels: labels
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-        });
+
+    $("#currency").on("change",function(e){
+        var cur = $(e.target).val();
+        pieChart("categoriesChart","green",cur);
+        pieChart("reasonsChart","green",cur);
+    })
+
+    pieChart("categoriesChart","green","UYU");
+    pieChart("reasonsChart","green","UYU");
 </script>
