@@ -5,6 +5,8 @@ var lists = require('../data/lists');
 var service = require('../services/item');
 var brandService = require('../services/brand');
 var addressService = require('../services/address');
+var monthlyService = require('../services/monthly');
+
 var queryService = require('../services/query');
 
 var router = express.Router();
@@ -18,13 +20,11 @@ router.get('/list', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    var monthlyPromise = monthlyService.list().then(docs => data.monthly = docs);
     var queryPromise = queryService.list().then(docs => data.queries = docs);
 
 
-    Promise.all([brandPromise, addressPromise, queryPromise]).then(function(obj) {
-        //    console.log(_.filter(_.map(searchItem.schema.paths, k => { return { path: k.path, type: k.instance }; }), v => !v.path.startsWith("_")));
-        //    data.searchObjs = itemSchema.toSearchObject();
-
+    Promise.all([brandPromise, addressPromise, monthlyPromise,queryPromise]).then(function(obj) {
         data.searchObjs = new Item().toSearchObject();
         data.categories = lists.categories;
         data.reasons = lists.reasons;
@@ -41,13 +41,10 @@ router.post('/search', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    var monthlyPromise = monthlyService.list().then(docs => data.monthly = docs);
 
-    /*  var aggPromise = service.aggregate(req.body).then(docs => {
-          data.aggregate = docs;
-          console.log("aggPromise " + JSON.stringify(data.aggregate));
-      }, handleError);*/
     var itemListPromise = service.paginate(req.body).then(docs => data.list = docs, handleError);
-    Promise.all([brandPromise, addressPromise, itemListPromise /*, aggPromise*/ ]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, monthlyPromise, itemListPromise ]).then(function(obj) {
         data.categories = lists.categories;
         data.reasons = lists.reasons;
         data.units = lists.units;
@@ -78,12 +75,11 @@ router.delete('/:id', function(req, res, next) {
 
 router.get('/form', function(req, res, next) {
     var data = {};
-    var brandPromise = brandService.list()
-        .then(docs => data.brands = docs);
-    var addressPromise = addressService.list()
-        .then(docs => data.addresses = docs);
+    var brandPromise = brandService.list().then(docs => data.brands = docs);
+    var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    var monthlyPromise = monthlyService.list().then(docs => data.monthly = docs);
 
-    var promises = [brandPromise, addressPromise];
+    var promises = [brandPromise, addressPromise, monthlyPromise];
     if (req.query.id) {
         var findPromise = service.findById(req.query.id).then(function(obj) {
             data.obj = obj;
@@ -106,15 +102,11 @@ router.get('/form', function(req, res, next) {
 
     Promise.all(promises).then(function() {
         if (data.obj) {
-            //   console.log(data.brands);
             data.brands = lists.prepareObj(data.brands, data.obj.brand);
-            //     console.log(data.brands);
-            //     console.log(data.obj.address);
             data.addresses = lists.prepareObj(data.addresses, data.obj.address);
-
+            data.monthly = lists.prepareObj(data.monthly, data.obj.monthly);
         }
-        //  console.log(JSON.stringify(data.obj.brand));
-
+       
         res.render("items/form", data);
     });
 

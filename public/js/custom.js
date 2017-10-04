@@ -20,7 +20,10 @@ function itemDetailCallback(data) {
     $("#detailModal .modal-body #product").text(data.product);
     if (data.brand)
         $("#detailModal .modal-body #brand").text(data.brand.name);
-    $("#detailModal .modal-body #upp").text(data.upp);
+    if (data.monthly)
+        $("#detailModal .modal-body #monthly").text(data.monthly.name);
+    
+       $("#detailModal .modal-body #upp").text(data.upp);
     if (data.weight) {
         $("#detailModal .modal-body #weight").text(data.weight);
         $("#detailModal .modal-body #unit").text(data.unit);
@@ -66,6 +69,8 @@ function itemUpsertCallback(data) {
         $("#upsertModal .modal-body #reason").val($("#reason option:first").val());
     $("#upsertModal .modal-body #currency").val(data.currency);
     $('select#currency[name=selValue]').val(1);
+    if (data.monthly)
+        $("#upsertModal .modal-body #monthly").val(data.monthly._id);
 
     if (data.address)
         $("#upsertModal .modal-body #address").val(data.address._id);
@@ -99,6 +104,8 @@ function itemRowUpsertCallback(data) {
     row.find("td#product").text(data.product);
     if (data.brand)
         row.find("#brand").text(data.brand.name);
+    if (data.monthly)
+        row.find("#monthly").text(data.monthly.name);
 
     row.find("#weight").text(data.weight);
     row.find("#unit").text(data.unit);

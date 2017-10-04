@@ -137,6 +137,18 @@
                     <button class="add-button btn btn-default">Add</button>
                 </div>
             </div>
+            <div id="monthly-search" class="hide search-box">
+                <div class="col-lg-10 col-sm-10">
+                    <select id="select" class="selectpicker" multiple>
+                            {{#monthly}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                            {{/monthly}}
+                        </select>
+                </div>
+                <div class="col-lg-2 col-sm-2">
+                    <button class="add-button btn btn-default">Add</button>
+                </div>
+            </div>
             <div id="types-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" class="selectpicker" multiple>
@@ -184,7 +196,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 ">
             <p class="hide btn btn-dark criterion">
-                    <span id="text"></span>&nbsp;&nbsp;<span class="badge">&times;</span>
+                <span id="text"></span>&nbsp;&nbsp;<span class="badge">&times;</span>
             </p>
             <div class="panel panel-black criteria">
             </div>

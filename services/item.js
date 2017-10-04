@@ -22,14 +22,13 @@ module.exports = {
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
         if (obj.address) {
-            console.log("Address:" + obj.address);
             obj.address = mongoose.Types.ObjectId(obj.address);
         }
 
 
         return model.findByIdAndUpdate(obj._id, obj, {
             new: true
-        }).populate("brand").populate("address").exec();
+        }).populate("brand").populate("monthly").populate("address").exec();
     },
 
     delete: function(id) {
@@ -39,7 +38,7 @@ module.exports = {
 
 
     list: function (query) {
-        return model.find(this.buildQuery(query)).populate("brand").populate("address").exec();
+        return model.find(this.buildQuery(query)).populate("monthly").populate("brand").populate("address").exec();
     },
 
     buildQuery: function(clientQuery) {
@@ -135,6 +134,7 @@ module.exports = {
         _date(query, clientQuery, "date");
         _regexp(query, clientQuery, "product");
         _regexp(query, clientQuery, "comments");
+        _in(query, clientQuery, "monthly");
         _in(query, clientQuery, "brand");
         _in(query, clientQuery, "address");
         _in(query, clientQuery, "category");
@@ -169,13 +169,13 @@ module.exports = {
             sort: {
                 date: 'desc'
             },
-            populate: ["brand", "address"]
+            populate: ["monthly","brand", "address"]
         });
     },
 
     findById: function(id) {
         var _id = mongoose.Types.ObjectId(id);
-        return model.findById(_id).populate("brand").populate("address").exec();
+        return model.findById(_id).populate("brand").populate("monthly").populate("address").exec();
     }
 
 };

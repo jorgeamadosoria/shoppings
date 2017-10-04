@@ -22,12 +22,8 @@ var MonthlySchema = new mongoose.Schema({
 
 MonthlySchema.virtual('paid')
     .get(function() {
-        //     console.log(moment(this.lastPaidDate).month());
-        console.log(moment(this.lastPaidDate).format("YYYY-MM-DD").month());
-        /*    console.log(moment().month() == moment.month(this.lastPaidDate) && moment().year() == moment.year(this.lastPaidDate));
-            if (this.lastPaidDate)
-                return moment().month() == moment.month(this.lastPaidDate) && moment().year() == moment.year(this.lastPaidDate);
-         */
+        if (this.lastPaidDate)
+            return moment().utc().month() == moment(this.lastPaidDate).utc().month() && moment().utc().year() == moment(this.lastPaidDate).utc().year();
         return false;
     });
 
