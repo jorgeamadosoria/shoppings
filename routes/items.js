@@ -5,7 +5,6 @@ var lists = require('../data/lists');
 var service = require('../services/item');
 var brandService = require('../services/brand');
 var addressService = require('../services/address');
-var monthlyService = require('../services/monthly');
 
 var queryService = require('../services/query');
 
@@ -20,14 +19,15 @@ router.get('/list', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var monthlyPromise = monthlyService.list().then(docs => data.monthly = docs);
+    var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
     var queryPromise = queryService.list().then(docs => data.queries = docs);
 
 
-    Promise.all([brandPromise, addressPromise, monthlyPromise,queryPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, monthlyPromise, queryPromise]).then(function(obj) {
         data.searchObjs = new Item().toSearchObject();
         data.categories = lists.categories;
         data.reasons = lists.reasons;
+        data.monthly = lists.monthly;
         data.units = lists.units;
         data.types = lists.types;
         data.status = lists.status;
@@ -41,12 +41,13 @@ router.post('/search', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var monthlyPromise = monthlyService.list().then(docs => data.monthly = docs);
+    var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
 
     var itemListPromise = service.paginate(req.body).then(docs => data.list = docs, handleError);
-    Promise.all([brandPromise, addressPromise, monthlyPromise, itemListPromise ]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, monthlyPromise, itemListPromise]).then(function(obj) {
         data.categories = lists.categories;
         data.reasons = lists.reasons;
+        data.monthly = lists.monthly;
         data.units = lists.units;
         data.types = lists.types;
         data.status = lists.status;
@@ -77,7 +78,7 @@ router.get('/form', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var monthlyPromise = monthlyService.list().then(docs => data.monthly = docs);
+    var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
 
     var promises = [brandPromise, addressPromise, monthlyPromise];
     if (req.query.id) {
@@ -85,6 +86,7 @@ router.get('/form', function(req, res, next) {
             data.obj = obj;
             data.categories = lists.prepare(lists.categories, obj.category);
             data.reasons = lists.prepare(lists.reasons, obj.reason);
+            data.monthly = lists.prepare(lists.monthly, obj.monthly);
             data.units = lists.prepare(lists.units, obj.unit);
             data.types = lists.prepare(lists.types, obj.type);
             data.currencies = lists.prepare(lists.currencies, obj.currency);
@@ -94,6 +96,7 @@ router.get('/form', function(req, res, next) {
 
         data.categories = lists.categories;
         data.reasons = lists.reasons;
+        data.monthly = lists.monthly;
         data.units = lists.units;
         data.types = lists.types;
         data.currencies = lists.currencies;
@@ -106,7 +109,7 @@ router.get('/form', function(req, res, next) {
             data.addresses = lists.prepareObj(data.addresses, data.obj.address);
             data.monthly = lists.prepareObj(data.monthly, data.obj.monthly);
         }
-       
+
         res.render("items/form", data);
     });
 
@@ -122,6 +125,7 @@ router.post('/update', function(req, res, next) {
         service.insert(req.body).then(function(obj) {
             res.sendStatus(200).end();
         }, handleError);
+
 });
 
 module.exports = router;

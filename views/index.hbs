@@ -4,15 +4,11 @@
 {{> items }}
 <div class="panel panel-black">
     <div class="panel-body">
-        {{#monthly}}
-        <span id="{{_id}}" >
-                {{name}} {{paid}}
-            <td class="col-lg-2">{{#if lastPaidDate}} {{dateFormat lastPaidDate "YYYY-MM-DD" true}} {{/if}}</td>
-            <td id="actions" class="col-lg-1">
-                <a class="pay-link" data-id="{{_id}}" href=""><i class="fa fa-money">&nbsp;</i></a>
-            </td>
-        </span>
-        {{/monthly}}
+        {{#monthlyTags}}
+        <button data-id="{{_id}}" type="button" class="pay-link btn {{currentMonth lastDate 'btn-success' 'btn-danger'}}">
+            {{_id}} 
+        </button>
+        {{/monthlyTags}}
     </div>
 </div>
 <script>

@@ -178,9 +178,9 @@
                             <label for="monthly" class="control-label">Monthly</label>
                             <select class="form-control" name="monthly" id="monthly">
                             {{#monthly}}
-                                <option value="{{this._id}}">{{this.name}}</option>
+                                <option>{{this}}</option>
                             {{/monthly}}
-                            </select>
+                        </select>
                         </div>
                         <div class="col-lg-12">
                             <label for="Comments" class="control-label">Comments</label>
@@ -225,6 +225,10 @@
                     <div class="col-lg-1">
                         <label for="reason" class="control-label">Reason</label>
                         <div id="reason"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="monthly" class="control-label">Monthly</label>
+                        <div id="monthly"></div>
                     </div>
                     <div class="col-lg-1">
                         <label for="promotion" class="control-label">Prom</label>

@@ -5,6 +5,7 @@ var moment = require('moment');
 module.exports = {
 
     insert: function(obj) {
+
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
         if (obj.address) {
@@ -19,16 +20,17 @@ module.exports = {
         obj.promotion = (obj.promotion) ? true : false;
 
         obj._id = mongoose.Types.ObjectId(id);
+
+
         if (obj.brand)
             obj.brand = mongoose.Types.ObjectId(obj.brand);
         if (obj.address) {
             obj.address = mongoose.Types.ObjectId(obj.address);
         }
 
-
         return model.findByIdAndUpdate(obj._id, obj, {
             new: true
-        }).populate("brand").populate("monthly").populate("address").exec();
+        }).populate("brand").populate("address").exec();
     },
 
     delete: function(id) {
@@ -37,8 +39,8 @@ module.exports = {
     },
 
 
-    list: function (query) {
-        return model.find(this.buildQuery(query)).populate("monthly").populate("brand").populate("address").exec();
+    list: function(query) {
+        return model.find(this.buildQuery(query)).populate("brand").populate("address").exec();
     },
 
     buildQuery: function(clientQuery) {
@@ -138,6 +140,8 @@ module.exports = {
         _in(query, clientQuery, "brand");
         _in(query, clientQuery, "address");
         _in(query, clientQuery, "category");
+        _in(query, clientQuery, "reason");
+        _in(query, clientQuery, "monthly");
         _in(query, clientQuery, "currency");
         _range(query, clientQuery, "upp");
         _range(query, clientQuery, "units_bought");
@@ -151,15 +155,6 @@ module.exports = {
         return query;
     },
 
-    aggregate: function(clientQuery) {
-        console.log("match: " + JSON.stringify(clientQuery));
-        var query = this.buildQuery(clientQuery);
-        console.log("match: " + JSON.stringify(query));
-        //  agg = {};
-        agg["$match"] = query;
-        return model.aggregate([agg]).exec();
-    },
-
     paginate: function(query) {
 
         //   console.log("query " + JSON.stringify(query));
@@ -169,13 +164,19 @@ module.exports = {
             sort: {
                 date: 'desc'
             },
-            populate: ["monthly","brand", "address"]
+            populate: ["brand", "address"]
         });
     },
 
     findById: function(id) {
         var _id = mongoose.Types.ObjectId(id);
-        return model.findById(_id).populate("brand").populate("monthly").populate("address").exec();
+        return model.findById(_id).populate("brand").populate("address").exec();
+    },
+
+    monthlyList: function(id) {
+        return model.aggregate([{ $group: { _id: "$monthly", lastDate: { $max: "$date" } } }]).exec();
     }
+
+
 
 };

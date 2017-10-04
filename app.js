@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var moment = require('moment');
 
 var Handlebars = require('hbs');
 
@@ -20,6 +21,10 @@ Handlebars.registerHelper('map', function(obj, options) {
             val: obj[k]
         };
     }));
+});
+
+Handlebars.registerHelper('currentMonth', function(date, today, notToday, options) {
+    return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
 });
 
 Handlebars.registerHelper('times', function(n, block) {
@@ -57,7 +62,6 @@ app.use('/brands', require('./routes/brands'));
 app.use('/addresses', require('./routes/addresses'));
 app.use('/items', require('./routes/items'));
 app.use('/queries', require('./routes/queries'));
-app.use('/monthly', require('./routes/monthly'));
 app.use('/charts', require('./routes/charts'));
 
 

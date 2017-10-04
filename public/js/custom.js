@@ -20,10 +20,8 @@ function itemDetailCallback(data) {
     $("#detailModal .modal-body #product").text(data.product);
     if (data.brand)
         $("#detailModal .modal-body #brand").text(data.brand.name);
-    if (data.monthly)
-        $("#detailModal .modal-body #monthly").text(data.monthly.name);
-    
-       $("#detailModal .modal-body #upp").text(data.upp);
+
+    $("#detailModal .modal-body #upp").text(data.upp);
     if (data.weight) {
         $("#detailModal .modal-body #weight").text(data.weight);
         $("#detailModal .modal-body #unit").text(data.unit);
@@ -37,6 +35,7 @@ function itemDetailCallback(data) {
         $("#detailModal .modal-body #address").text(data.address.fullAddress);
     $("#detailModal .modal-body #type").text(data.type);
     $("#detailModal .modal-body #category").text(data.category);
+    $("#detailModal .modal-body #monthly").text(data.monthly);
     $("#detailModal .modal-body #promotion-true").hide();
     $("#detailModal .modal-body #promotion-false").hide();
     $("#detailModal .modal-body #promotion").removeClass("fa fa-check fa-close").addClass((data.promotion) ? "fa fa-check" : "fa fa-close");
@@ -53,6 +52,7 @@ function itemUpsertCallback(data) {
         data = {};
     $("#upsertModal .modal-body #id").val(data._id);
     $("#upsertModal .modal-body #date").val(moment(data.date).utc().format("YYYY-MM-DD"));
+
     $("#upsertModal .modal-body #product").val(data.product);
     if (data.brand)
         $("#upsertModal .modal-body #brand").val(data.brand._id);
@@ -69,8 +69,8 @@ function itemUpsertCallback(data) {
         $("#upsertModal .modal-body #reason").val($("#reason option:first").val());
     $("#upsertModal .modal-body #currency").val(data.currency);
     $('select#currency[name=selValue]').val(1);
-    if (data.monthly)
-        $("#upsertModal .modal-body #monthly").val(data.monthly._id);
+    alert(data.monthly);
+    $("#upsertModal .modal-body #monthly").val(data.monthly);
 
     if (data.address)
         $("#upsertModal .modal-body #address").val(data.address._id);
@@ -104,8 +104,8 @@ function itemRowUpsertCallback(data) {
     row.find("td#product").text(data.product);
     if (data.brand)
         row.find("#brand").text(data.brand.name);
-    if (data.monthly)
-        row.find("#monthly").text(data.monthly.name);
+    if (data.address)
+        row.find("#address").text(data.address.fullAddress);
 
     row.find("#weight").text(data.weight);
     row.find("#unit").text(data.unit);
@@ -116,8 +116,6 @@ function itemRowUpsertCallback(data) {
     row.find("#item_cost").text(data.item_cost);
     row.find("#totalItemCost").text(data.totalItemCost);
     row.find("#totalItemCost").text(data.totalItemCost);
-    if (data.address)
-        row.find("#address").text(data.address.fullAddress);
     row.find("#type").text(data.type);
     row.find("#category").text(data.category);
     row.find("#currency").text(data.currency);
@@ -129,7 +127,7 @@ function itemRowUpsertCallback(data) {
 function initItemListCallbacks() {
     $("a#del-link").on("click", itemDeleteCallback);
 
-    $("a.add-link,a.pay-link").on('click', function(e) {
+    $("a.add-link").on('click', function(e) {
         e.preventDefault();
         itemUpsertCallback();
         $("#upsertModal").modal({
@@ -137,9 +135,18 @@ function initItemListCallbacks() {
         });
     });
 
+    $("button.pay-link").on('click', function(e) {
+        e.preventDefault();
+        var monthly = $(e.target).data("id");
+        itemUpsertCallback({ product: monthly, monthly: monthly });
+        $("#upsertModal").modal({
+            keyboard: true
+        });
+    });
+
     $("a.update-link").on('click', function(e) {
         e.preventDefault();
-        var url = "/items/detail/" + $(e.target).parent().attr("data-id");
+        var url = "/items/detail/" + $(e.target).parent().data("id");
 
         $.get(
             url, null,

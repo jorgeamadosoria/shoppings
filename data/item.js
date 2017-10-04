@@ -40,8 +40,8 @@ var ItemSchema = new mongoose.Schema({
         search: "number-search"
     },
     "monthly": {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Monthly',
+        type: String,
+        ref: "",
         search: "monthly-search"
     },
     "unit_cost": {

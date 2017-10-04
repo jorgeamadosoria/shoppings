@@ -33,7 +33,7 @@ var AddressSchema = new mongoose.Schema({
 
 AddressSchema.virtual('fullAddress')
     .get(function() {
-        return this.name + ',' + this.address + ',' + this.region + ',' + this.country;
+        return [this.name, this.address, this.region, this.country].join(",");
     });
 var addressModel = mongoose.model("Address", AddressSchema);
 
