@@ -27,10 +27,15 @@ Handlebars.registerHelper('currentMonth', function(date, today, notToday, option
     return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
 });
 
-Handlebars.registerHelper('times', function(n, block) {
+Handlebars.registerHelper('times', function(n, step, active, options) {
     var accum = '';
-    for (var i = 1; i <= n; ++i)
-        accum += block.fn(i);
+    accum += options.inverse(1);
+    for (i = Math.max(2, active - step); i <= Math.min(n - 1, active - (-step)); ++i) {
+        accum += options.fn(i);
+    }
+    //to avoid duplicate page button if there is only 1 page
+    if (n > 1)
+        accum += options.inverse(n);
     return accum;
 });
 

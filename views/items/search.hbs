@@ -1,19 +1,25 @@
 
 <div class="row">
-    <div class="col-lg-offset-1 col-lg-10 col-sm-offset-1 col-sm-10 col-md-offset-1 col-md-10">
+    <div class="col-lg-11 col-sm-11 col-md-11">
         <center>
             <ul class="pagination pagebar">
-                {{#times list.pages}}
+                {{#times list.pages 10 list.page }}
                     {{#equal @root.list.page this}} 
                         <li class="page-item active active-dark"><a class="page-link" href="#">{{this}}</a></li>
                     {{else}}
                         <li class="page-item"><a class="page-link" href="#">{{this}}</a></li>
                     {{/equal}}
+                {{else}}
+                    {{#equal @root.list.page this}} 
+                        <li class="page-item active active-dark"><a class="page-link" href="#"><b>{{this}}</b></a></li>
+                    {{else}}
+                        <li class="page-item"><a class="page-link" href="#"><b>{{this}}</b></a></li>
+                    {{/equal}}
                 {{/times}}
             </ul>
         </center>
     </div>
-    <div class="col-lg-1 col-md-1 hidden-xs">
+    <div class="col-lg-1 col-md-1  col-sm-1 hidden-xs">
         <button class="count btn btn-dark"><span class="badge">{{json list.total}}</span></span>
     </div>
 </div>
