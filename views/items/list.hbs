@@ -91,7 +91,7 @@
             </div>
             <div id="reasons-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" class="selectpicker" multiple>
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
                             {{#reasons}}
                                 <option value= "{{this}}" >{{this}}</option>
                             {{/reasons}}
@@ -101,9 +101,21 @@
                     <button class="add-button btn btn-default">Add</button>
                 </div>
             </div>
+            <div id="normalized-search" class="hide search-box">
+                <div class="col-lg-10 col-sm-10">
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
+                            {{#normalized}}
+                                <option value= "{{this}}" >{{this}}</option>
+                            {{/normalized}}
+                        </select>
+                </div>
+                <div class="col-lg-2 col-sm-2">
+                    <button class="add-button btn btn-default">Add</button>
+                </div>
+            </div>
             <div id="currencies-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" multiple class="selectpicker">
+                    <select id="select" multiple data-live-search="true" class="selectpicker">
                             {{#currencies}}
                                 <option value="{{this}}">{{this}}</option>
                             {{/currencies}}
@@ -115,7 +127,7 @@
             </div>
             <div id="addresses-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" class="selectpicker" multiple>
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
                             {{#addresses}}
                                 <option value="{{this._id}}">{{this.fullAddress}}</option>
                             {{/addresses}}
@@ -127,7 +139,7 @@
             </div>
             <div id="brands-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" class="selectpicker" multiple>
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
                             {{#brands}}
                                 <option value="{{this._id}}">{{this.name}}</option>
                             {{/brands}}
@@ -139,7 +151,7 @@
             </div>
             <div id="monthly-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" class="selectpicker" multiple>
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
                             {{#monthly}}
                                 <option>{{this}}</option>
                             {{/monthly}}
@@ -151,7 +163,7 @@
             </div>
             <div id="types-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" class="selectpicker" multiple>
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
                             {{#types}}
                                 <option value= "{{this}}" >{{this}}</option>
                             {{/types}}
@@ -163,7 +175,7 @@
             </div>
             <div id="categories-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
-                    <select id="select" class="selectpicker" multiple>
+                    <select id="select" data-live-search="true" class="selectpicker" multiple>
                         {{#categories}}
                             <option value= "{{this}}" >{{this}}</option>
                         {{/categories}}
@@ -325,12 +337,14 @@
         }
 
         str = $(searchBox).find("#select").val();
+        alert(str);
         if (str) {
             $.each(str, function (idx, value) {
                 var val = {};
                 if ($(searchBox).find("#select").length) {
                     val.key = value;
-                    val.value = $(searchBox).find("#select option[value=" + value + "]").text();
+                    //quotes required to allow for whitespace on the value
+                    val.value = $(searchBox).find("#select option[value='" + value + "']").text();
                 }
                 criterion.fields.push(val);
             });

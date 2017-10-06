@@ -54,6 +54,11 @@ var ItemSchema = new mongoose.Schema({
         default: 0,
         search: "currency-search"
     },
+    "normalized": {
+        type: String,
+        default: "",
+        search: "normalized-search"
+    },
     "reason": {
         type: String,
         default: "",

@@ -11,11 +11,18 @@ var handleError = function(err) {
     return null;
 };
 
-router.get('/list', function(req, res, next) {
+router.get('/monthly', function(req, res, next) {
     data = {};
     data.currencies = lists.effectiveCurrencies;
-    res.render("charts/list", data);
+    res.render("charts/monthly", data);
 });
+
+router.get('/historical', function(req, res, next) {
+    data = {};
+    data.currencies = lists.effectiveCurrencies;
+    res.render("charts/historical", data);
+});
+
 
 
 router.get('/categoriesChart', function(req, res, next) {

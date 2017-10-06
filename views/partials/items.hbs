@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-lg-2">
                             <label for="brand" class="control-label">Brand</label>
-                            <select class="form-control" name="brand" id="brand">
+                            <select class="form-control selectpicker" data-live-search="true" name="brand" id="brand">
                             {{#brands}}
                                 <option value="{{this._id}}">{{this.name}}</option>
                             {{/brands}}
@@ -106,6 +106,14 @@
                             {{#reasons}}
                                 <option>{{this}}</option>
                             {{/reasons}}
+                        </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="normalized" class="control-label">Normalized</label>
+                            <select class="form-control" name="normalized" id="normalized">
+                            {{#normalized}}
+                                <option>{{this}}</option>
+                            {{/normalized}}
                         </select>
                         </div>
                         <div class="col-lg-2">
@@ -225,6 +233,10 @@
                     <div class="col-lg-1">
                         <label for="reason" class="control-label">Reason</label>
                         <div id="reason"></div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="normalized" class="control-label">Normalized</label>
+                        <div id="normalized"></div>
                     </div>
                     <div class="col-lg-1">
                         <label for="monthly" class="control-label">Monthly</label>

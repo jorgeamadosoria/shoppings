@@ -16,7 +16,9 @@ module.exports = {
 
     monthly: ["Netflix", "Rent", "Itaú", "Movistar", "Antel", "UTE"],
 
-    types: ["Product", "Service", "Contribution", "Payment", "NA"],
+    types: ["NA", "Product", "Service", "Contribution", "Payment"],
+
+    normalized: ["NA", "cereal crackers", "rice crackers", "beef", "shoes", "clothing"],
 
     units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "cm^2", "cm"],
 
