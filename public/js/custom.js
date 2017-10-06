@@ -68,6 +68,9 @@ function itemUpsertCallback(data) {
         $("#upsertModal .modal-body #reason").val(data.reason);
     else
         $("#upsertModal .modal-body #reason").val($("#reason option:first").val());
+
+    console.log($("#upsertModal .modal-body #reason").val());
+
     if (data.normalized)
         $("#upsertModal .modal-body #reason").val(data.normalized);
     else

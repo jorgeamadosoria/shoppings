@@ -1,0 +1,78 @@
+<a class="add-link" href="/lists/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+<div class="panel panel-black">
+    <div class="panel-body">
+        <div class="col-lg-offset-8 col-lg-4 ">
+            <div class="pull-right">
+                Count: {{list.length}}
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Values</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="modal-row-container">
+                {{#list}}
+                <tr id="{{_id}}" data-values="{{values}}" >
+                    <td id="name" class="col-lg-2">{{name}}&nbsp;
+                    </td>
+                    <td id="values" class="col-lg-9">{{values}}&nbsp;
+                    </td>
+                    <td id="actions" class="col-lg-1">
+                        <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
+                        <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+                {{/list}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="detailsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="bg-dark modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">List details</h4>
+      </div>
+      <div class="modal-body">
+          <p id="values"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    
+    $("a#del-link").on("click", function (event) {
+        event.preventDefault();
+        var id =  $(this).data("id");
+        bootbox.confirm("Are you sure you want to delete this item?", 
+        function(result){ 
+            if (result){
+                $.ajax(
+                    {
+                        url: id,
+                        method: "DELETE",
+                        success: function (data) {
+                            $("#" + id).remove();
+                        }
+                    }
+                );
+            }
+        });
+    });
+
+    $("#modal-row-container td:not(#actions)").on('click', function (e) {
+        $("#detailsModal .modal-title").text($(e.target).parent().find("#name").text());
+        $("#detailsModal .modal-body #values").text(JSON.stringify($(e.target).parent().data("values")));
+        $("#detailsModal").modal({keyboard: true});
+    });    
+
+</script>

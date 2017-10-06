@@ -3,6 +3,7 @@ var _ = require("underscore");
 var moment = require('moment');
 var lists = require('../data/lists');
 var service = require('../services/item');
+var listService = require('../services/list');
 var brandService = require('../services/brand');
 var addressService = require('../services/address');
 
@@ -19,12 +20,13 @@ router.get('/', function(req, res, next) {
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var monthlyPromise = service.monthlyList().then(docs => data.monthlyTags = lists.stripNAorNull(docs));
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
 
     var itemListPromise = service.list({ "date": { "name": "date", "fields": [{ "key": "from", "value": new moment().format("YYYY-MM-DD") }] } }).then(docs => data.list = docs);
 
-    Promise.all([brandPromise, addressPromise, monthlyPromise, itemListPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
         data.categories = lists.categories;
-        data.reasons = lists.reasons;
+        data.reasons = data.lists.reasons;
         data.units = lists.units;
         data.monthly = lists.monthly;
         data.normalized = lists.normalized;

@@ -3,6 +3,7 @@ var _ = require("underscore");
 var Item = require('../data/item');
 var lists = require('../data/lists');
 var service = require('../services/item');
+var listService = require('../services/list');
 var brandService = require('../services/brand');
 var addressService = require('../services/address');
 
@@ -19,14 +20,15 @@ router.get('/list', function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
+    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
     var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
     var queryPromise = queryService.list().then(docs => data.queries = docs);
 
 
-    Promise.all([brandPromise, addressPromise, monthlyPromise, queryPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, queryPromise]).then(function(obj) {
         data.searchObjs = new Item().toSearchObject();
         data.categories = lists.categories;
-        data.reasons = lists.reasons;
+        data.reasons = data.lists.reasons;
         data.monthly = lists.monthly;
         data.units = lists.units;
         data.normalized = lists.normalized;
@@ -43,11 +45,13 @@ router.post('/search', function(req, res, next) {
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
     var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
+    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
 
     var itemListPromise = service.paginate(req.body).then(docs => data.list = docs, handleError);
-    Promise.all([brandPromise, addressPromise, monthlyPromise, itemListPromise]).then(function(obj) {
+    Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
         data.categories = lists.categories;
-        data.reasons = lists.reasons;
+        data.reasons = data.lists.reasons;
+        console.log(data.lists.reasons);
         data.monthly = lists.monthly;
         data.units = lists.units;
         data.normalized = lists.normalized;
@@ -81,13 +85,16 @@ router.get('/form', function(req, res, next) {
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
     var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
+    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
 
-    var promises = [brandPromise, addressPromise, monthlyPromise];
+    var promises = [brandPromise, addressPromise, listPromise, monthlyPromise];
     if (req.query.id) {
         var findPromise = service.findById(req.query.id).then(function(obj) {
             data.obj = obj;
             data.categories = lists.prepare(lists.categories, obj.category);
-            data.reasons = lists.prepare(lists.reasons, obj.reason);
+            data.reasons = lists.prepare(data.lists.reasons, obj.reason);
+            console.log(obj.reason);
+            console.log(data.reasons);
             data.monthly = lists.prepare(lists.monthly, obj.monthly);
             data.units = lists.prepare(lists.units, obj.unit);
             data.normalized = lists.prepare(lists.normalized, obj.normalized);
@@ -98,7 +105,8 @@ router.get('/form', function(req, res, next) {
     } else {
 
         data.categories = lists.categories;
-        data.reasons = lists.reasons;
+        data.reasons = data.lists.reasons;
+        console.log(data.reasons);
         data.monthly = lists.monthly;
         data.units = lists.units;
         data.normalized = lists.normalized;

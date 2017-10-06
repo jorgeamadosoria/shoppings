@@ -1,7 +1,7 @@
 var express = require('express');
 var _ = require("underscore");
 var moment = require('moment');
-var service = require('../services/charts');
+var service = require('../services/reports');
 var lists = require('../data/lists');
 
 var router = express.Router();
@@ -14,13 +14,13 @@ var handleError = function(err) {
 router.get('/monthly', function(req, res, next) {
     data = {};
     data.currencies = lists.effectiveCurrencies;
-    res.render("charts/monthly", data);
+    res.render("reports/monthly", data);
 });
 
 router.get('/historical', function(req, res, next) {
     data = {};
     data.currencies = lists.effectiveCurrencies;
-    res.render("charts/historical", data);
+    res.render("reports/historical", data);
 });
 
 
