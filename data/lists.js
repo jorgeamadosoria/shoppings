@@ -2,25 +2,8 @@ var _ = require("underscore");
 
 module.exports = {
 
-    currencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP", "NA"],
 
     effectiveCurrencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP"],
-
-    status: { "Promotion": "fa fa-thumbs-up text-success", "Good buy": "fa fa-thumbs-o-up text-success", "Bad buy": "fa fa-thumbs-o-down text-danger", "Missing data": "fa fa-warning text-warning" },
-
-    countries: ["Panamá", "Uruguay", "Chile", "Argentina", "Cuba", "NA"],
-
-    categories: ["Food", "Bills", "Clothing", "Electronics", "Household", "Entertainment", "Transportation", "Health", "Housing", "Communications", "Personal", "Support", "Legal", "Causes", "Education", "Debt", "Gifts", "Charity", "Luxury", "Esthetic", "NA"],
-
-    reasons: ["Need", "Want", "Exploration", "Amal", "Lunch", "Dinner", "Breakfast", "Error", "NA"],
-
-    monthly: ["Netflix", "Rent", "Itaú", "Movistar", "Antel", "UTE"],
-
-    types: ["NA", "Product", "Service", "Contribution", "Payment"],
-
-    normalized: ["NA", "cereal crackers", "rice crackers", "beef", "shoes", "clothing"],
-
-    units: ["NA", "kg", "cc", "g", "mg", "m", "lt", "ml", "cc", "cm^2", "cm"],
 
     prepare: function(list, item) {
         var temp = list.slice();

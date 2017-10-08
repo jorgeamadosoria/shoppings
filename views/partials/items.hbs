@@ -13,7 +13,6 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Date</th>
                     <th>Product</th>
                     <th>Brand</th>
@@ -31,7 +30,6 @@
             </thead>
             <tbody id="modal-row-container">
                 <tr class="hide" >
-                    <td id="status"><i class=""></i></td>
                     <td id="date"></td>
                     <td id="product"></td>
                     <td id="brand"></td>
@@ -49,7 +47,6 @@
                 </tr>
                 {{#list}}
                 <tr id="{{_id}}" >
-                    <td id="status"><i class="{{status}}"></i></td>
                     <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
                     </td>
                     <td id="product">{{product}}</td>
@@ -103,9 +100,9 @@
                         <div class="col-lg-2">
                             <label for="reason" class="control-label">Reason</label>
                             <select class="form-control" name="reason" id="reason">
-                            {{#reasons}}
+                            {{#lists.reasons}}
                                 <option>{{this}}</option>
-                            {{/reasons}}
+                            {{/lists.reasons}}
                         </select>
                         </div>
                         <div class="col-lg-2">

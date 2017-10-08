@@ -58,7 +58,11 @@ function itemUpsertCallback(data) {
         $("#upsertModal .modal-body #brand").val(data.brand._id);
     $("#upsertModal .modal-body #upp").val(data.upp);
     $("#upsertModal .modal-body #weight").val(data.weight);
-    $("#upsertModal .modal-body #unit").val(data.unit);
+    if (data.unit)
+        $("#upsertModal .modal-body #unit").val(data.unit);
+    else
+        $("#upsertModal .modal-body #unit").val($("#unit option:first").val());
+
     $('select#unit[name=selValue]').val(1);
     $("#upsertModal .modal-body #units_bought").val(data.units_bought);
     $("#upsertModal .modal-body #unit_cost").val(data.unit_cost);

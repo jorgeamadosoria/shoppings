@@ -50,7 +50,6 @@ router.post('/search', function(req, res, next) {
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
         data.categories = lists.categories;
         data.reasons = data.lists.reasons;
-        console.log(data.lists.reasons);
         data.monthly = lists.monthly;
         data.units = lists.units;
         data.types = lists.types;
