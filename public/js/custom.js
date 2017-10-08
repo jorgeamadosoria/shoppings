@@ -34,7 +34,6 @@ function itemDetailCallback(data) {
     if (data.address)
         $("#detailModal .modal-body #address").text(data.address.fullAddress);
     $("#detailModal .modal-body #type").text(data.type);
-    $("#detailModal .modal-body #normalized").text(data.normalized);
     $("#detailModal .modal-body #category").text(data.category);
     $("#detailModal .modal-body #monthly").text(data.monthly);
     $("#detailModal .modal-body #promotion-true").hide();
@@ -71,10 +70,6 @@ function itemUpsertCallback(data) {
 
     console.log($("#upsertModal .modal-body #reason").val());
 
-    if (data.normalized)
-        $("#upsertModal .modal-body #reason").val(data.normalized);
-    else
-        $("#upsertModal .modal-body #reason").val($("#reason option:first").val());
     if (data.category)
         $("#upsertModal .modal-body #category").val(data.category);
     else

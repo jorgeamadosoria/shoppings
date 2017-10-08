@@ -31,7 +31,6 @@ router.get('/list', function(req, res, next) {
         data.reasons = data.lists.reasons;
         data.monthly = lists.monthly;
         data.units = lists.units;
-        data.normalized = lists.normalized;
         data.types = lists.types;
         data.status = lists.status;
         data.currencies = lists.currencies;
@@ -54,7 +53,6 @@ router.post('/search', function(req, res, next) {
         console.log(data.lists.reasons);
         data.monthly = lists.monthly;
         data.units = lists.units;
-        data.normalized = lists.normalized;
         data.types = lists.types;
         data.status = lists.status;
         data.currencies = lists.currencies;
@@ -97,7 +95,6 @@ router.get('/form', function(req, res, next) {
             console.log(data.reasons);
             data.monthly = lists.prepare(lists.monthly, obj.monthly);
             data.units = lists.prepare(lists.units, obj.unit);
-            data.normalized = lists.prepare(lists.normalized, obj.normalized);
             data.types = lists.prepare(lists.types, obj.type);
             data.currencies = lists.prepare(lists.currencies, obj.currency);
         }).catch(handleError);
@@ -109,7 +106,6 @@ router.get('/form', function(req, res, next) {
         console.log(data.reasons);
         data.monthly = lists.monthly;
         data.units = lists.units;
-        data.normalized = lists.normalized;
         data.types = lists.types;
         data.currencies = lists.currencies;
 

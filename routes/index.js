@@ -29,7 +29,6 @@ router.get('/', function(req, res, next) {
         data.reasons = data.lists.reasons;
         data.units = lists.units;
         data.monthly = lists.monthly;
-        data.normalized = lists.normalized;
         data.types = lists.types;
         data.status = lists.status;
         data.currencies = lists.currencies;

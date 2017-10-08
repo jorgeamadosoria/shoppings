@@ -54,11 +54,6 @@ var ItemSchema = new mongoose.Schema({
         default: 0,
         search: "currency-search"
     },
-    "normalized": {
-        type: String,
-        default: "",
-        search: "normalized-search"
-    },
     "reason": {
         type: String,
         default: "",
@@ -108,17 +103,6 @@ var ItemSchema = new mongoose.Schema({
     }
 });
 
-ItemSchema.virtual('stringStatus')
-    .get(function() {
-
-        if ((this.date && this.product && this.brand && this.units_bought && this.item_cost && this.reason && this.address && this.type &&
-                this.category && this.currency) && ((this.weight && (this.unit && this.unit != 'N/A') &&
-                this.unit_cost) || (!this.weight && (!this.unit || this.unit == 'N/A') && !this.unit_cost))) {
-            return (this.good_buy ? (this.promotion ? "Promotion" : "Good buy") : "Bad buy");
-        }
-        return "Missing data";
-    });
-
 ItemSchema.virtual('status')
     .get(function() {
         return lists.status[this.stringStatus];
@@ -126,7 +110,6 @@ ItemSchema.virtual('status')
 
 ItemSchema.virtual('totalItemCost')
     .get(function() {
-
         if (this.units_bought && this.item_cost)
             return (this.units_bought * this.item_cost).toFixed(2);
         return null;
