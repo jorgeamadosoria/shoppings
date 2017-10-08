@@ -25,15 +25,26 @@ router.get('/', function(req, res, next) {
     var itemListPromise = service.list({ "date": { "name": "date", "fields": [{ "key": "from", "value": new moment().format("YYYY-MM-DD") }] } }).then(docs => data.list = docs);
 
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
-        data.categories = lists.categories;
+        data.categories = data.lists.categories;
         data.reasons = data.lists.reasons;
-        data.units = lists.units;
-        data.monthly = lists.monthly;
-        data.types = lists.types;
-        data.status = lists.status;
-        data.currencies = lists.currencies;
-        //   console.log(data.list);
-        console.log(JSON.stringify(data.monthly));
+        data.units = data.lists.units;
+        data.monthly = data.lists.monthly;
+
+        tempMonthlyTags = [];
+        _.each(data.monthly, function(e) {
+            if (!_.find(data.monthlyTags, function(e2) {
+                    return e2._id == e;
+                })) {
+                tempMonthlyTags.push({ _id: e, lastDate: null });
+            }
+        });
+        console.log(tempMonthlyTags);
+        data.monthlyTags = data.monthlyTags.concat(tempMonthlyTags);
+        console.log(data.monthlyTags);
+
+        data.types = data.lists.types;
+        data.currencies = data.lists.currencies;
+        //  console.log(JSON.stringify(data.monthly));
         res.render("index", data);
     }, handleError);
 });

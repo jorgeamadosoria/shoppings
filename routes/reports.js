@@ -1,6 +1,7 @@
 var express = require('express');
 var _ = require("underscore");
 var moment = require('moment');
+var listService = require('../services/list');
 var service = require('../services/reports');
 var lists = require('../data/lists');
 
@@ -12,15 +13,22 @@ var handleError = function(err) {
 };
 
 router.get('/monthly', function(req, res, next) {
-    data = {};
-    data.currencies = lists.effectiveCurrencies;
-    res.render("reports/monthly", data);
+
+    listService.list().then(function(docs) {
+        data = {};
+        data.lists = listService.listsObject(docs);
+        data.currencies = lists.stripNAorNull(data.lists.currencies);
+        res.render("reports/monthly", data);
+    });
 });
 
 router.get('/historical', function(req, res, next) {
-    data = {};
-    data.currencies = lists.effectiveCurrencies;
-    res.render("reports/historical", data);
+    listService.list().then(function(docs) {
+        data = {};
+        data.lists = listService.listsObject(docs);
+        data.currencies = lists.stripNAorNull(data.lists.currencies);
+        res.render("reports/historical", data);
+    });
 });
 
 

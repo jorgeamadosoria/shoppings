@@ -27,13 +27,13 @@ router.get('/list', function(req, res, next) {
 
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, queryPromise]).then(function(obj) {
         data.searchObjs = new Item().toSearchObject();
-        data.categories = lists.categories;
+        data.categories = data.lists.categories;
         data.reasons = data.lists.reasons;
-        data.monthly = lists.monthly;
-        data.units = lists.units;
-        data.types = lists.types;
-        data.status = lists.status;
-        data.currencies = lists.currencies;
+        data.monthly = data.lists.monthly;
+        data.units = data.lists.units;
+        data.types = data.lists.types;
+        data.status = data.lists.status;
+        data.currencies = data.lists.currencies;
         res.render("items/list", data);
     }, handleError);
 });
@@ -48,13 +48,12 @@ router.post('/search', function(req, res, next) {
 
     var itemListPromise = service.paginate(req.body).then(docs => data.list = docs, handleError);
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
-        data.categories = lists.categories;
+        data.categories = data.lists.categories;
         data.reasons = data.lists.reasons;
-        data.monthly = lists.monthly;
-        data.units = lists.units;
-        data.types = lists.types;
-        data.status = lists.status;
-        data.currencies = lists.currencies;
+        data.monthly = data.lists.monthly;
+        data.units = data.lists.units;
+        data.types = data.lists.types;
+        data.currencies = data.lists.currencies;
         res.locals = data;
         res.render("items/search", {
             layout: false
@@ -88,25 +87,23 @@ router.get('/form', function(req, res, next) {
     if (req.query.id) {
         var findPromise = service.findById(req.query.id).then(function(obj) {
             data.obj = obj;
-            data.categories = lists.prepare(lists.categories, obj.category);
+            data.categories = lists.prepare(data.lists.categories, obj.category);
             data.reasons = lists.prepare(data.lists.reasons, obj.reason);
-            console.log(obj.reason);
-            console.log(data.reasons);
             data.monthly = lists.prepare(lists.monthly, obj.monthly);
-            data.units = lists.prepare(lists.units, obj.unit);
-            data.types = lists.prepare(lists.types, obj.type);
-            data.currencies = lists.prepare(lists.currencies, obj.currency);
+            data.units = lists.prepare(data.lists.units, obj.unit);
+            data.types = lists.prepare(data.lists.types, obj.type);
+            data.currencies = lists.prepare(data.lists.currencies, obj.currency);
         }).catch(handleError);
         promises.push(findPromise);
     } else {
 
-        data.categories = lists.categories;
+        data.categories = data.lists.categories;
         data.reasons = data.lists.reasons;
         console.log(data.reasons);
-        data.monthly = lists.monthly;
-        data.units = lists.units;
-        data.types = lists.types;
-        data.currencies = lists.currencies;
+        data.monthly = data.lists.monthly;
+        data.units = data.lists.units;
+        data.types = data.lists.types;
+        data.currencies = data.lists.currencies;
 
     }
 

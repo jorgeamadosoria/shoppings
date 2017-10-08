@@ -141,7 +141,6 @@ module.exports = {
         _in(query, clientQuery, "address");
         _in(query, clientQuery, "category");
         _in(query, clientQuery, "reason");
-        _in(query, clientQuery, "normalized");
         _in(query, clientQuery, "monthly");
         _in(query, clientQuery, "currency");
         _range(query, clientQuery, "upp");
@@ -171,7 +170,7 @@ module.exports = {
 
     findById: function(id) {
         var _id = mongoose.Types.ObjectId(id);
-        return model.findById(_id).populate("brand").populate("address").exec();
+        return model.findById(_id).exec();
     },
 
     monthlyList: function(id) {

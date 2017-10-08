@@ -159,6 +159,7 @@ function initItemListCallbacks() {
     });
 
     $("#modal-row-container td:not(#actions)").on('click', function(e) {
+        // alert($(e.target).parent().attr("id"));
         $.ajax({
             url: "/items/detail/" + $(e.target).parent().attr("id"),
             method: "GET",

@@ -1,15 +1,5 @@
 <div class="panel panel-black">
     <div class="panel-body">
-        <div class="col-lg-offset-8 col-lg-4 ">
-            <div class="pull-right">
-                &nbsp;|&nbsp;
-                    {{#map status}}
-                        {{#each this}}
-                            <i class="{{this.val}}"></i>&nbsp;{{this.key}}&nbsp;|&nbsp;
-                        {{/each}}
-                    {{/map}}
-            </div>
-        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -100,9 +90,9 @@
                         <div class="col-lg-2">
                             <label for="reason" class="control-label">Reason</label>
                             <select class="form-control" name="reason" id="reason">
-                            {{#lists.reasons}}
+                            {{#reasons}}
                                 <option>{{this}}</option>
-                            {{/lists.reasons}}
+                            {{/reasons}}
                         </select>
                         </div>
                         <div class="col-lg-2">

@@ -3,8 +3,6 @@ var _ = require("underscore");
 module.exports = {
 
 
-    effectiveCurrencies: ["UYU", "USD", "CUC", "CUP", "ARS", "CLP"],
-
     prepare: function(list, item) {
         var temp = list.slice();
         temp.splice(list.indexOf(item), 1);

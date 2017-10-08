@@ -103,11 +103,6 @@ var ItemSchema = new mongoose.Schema({
     }
 });
 
-ItemSchema.virtual('status')
-    .get(function() {
-        return lists.status[this.stringStatus];
-    });
-
 ItemSchema.virtual('totalItemCost')
     .get(function() {
         if (this.units_bought && this.item_cost)
