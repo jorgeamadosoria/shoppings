@@ -22,17 +22,21 @@ router.get('/monthly', function(req, res, next) {
     });
 });
 
-router.get('/historical', function(req, res, next) {
-    listService.list().then(function(docs) {
-        data = {};
-        data.lists = listService.listsObject(docs);
-        data.currencies = lists.stripNAorNull(data.lists.currencies);
-        res.render("reports/historical", data);
+router.get('/mreport', function(req, res, next) {
+    data = {};
+    data.currency = req.query.currency;
+    data.month = req.query.month;
+    var categoriesPromise = service.categoriesChart(req.query.currency).then(obj => data.categoriesChart = obj, handleError);
+    var reasonsPromise = service.reasonsChart(req.query.currency).then(obj => data.reasonsChart = obj, handleError);
+
+    Promise.all([categoriesPromise, reasonsPromise]).then(function(obj) {
+        res.locals = data;
+        res.render("reports/mreport", {
+            layout: false
+        });
     });
 });
-
-
-
+/*
 router.get('/categoriesChart', function(req, res, next) {
     service.categoriesChart(req.query.currency).then(function(obj) {
         res.setHeader("Content-Type", "application/json");
@@ -40,12 +44,11 @@ router.get('/categoriesChart', function(req, res, next) {
     }, handleError);
 });
 
-
 router.get('/reasonsChart', function(req, res, next) {
     service.reasonsChart(req.query.currency).then(function(obj) {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify(obj));
     }, handleError);
 });
-
+*/
 module.exports = router;
