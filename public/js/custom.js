@@ -181,7 +181,7 @@ function initItemListCallbacks() {
 //----------------------------------
 //charts
 //----------------------------------
-function pieChart(card, hue, cur) {
+function pieChart(card, cur) {
 
     $.ajax({
         headers: {
@@ -207,14 +207,12 @@ function pieChart(card, hue, cur) {
                         backgroundColor: randomColor({
                             count: dataset.length,
                             //red, orange, yellow, green, blue, purple, pink and monochrom
-                            hue: hue,
+                        //    hue: hue,
                             //to always return the same colors
                             seed: card,
                             //bright, light or dark.
                             luminosity: 'bright'
-                        }),
-                        borderColor: '#000000'
-                    }],
+                        })}],
                     labels: labels
                 },
                 options: {
