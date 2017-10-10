@@ -1,6 +1,7 @@
 var express = require('express');
 var _ = require("underscore");
 var moment = require('moment');
+var itemService = require('../services/item');
 var listService = require('../services/list');
 var service = require('../services/reports');
 var lists = require('../data/lists');
@@ -26,10 +27,11 @@ router.get('/mreport', function(req, res, next) {
     data = {};
     data.currency = req.query.currency;
     data.month = req.query.month;
-    var categoriesPromise = service.categoriesChart(req.query.currency).then(obj => data.categoriesChart = obj, handleError);
-    var reasonsPromise = service.reasonsChart(req.query.currency).then(obj => data.reasonsChart = obj, handleError);
-    var monthlyTotalPromise = service.monthlyTotal(req.query.currency,req.query.month).then(obj => data.monthlyTotal = obj[0].total, handleError);
-    Promise.all([categoriesPromise, reasonsPromise, monthlyTotalPromise]).then(function(obj) {
+    var categoriesPromise = service.categoriesChart(req.query.currency, req.query.month).then(obj => data.categoriesChart = obj, handleError);
+    var reasonsPromise = service.reasonsChart(req.query.currency, req.query.month).then(obj => data.reasonsChart = obj, handleError);
+    var monthlyTotalPromise = service.monthlyTotal(req.query.currency, req.query.month).then(obj => data.monthlyTotal = obj[0].total, handleError);
+    var itemsPromise = service.itemList(req.query.currency, req.query.month).then(obj => data.items = obj, handleError);
+    Promise.all([categoriesPromise, reasonsPromise, itemsPromise, monthlyTotalPromise]).then(function(obj) {
         console.log(data.monthlyTotal);
         res.locals = data;
         res.render("reports/mreport", {
