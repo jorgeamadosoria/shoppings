@@ -2,148 +2,16 @@
     <div class="col-lg-12">
         <div class="panel panel-black">
             <div class="panel-body">
-                <select id="currency">
+                <form method="GET" action="mreport">
+                <select name="currency" id="currency">
                     {{#currencies}}
                         <option value="{{this}}">{{this}}</option>
                     {{/currencies}}
                 </select>
-                <input type=month />
+                <input name="month" id= "month" type=month value="{{dateFormat date "YYYY-MM" true}}" />
+                <button type="submit" >Generate</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-1">
-        <div class="panel panel-black">
-                Month
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-black">
-                Total expenditure so far
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-black">
-                Daily Median value
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="panel panel-black">
-                Max daily expenditure
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="panel panel-black">
-            Total monthly expenditure so far
-        </div>
-    </div>
-    <div class="col-lg-1">
-        <div class="panel panel-black">
-            Currency
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="panel panel-black">
-                <div id="categoriesChart"></div>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="panel panel-black">
-                list of categories ordered desc by expenditure
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="panel panel-black">
-            <div id="reasonsChart"></div>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="panel panel-black">
-                List of reasons ordered desc by expenditure 
-        </div>
-    </div>
-    <div class="col-lg-12">
-        <div class="panel panel-black">
-            Timeline daily expenses for the current month per category
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="panel panel-black">
-               horizontal bar graph of the 10 most used addresses with expenditure
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="panel panel-black">
-               horizontal bar graph of Monthly expenditures
-        </div>  
-    </div>
-    <div class="col-lg-12">
-        <div class="panel panel-black">
-                full list of items boughts with all data
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Product</th>
-                            <th>Brand</th>
-                            <th class="hidden-sm hidden-xs">UPP</th>
-                            <th class="hidden-sm hidden-xs">Weight</th>
-                            <th class="hidden-xs">Items</th>
-                            <th class="hidden-sm hidden-xs">Unit</th>
-                            <th class="hidden-xs">Item Cost</th>
-                            <th>Total Cost</th>
-                            <th class="hidden-xs">Address</th>
-                            <th class="hidden-md hidden-sm hidden-xs">Type</th>
-                            <th class="hidden-xs">Category</th>
-                            <th class="hidden-xs">Prom</th>
-                            <th class="hidden-xs">Good</th>
-                            <th class="hidden-xs">Monthly</th>
-                        </tr>
-                    </thead>
-                    <tbody id="modal-row-container">
-                        {{#list}}
-                        <tr id="{{_id}}" >
-                            <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
-                            </td>
-                            <td id="product">{{product}}</td>
-                            <td id="brand">
-                            {{#if brand}}
-                                {{brand.name}}
-                            {{/if}}
-                            </td>
-                            <td id="brand">{{upp}}</td>
-                            <td id="weight" class="hidden-sm hidden-xs">{{weight}}</td>
-                            <td id="unit" class="hidden-sm hidden-xs">{{unit}}</td>
-                            <td id="units_bought" class="hidden-xs">{{units_bought}}</td>
-                            <td id="item_cost" class="hidden-xs">{{item_cost}}</td>
-                            <td id="totalItemCost">{{totalItemCost}}</td>
-                            <td id="address" class="hidden-xs">
-                            {{#if address}}
-                                {{address.fullAddress}}
-                            {{/if}}
-                            </td>
-                            <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
-                            <td id="category" class="hidden-xs">{{category}}</td>
-                            <td id="promotion" class="hidden-xs">{{promotion}}</td>
-                            <td id="good_buy" class="hidden-xs">{{good_buy}}</td>
-                            <td id="monthly" class="hidden-xs">{{monthly}}</td>
-                            </td>
-                        </tr>
-                        {{/list}}
-                    </tbody>
-                </table>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    $("#currency").on("change",function(e){
-        var cur = $(e.target).val();
-        pieChart("categoriesChart",cur);
-        pieChart("reasonsChart",cur);
-    })
-
-    pieChart("categoriesChart","UYU");
-    pieChart("reasonsChart","UYU");
-</script>

@@ -181,45 +181,30 @@ function initItemListCallbacks() {
 //----------------------------------
 //charts
 //----------------------------------
-function pieChart(card, cur) {
-
-    $.ajax({
-        headers: {
-            "Content-Type": "application/json"
+function pieChart(card, data, cur) {
+    var dataset = _.map(data, (e) => e.total);
+    var labels = _.map(data, (e) => e._id.value);
+    //   $("#debug").text( dataset);
+    new Chart($("#" + card), {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: dataset,
+                backgroundColor: randomColor({
+                    count: dataset.length,
+                    //red, orange, yellow, green, blue, purple, pink and monochrom
+                    //    hue: hue,
+                    //to always return the same colors
+                    seed: card,
+                    //bright, light or dark.
+                    luminosity: 'bright'
+                })
+            }],
+            labels: labels
         },
-        url: card + "?currency=" + cur,
-        method: "GET",
-        beforeSend: function() {
-            $("#" + card).html("");
-            $("#" + card).append("<center><a><i class='fa fa-3x fa-circle-o faa-burst animated'></i></a></center>");
-        },
-        success: function(data) {
-            $("#" + card).html("");
-            $("#" + card).append("<canvas id='chart'></canvas>");
-            var dataset = _.map(data, (e) => e.total);
-            var labels = _.map(data, (e) => e._id.value);
-            //   $("#debug").text( dataset);
-            new Chart($("#" + card + " #chart"), {
-                type: 'pie',
-                data: {
-                    datasets: [{
-                        data: dataset,
-                        backgroundColor: randomColor({
-                            count: dataset.length,
-                            //red, orange, yellow, green, blue, purple, pink and monochrom
-                        //    hue: hue,
-                            //to always return the same colors
-                            seed: card,
-                            //bright, light or dark.
-                            luminosity: 'bright'
-                        })}],
-                    labels: labels
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
         }
     });
 }

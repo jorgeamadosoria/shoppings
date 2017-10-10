@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Shoppings</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
+  <link rel='stylesheet' href='/css/font-awesome.min.css' />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="/css/font-awesome-animation.min.css">
+  <link rel='stylesheet' href='/css/report.css' />
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+  <script src="http://underscorejs.org/underscore-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
+  <script src="/js/custom.js"></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <h1>Monthly Report</h1>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-1">
+            <div class="panel panel-black">
+                   {{month}}
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-black">
+                    Total expenditure so far
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-black">
+                    Daily Median value
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="panel panel-black">
+                    Max daily expenditure
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="panel panel-black">
+                Total monthly expenditure so far
+            </div>
+        </div>
+        <div class="col-lg-1">
+            <div class="panel panel-black">
+                {{currency}}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-black">
+                    <div><canvas id='categoriesChart' data-currency="{{currency}}" data-dataset="{{json categoriesChart}}" ></canvas></div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="panel panel-black">
+                    {{#categoriesChart}}
+                        <p>{{_id.value}}{{total}}</p>
+                    {{/categoriesChart}}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-black">
+                <div><canvas id='reasonsChart' data-currency="{{currency}}" data-dataset="{{json reasonsChart}}"></canvas></div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="panel panel-black">
+                    {{#reasonsChart}}
+                        <p>{{_id.value}}{{total}}</p>
+                    {{/reasonsChart}}
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="panel panel-black">
+                Timeline daily expenses for the current month per category
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-black">
+                horizontal bar graph of the 10 most used addresses with expenditure
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-black">
+                horizontal bar graph of Monthly expenditures
+            </div>  
+        </div>
+        <div class="col-lg-12">
+            <div class="panel panel-black">
+                    full list of items boughts with all data
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Brand</th>
+                                <th class="hidden-sm hidden-xs">UPP</th>
+                                <th class="hidden-sm hidden-xs">Weight</th>
+                                <th class="hidden-xs">Items</th>
+                                <th class="hidden-sm hidden-xs">Unit</th>
+                                <th class="hidden-xs">Item Cost</th>
+                                <th>Total Cost</th>
+                                <th class="hidden-xs">Address</th>
+                                <th class="hidden-md hidden-sm hidden-xs">Type</th>
+                                <th class="hidden-xs">Category</th>
+                                <th class="hidden-xs">Prom</th>
+                                <th class="hidden-xs">Good</th>
+                                <th class="hidden-xs">Monthly</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-row-container">
+                            {{#list}}
+                            <tr id="{{_id}}" >
+                                <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
+                                </td>
+                                <td id="product">{{product}}</td>
+                                <td id="brand">
+                                {{#if brand}}
+                                    {{brand.name}}
+                                {{/if}}
+                                </td>
+                                <td id="brand">{{upp}}</td>
+                                <td id="weight" class="hidden-sm hidden-xs">{{weight}}</td>
+                                <td id="unit" class="hidden-sm hidden-xs">{{unit}}</td>
+                                <td id="units_bought" class="hidden-xs">{{units_bought}}</td>
+                                <td id="item_cost" class="hidden-xs">{{item_cost}}</td>
+                                <td id="totalItemCost">{{totalItemCost}}</td>
+                                <td id="address" class="hidden-xs">
+                                {{#if address}}
+                                    {{address.fullAddress}}
+                                {{/if}}
+                                </td>
+                                <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
+                                <td id="category" class="hidden-xs">{{category}}</td>
+                                <td id="promotion" class="hidden-xs">{{promotion}}</td>
+                                <td id="good_buy" class="hidden-xs">{{good_buy}}</td>
+                                <td id="monthly" class="hidden-xs">{{monthly}}</td>
+                                </td>
+                            </tr>
+                            {{/list}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</div>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/jorgeamadosoria/shoppings">Github</a></li>
+        </ul>
+    </div>
+  </nav>
+</body>
+<script type="text/javascript">
+
+            pieChart("categoriesChart",$("#categoriesChart").data("dataset"),$("#categoriesChart").data("currency"));
+            pieChart("reasonsChart",$("#reasonsChart").data("dataset"),$("#reasonsChart").data("currency"));
+</script>
+</html>
