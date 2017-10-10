@@ -28,8 +28,9 @@ router.get('/mreport', function(req, res, next) {
     data.month = req.query.month;
     var categoriesPromise = service.categoriesChart(req.query.currency).then(obj => data.categoriesChart = obj, handleError);
     var reasonsPromise = service.reasonsChart(req.query.currency).then(obj => data.reasonsChart = obj, handleError);
-
-    Promise.all([categoriesPromise, reasonsPromise]).then(function(obj) {
+    var monthlyTotalPromise = service.monthlyTotal(req.query.currency,req.query.month).then(obj => data.monthlyTotal = obj[0].total, handleError);
+    Promise.all([categoriesPromise, reasonsPromise, monthlyTotalPromise]).then(function(obj) {
+        console.log(data.monthlyTotal);
         res.locals = data;
         res.render("reports/mreport", {
             layout: false

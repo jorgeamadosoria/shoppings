@@ -10,9 +10,16 @@ module.exports = {
     },
 
     monthlyTotal: function(currency,month) {
-        var fromD =  moment(month + "-01");
-        var from = fromD.format("YYYY-MM-DD");
-        var to = fromD.add(1,"month").format("YYYY-MM-DD");
-        return model.aggregate([{ $match: {$and: [{date:{"$gte" : from}},{date:{"$lt" : to}}]} }, { $group: { _id: { currency: "$currency" }, total: { $sum: "$item_cost" } } }]).exec();
+        var fromD =  moment(month + "-01T00:00:00.000Z").utc();
+        console.log(month);
+        console.log(fromD.utc().toDate());
+        return model.aggregate([
+            { $match: {$and: [
+                {date:{"$gte" : fromD.utc().toDate()}},
+                                {date:{"$lt" : fromD.add(1,"month").utc().toDate()}}
+                             ]} }, 
+            { $group: { _id: { currency: "$currency" }, 
+            total: { $sum: "$item_cost" } } }]
+        ).exec();
     },
 };
