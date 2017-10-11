@@ -208,5 +208,37 @@ function pieChart(card, data, cur) {
         }
     });
 }
+
+function barChart(card, data, cur, max) {
+
+    var step = parseInt(Math.max(10, max / (max / 500)));
+
+    var dataset = _.map(data, (e) => e.total);
+    var labels = _.map(data, (e) => e._id.value);
+    //   $("#debug").text( dataset);
+    new Chart($("#" + card), {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: dataset,
+                backgroundColor: "green"
+            }],
+            labels: labels
+        },
+        options: {
+            legend: false,
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        stepSize: step,
+                    }
+                }]
+            }
+        }
+    });
+}
 //----------------------------------
 //----------------------------------

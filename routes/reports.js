@@ -31,10 +31,19 @@ router.get('/mreport', function(req, res, next) {
     var reasonsPromise = service.reasonsChart(req.query.currency, req.query.month).then(obj => data.reasonsChart = obj, handleError);
     var monthlyTotalPromise = service.monthlyTotal(req.query.currency, req.query.month).then(obj => data.monthlyTotal = obj[0].total, handleError);
     var dailyTotalPromise = service.dailyTotal(req.query.currency, req.query.month).then(obj => data.dailyTotal = obj, handleError);
+    var addressPromise = service.topAddresses(req.query.currency, req.query.month).then(obj => data.topAddresses = obj, handleError);
     var itemsPromise = service.itemList(req.query.currency, req.query.month).then(obj => data.items = obj, handleError);
-    Promise.all([categoriesPromise, reasonsPromise, itemsPromise, dailyTotalPromise,monthlyTotalPromise]).then(function(obj) {
-        console.log(data.dailyTotal);
-        data.dayMax = _.max(obj,e => e.total);
+    Promise.all([categoriesPromise, reasonsPromise, addressPromise, itemsPromise, dailyTotalPromise, monthlyTotalPromise]).then(function(obj) {
+        data.dailyTotal = _.sortBy(data.dailyTotal, e => moment(e._id.value).utc());
+        data.dailyTotal = _.map(data.dailyTotal, function(e) {
+            return { _id: { value: moment(e._id.value).utc().date() }, total: e.total };
+        });
+        data.topItems = _.sortBy(data.items, e => e.totalItemCost * -1)
+        data.topItems = _.filter(data.topItems, (e, i) => i < 10);
+        data.dayMax = _.max(data.dailyTotal, e => e.total).total;
+        data.monthlyMedian = lists.median(_.map(data.dailyTotal, e => moment(e.total).utc()));
+        data.monthlyAvg = _.reduce(data.dailyTotal, function(memo, num) { return memo + num.total; }, 0);
+        data.monthlyAvg /= data.dailyTotal.length;
         res.locals = data;
         res.render("reports/mreport", {
             layout: false

@@ -35,129 +35,143 @@
     </div>
   </nav>
   <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-1">
-            <div class="panel panel-black">
-                   {{month}}
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="panel">
+                    Month: {{month}}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="panel">
+                    Currency: {{currency}}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="panel">
+                        Total: {{monthlyTotal}}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="panel">
+                        Median: {{monthlyMedian}}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="panel">
+                        Average: {{monthlyAvg}}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="panel">
+                        Max day: {{dayMax}}
+                </div>
             </div>
         </div>
-        <div class="col-lg-3">
-            <div class="panel panel-black">
-                    {{monthlyTotal}}
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="panel panel-black">
-                    Daily Median value
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="panel panel-black">
-                     {{dayMax}}
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="panel panel-black">
-                Data completion
-            </div>
-        </div>
-        <div class="col-lg-1">
-            <div class="panel panel-black">
-                {{currency}}
-            </div>
-        </div>
+        <div class="row">
         <div class="col-lg-4">
-            <div class="panel panel-black">
+            <div class="panel">
                     <div><canvas id='categoriesChart' data-currency="{{currency}}" data-dataset="{{json categoriesChart}}" ></canvas></div>
             </div>
         </div>
         <div class="col-lg-2">
-            <div class="panel panel-black">
-                    {{#categoriesChart}}
-                        <p>{{_id.value}}{{total}}</p>
-                    {{/categoriesChart}}
+            <div class="panel">
+                {{#categoriesChart}}
+                    <p>{{_id.value}}{{total}}</p>
+                {{/categoriesChart}}
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="panel panel-black">
+            <div class="panel">
                 <div><canvas id='reasonsChart' data-currency="{{currency}}" data-dataset="{{json reasonsChart}}"></canvas></div>
             </div>
         </div>
         <div class="col-lg-2">
-            <div class="panel panel-black">
-                    {{#reasonsChart}}
-                        <p>{{_id.value}}{{total}}</p>
-                    {{/reasonsChart}}
+            <div class="panel">
+                {{#reasonsChart}}
+                    <p>{{_id.value}}{{total}}</p>
+                {{/reasonsChart}}
             </div>
         </div>
-        <div class="col-lg-12">
-            <div class="panel panel-black">
-                Timeline daily expenses for the current month per category
-                {{#dailyTotal}}
-                {{json this}}
-                {{/dailyTotal}}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel">
+                    Timeline daily expenses for the current month per category
+                    <div><canvas height="500px" id='timelineChart' data-max={{dayMax}} data-currency="{{currency}}" data-dataset="{{json dailyTotal}}" ></canvas></div>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="panel panel-black">
-                horizontal bar graph of the 10 most used addresses with expenditure
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel">
+                    top 10 addresses by expenditure
+                    {{#topAddresses}}
+                        <p>{{_id.value.0.name}}, {{_id.value.0.address}}, {{_id.value.0.region}}, {{_id.value.0.country}}
+                        {{total}}</p>
+                    {{/topAddresses}}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel">
+                    Top 10 most expensive items
+                    {{#topItems}}
+                        <p>{{this.totalItemCost}}</p>
+                    {{/topItems}}
+                </div>  
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="panel panel-black">
-                horizontal bar graph of Monthly expenditures
-            </div>  
-        </div>
-        <div class="col-lg-12">
-            <div class="panel panel-black">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Product</th>
-                            <th>Brand</th>
-                            <th class="hidden-sm hidden-xs">UPP</th>
-                            <th class="hidden-sm hidden-xs">Weight</th>
-                            <th class="hidden-xs">Items</th>
-                            <th class="hidden-sm hidden-xs">Unit</th>
-                            <th class="hidden-xs">Item Cost</th>
-                            <th>Total Cost</th>
-                            <th class="hidden-xs">Address</th>
-                            <th class="hidden-md hidden-sm hidden-xs">Type</th>
-                            <th class="hidden-xs">Category</th>
-                            <th class="hidden-xs">Prom</th>
-                            <th class="hidden-xs">Good</th>
-                            <th class="hidden-xs">Monthly</th>
-                        </tr>
-                    </thead>
-                    <tbody id="modal-row-container">
-                        {{#items}}
-                        <tr id="{{_id}}" >
-                            <td class="fs80">{{#if date}} {{dateFormat date "DD" true}} {{/if}}
-                            </td>
-                            <td class="fs80">{{product}}</td>
-                            <td class="fs80">
-                                {{brand.name}}
-                            </td>
-                            <td class="fs80">{{upp}}</td>
-                            <td class="fs80 hidden-sm hidden-xs">{{weight}}</td>
-                            <td class="fs80 hidden-sm hidden-xs">{{unit}}</td>
-                            <td class="fs80 hidden-xs">{{units_bought}}</td>
-                            <td class="fs80 hidden-xs">{{item_cost}}</td>
-                            <td class="fs80" >{{totalItemCost}}</td>
-                            <td class="fs80" class="hidden-xs">
-                                {{address.fullAddress}}
-                            </td>
-                            <td class="fs80 hidden-md hidden-sm hidden-xs">{{type}}</td>
-                            <td class="fs80 hidden-xs">{{category}}</td>
-                            <td class="fs80 hidden-xs">{{promotion}}</td>
-                            <td class="fs80 hidden-xs">{{good_buy}}</td>
-                            <td class="fs80 hidden-xs">{{monthly}}</td>
-                            </td>
-                        </tr>
-                        {{/items}}
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Brand</th>
+                                <th class="hidden-sm hidden-xs">UPP</th>
+                                <th class="hidden-sm hidden-xs">Weight</th>
+                                <th class="hidden-xs">Items</th>
+                                <th class="hidden-sm hidden-xs">Unit</th>
+                                <th class="hidden-xs">Item Cost</th>
+                                <th>Total Cost</th>
+                                <th class="hidden-xs">Address</th>
+                                <th class="hidden-md hidden-sm hidden-xs">Type</th>
+                                <th class="hidden-xs">Category</th>
+                                <th class="hidden-xs">Prom</th>
+                                <th class="hidden-xs">Good</th>
+                                <th class="hidden-xs">Monthly</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-row-container">
+                            {{#items}}
+                            <tr id="{{_id}}" >
+                                <td class="fs80">{{#if date}} {{dateFormat date "DD" true}} {{/if}}
+                                </td>
+                                <td class="fs80">{{product}}</td>
+                                <td class="fs80">
+                                    {{brand.name}}
+                                </td>
+                                <td class="fs80">{{upp}}</td>
+                                <td class="fs80 hidden-sm hidden-xs">{{weight}}</td>
+                                <td class="fs80 hidden-sm hidden-xs">{{unit}}</td>
+                                <td class="fs80 hidden-xs">{{units_bought}}</td>
+                                <td class="fs80 hidden-xs">{{item_cost}}</td>
+                                <td class="fs80" >{{totalItemCost}}</td>
+                                <td class="fs80" class="hidden-xs">
+                                    {{address.fullAddress}}
+                                </td>
+                                <td class="fs80 hidden-md hidden-sm hidden-xs">{{type}}</td>
+                                <td class="fs80 hidden-xs">{{category}}</td>
+                                <td class="fs80 hidden-xs">{{promotion}}</td>
+                                <td class="fs80 hidden-xs">{{good_buy}}</td>
+                                <td class="fs80 hidden-xs">{{monthly}}</td>
+                                </td>
+                            </tr>
+                            {{/items}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -174,5 +188,6 @@
 
             pieChart("categoriesChart",$("#categoriesChart").data("dataset"),$("#categoriesChart").data("currency"));
             pieChart("reasonsChart",$("#reasonsChart").data("dataset"),$("#reasonsChart").data("currency"));
+            barChart("timelineChart",$("#timelineChart").data("dataset"),$("#timelineChart").data("currency"),$("#timelineChart").data("max"));
 </script>
 </html>
