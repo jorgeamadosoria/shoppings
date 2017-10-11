@@ -30,9 +30,11 @@ router.get('/mreport', function(req, res, next) {
     var categoriesPromise = service.categoriesChart(req.query.currency, req.query.month).then(obj => data.categoriesChart = obj, handleError);
     var reasonsPromise = service.reasonsChart(req.query.currency, req.query.month).then(obj => data.reasonsChart = obj, handleError);
     var monthlyTotalPromise = service.monthlyTotal(req.query.currency, req.query.month).then(obj => data.monthlyTotal = obj[0].total, handleError);
+    var dailyTotalPromise = service.dailyTotal(req.query.currency, req.query.month).then(obj => data.dailyTotal = obj, handleError);
     var itemsPromise = service.itemList(req.query.currency, req.query.month).then(obj => data.items = obj, handleError);
-    Promise.all([categoriesPromise, reasonsPromise, itemsPromise, monthlyTotalPromise]).then(function(obj) {
-        console.log(data.monthlyTotal);
+    Promise.all([categoriesPromise, reasonsPromise, itemsPromise, dailyTotalPromise,monthlyTotalPromise]).then(function(obj) {
+        console.log(data.dailyTotal);
+        data.dayMax = _.max(obj,e => e.total);
         res.locals = data;
         res.render("reports/mreport", {
             layout: false
