@@ -193,11 +193,11 @@ function pieChart(card, data, cur) {
                 backgroundColor: randomColor({
                     count: dataset.length,
                     //red, orange, yellow, green, blue, purple, pink and monochrom
-                    //    hue: hue,
+                    hue: 'random',
                     //to always return the same colors
                     seed: card,
                     //bright, light or dark.
-                    luminosity: 'bright'
+                    luminosity: 'dark'
                 })
             }],
             labels: labels
@@ -240,5 +240,45 @@ function barChart(card, data, cur, max) {
         }
     });
 }
+
+
+function dohBarChart(card, data, cur,dataset,labels) {
+        //   $("#debug").text( dataset);
+        new Chart($("#" + card), {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{
+                    data: dataset,
+                    backgroundColor: randomColor({
+                        count: dataset.length,
+                        //red, orange, yellow, green, blue, purple, pink and monochrom
+                        hue: 'random',
+                        //to always return the same colors
+                        seed: card,
+                        //bright, light or dark.
+                        luminosity: 'dark'
+                    })
+                }],
+                labels: labels
+            },
+            options: {
+                legend: false,
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    function hBarChartAddress(card, data, cur) {
+        var dataset = _.map(data, (e) => e.total);
+        var labels = _.map(data, (e) => e._id.value[0].name);
+        dohBarChart(card, data, cur,dataset,labels);
+    }
+
+    function hBarChartItems(card, data, cur) {
+        var dataset = _.map(data, (e) => Number(e.totalItemCost));
+        var labels = _.map(data, (e) => e.product);
+        dohBarChart(card, data, cur,dataset,labels);
+    }
 //----------------------------------
 //----------------------------------

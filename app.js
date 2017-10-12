@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var moment = require('moment');
+var lists = require('./data/lists');
 
 var Handlebars = require('hbs');
 
@@ -13,6 +14,10 @@ Handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);
 });
+
+
+Handlebars.registerHelper('round', lists.round);
+
 
 Handlebars.registerHelper('map', function(obj, options) {
     return options.fn(Object.keys(obj).map((k) => {

@@ -13,6 +13,10 @@ module.exports = {
             return (values[half - 1] + values[half]) / 2.0;
     },
 
+    round : function(value,decimals) {
+        return isNaN(value)?value: (Number.isInteger(value) ?(value + ".00"):Number(Math.round(value+'e'+decimals)+'e-'+decimals));
+    },
+
     prepare: function(list, item) {
         var temp = list.slice();
         temp.splice(list.indexOf(item), 1);

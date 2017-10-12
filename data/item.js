@@ -106,7 +106,7 @@ var ItemSchema = new mongoose.Schema({
 ItemSchema.virtual('totalItemCost')
     .get(function() {
         if (this.units_bought && this.item_cost)
-            return (this.units_bought * this.item_cost).toFixed(2);
+            return lists.round(this.units_bought * this.item_cost,2);
         return null;
     });
 

@@ -127,7 +127,7 @@ module.exports = {
                 }
             }, {
                 $sort: {
-                    total: 1
+                    total: -1
                 }
             },
             { $limit: 10 },
