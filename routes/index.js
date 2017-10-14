@@ -14,8 +14,16 @@ var handleError = function(err) {
     return null;
 };
 
+router.get('/login', function(req, res) {
+    res.render('login', { layout: false });
+});
 
-router.get('/', function(req, res, next) {
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+router.get('/', lists.isLoggedIn, function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var monthlyPromise = service.monthlyList().then(docs => data.monthlyTags = lists.stripNAorNull(docs));

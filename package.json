@@ -1,22 +1,28 @@
 {
-  "name": "shoppings",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "*",
-    "cookie-parser": "*",
-    "debug": "*",
-    "express": "*",
-    "handlebars-dateformat": "^1.1.0",
-    "handlebars-intl": "*",
-    "hbs": "*",
-    "moment": "^2.18.1",
-    "mongoose": "^4.11.10",
-    "mongoose-paginate": "*",
-    "morgan": "*",
-    "serve-favicon": "*"
-  }
+    "name": "shoppings",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "dependencies": {
+        "body-parser": "*",
+        "cookie-parser": "*",
+        "debug": "*",
+        "bcrypt-nodejs": "*",
+        "connect-flash": "*",
+        "express": "*",
+        "express-session": "*",
+        "handlebars-dateformat": "^1.1.0",
+        "handlebars-intl": "*",
+        "passport": "*",
+        "underscore": "*",
+        "hbs": "*",
+        "passport-google-oauth": "*",
+        "moment": "^2.18.1",
+        "mongoose": "^4.11.10",
+        "mongoose-paginate": "*",
+        "morgan": "*",
+        "serve-favicon": "*"
+    }
 }

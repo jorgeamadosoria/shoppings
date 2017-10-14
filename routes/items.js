@@ -16,7 +16,7 @@ var handleError = function(err) {
     return null;
 };
 
-router.get('/list', function(req, res, next) {
+router.get('/list', lists.isLoggedIn, function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
@@ -38,7 +38,7 @@ router.get('/list', function(req, res, next) {
     }, handleError);
 });
 
-router.post('/search', function(req, res, next) {
+router.post('/search', lists.isLoggedIn, function(req, res, next) {
 
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
@@ -63,20 +63,20 @@ router.post('/search', function(req, res, next) {
 });
 
 
-router.get('/detail/:id', function(req, res, next) {
+router.get('/detail/:id', lists.isLoggedIn, function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify(obj));
     }, handleError);
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', lists.isLoggedIn, function(req, res, next) {
     service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
     }, handleError);
 });
 
-router.get('/form', function(req, res, next) {
+router.get('/form', lists.isLoggedIn, function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
@@ -118,7 +118,7 @@ router.get('/form', function(req, res, next) {
 
 });
 
-router.post('/update', function(req, res, next) {
+router.post('/update', lists.isLoggedIn, function(req, res, next) {
     if (req.body.id) {
         service.update(req.body.id, req.body).then(function(obj) {
             res.setHeader("Content-Type", "application/json");
