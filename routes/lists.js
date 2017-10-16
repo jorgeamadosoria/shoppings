@@ -1,5 +1,8 @@
 var express = require('express');
 var service = require('../services/list');
+var lists = require('../data/lists');
+
+
 var router = express.Router();
 
 var handleError = function(err) {
