@@ -25,13 +25,13 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-router.get('/', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
+router.get('/', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
     var monthlyPromise = service.monthlyList().then(docs => res.locals.monthlyTags = lists.stripNAorNull(docs));
     var addressPromise = addressService.list().then(docs => res.locals.addresses = docs);
     var listPromise = listService.list().then(docs => res.locals.lists = listService.listsObject(docs));
 
-    var itemListPromise = service.list({ "date": { "name": "date", "fields": [{ "key": "from", "value": new moment().format("YYYY-MM-DD") }] } }).then(docs => res.locals.list = docs);
+    var itemListPromise = service.list({ "date": { "name": "date", "fields": [{ "key": "from", "value": new moment().format("YYYY-MM-DD") }] } }).then(docs => res.locals.list = { docs: docs });
 
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
         res.locals.categories = res.locals.lists.categories;

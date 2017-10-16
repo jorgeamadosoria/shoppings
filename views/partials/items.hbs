@@ -15,7 +15,9 @@
                     <th class="hidden-md hidden-sm hidden-xs">Type</th>
                     <th class="hidden-xs">Category</th>
                     <th class="hidden-md hidden-sm hidden-xs">Currency</th>
+                    {{#in user.role 'user,admin'}}
                     <th>Actions</th>
+                    {{/in}}
                 </tr>
             </thead>
             <tbody id="modal-row-container">
@@ -32,34 +34,56 @@
                     <td id="type" class="hidden-md hidden-sm hidden-xs"></td>
                     <td id="category" class="hidden-xs"></td>
                     <td id="currency" class="hidden-md hidden-sm hidden-xs"></td>
+                    {{#in user.role 'user,admin'}}
                     <td id = "actions"><a id="del-link" data-id="" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="" href=""><i class="fa fa-pencil"></i></a>
                     </td>
+                    {{/in}}
                 </tr>
-                {{#list}}
-                <tr id="{{_id}}" >
-                    <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
-                    </td>
-                    <td id="product">{{product}}</td>
-                    <td id="brand">{{brand.name}}</td>
-                    <td id="weight" class="hidden-sm hidden-xs">{{weight}}</td>
-                    <td id="unit" class="hidden-sm hidden-xs">{{unit}}</td>
-                    <td id="units_bought" class="hidden-xs">{{units_bought}}</td>
-                    <td id="item_cost" class="hidden-xs">{{item_cost}}</td>
-                    <td id="totalItemCost">{{totalItemCost}}</td>
-                    <td id="address" class="hidden-xs">{{address.fullAddress}}</td>
-                    <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
-                    <td id="category" class="hidden-xs">{{category}}</td>
-                    <td id="currency" class="hidden-md hidden-sm hidden-xs">{{currency}}</td>
-                    <td id = "actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
-                    </td>
-                </tr>
-                {{/list}}
+                {{#in user.role 'user,admin'}}
+                    {{#list.docs}}
+                    <tr id="{{_id}}" >
+                        <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
+                        </td>
+                        <td id="product">{{product}}</td>
+                        <td id="brand">{{brand.name}}</td>
+                        <td id="weight" class="hidden-sm hidden-xs">{{weight}}</td>
+                        <td id="unit" class="hidden-sm hidden-xs">{{unit}}</td>
+                        <td id="units_bought" class="hidden-xs">{{units_bought}}</td>
+                        <td id="item_cost" class="hidden-xs">{{item_cost}}</td>
+                        <td id="totalItemCost">{{totalItemCost}}</td>
+                        <td id="address" class="hidden-xs">{{address.fullAddress}}</td>
+                        <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
+                        <td id="category" class="hidden-xs">{{category}}</td>
+                        <td id="currency" class="hidden-md hidden-sm hidden-xs">{{currency}} {{user}}</td>
+                        <td id = "actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
+                        </td>
+                    </tr>
+                    {{/list.docs}}
+                {{else}}
+                    {{#list.docs}}
+                        <tr id="{{_id}}" >
+                            <td id="date">{{#if date}} {{dateFormat date "YYYY-MM-DD" true}} {{/if}}
+                            </td>
+                            <td id="product">{{product}}</td>
+                            <td id="brand">{{brand.name}}</td>
+                            <td id="weight" class="hidden-sm hidden-xs">{{weight}}</td>
+                            <td id="unit" class="hidden-sm hidden-xs">{{unit}}</td>
+                            <td id="units_bought" class="hidden-xs">{{units_bought}}</td>
+                            <td id="item_cost" class="hidden-xs">{{item_cost}}</td>
+                            <td id="totalItemCost">{{totalItemCost}}</td>
+                            <td id="address" class="hidden-xs">{{address.fullAddress}}</td>
+                            <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
+                            <td id="category" class="hidden-xs">{{category}}</td>
+                            <td id="currency" class="hidden-md hidden-sm hidden-xs">{{currency}} {{user}}</td>
+                        </tr>
+                    {{/list.docs}}
+                {{/in}}
             </tbody>
         </table>
     </div>
 </div>
 
-
+{{#in user.role 'user,admin'}}
 <div id="upsertModal" class="modal fade" role="dialog">
     <form class="form-horizontal">
         <div class="modal-dialog modal-lg">
@@ -182,7 +206,7 @@
         </div>
     </form>
 </div>
-
+{{/in}}
 <div id="detailModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

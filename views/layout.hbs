@@ -44,7 +44,6 @@
           <li><a href="/brands/list">Brands</a></li>
           <li><a href="/addresses/list">Addresses</a></li>
           <li><a href="/queries/list">Queries</a></li>
-          <li><a href="/users/list">Users</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -52,9 +51,14 @@
             <ul class="dropdown-menu">
               <li><a href="#"><i class="fa fa-user"></i>&nbsp;{{user.google.name}}</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/lists/list"><i class="fa fa-list"></i>&nbsp;Lists</a></li>
-              <li><a href="/reports/monthly"><i class="fa fa-file"></i>&nbsp;Report</a></li>
-              <li role="separator" class="divider"></li>
+              {{#in user.role 'admin'}}
+                <li><a href="/lists/list"><i class="fa fa-list"></i>&nbsp;Lists</a></li>
+                <li><a href="/users/list">Users</a></li>
+              {{/in}}
+              {{#in user.role 'user,admin'}}
+                <li><a href="/reports/monthly"><i class="fa fa-file"></i>&nbsp;Report</a></li>
+                <li role="separator" class="divider"></li>
+              {{/in}}
               <li><a href="/logout"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
             </ul>
           </li>

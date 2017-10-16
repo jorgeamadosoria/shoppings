@@ -2,23 +2,18 @@ var _ = require("underscore");
 
 module.exports = {
 
-    loggedRole: function (roles) {
-        return function (req, res, next) {
+    loggedRole: function(roles) {
+        return function(req, res, next) {
             res.locals.user = req.user;
-            if (req.user){
-                console.log(req.user.role);
-
-                console.log(_.contains(roles,req.user.role));
-            }
-            if (req.isAuthenticated() && _.contains(roles,req.user.role))
+            if (req.user && req.isAuthenticated() && _.contains(roles, req.user.role))
                 return next();
             res.redirect('/login');
         }
     },
 
-    median: function (values) {
+    median: function(values) {
 
-        values.sort(function (a, b) {
+        values.sort(function(a, b) {
             return a - b;
         });
 
@@ -30,19 +25,19 @@ module.exports = {
             return (values[half - 1] + values[half]) / 2.0;
     },
 
-    round: function (value, decimals) {
+    round: function(value, decimals) {
         return isNaN(value) ? value : (Number.isInteger(value) ? (value + ".00") : Number(Math.round(value + 'e' + decimals) + 'e-' + decimals));
     },
 
-    prepare: function (list, item) {
+    prepare: function(list, item) {
         var temp = list.slice();
         temp.splice(list.indexOf(item), 1);
         return temp;
     },
-    prepareObj: function (list, obj) {
+    prepareObj: function(list, obj) {
         if (obj) {
             var temp = [];
-            list.forEach(function (element) {
+            list.forEach(function(element) {
                 if (!_.isEqual(element._id, obj._id))
                     temp.push(element);
             });
@@ -50,9 +45,9 @@ module.exports = {
         } else
             return list.slice();
     },
-    stripNAorNull: function (list) {
+    stripNAorNull: function(list) {
         var temp = [];
-        list.forEach(function (element) {
+        list.forEach(function(element) {
             if (!_.isEqual(element._id, "NA") && !_.isEqual(element._id, null))
                 temp.push(element);
         });

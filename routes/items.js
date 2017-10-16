@@ -16,45 +16,43 @@ var handleError = function(err) {
     return null;
 };
 
-router.get('/list', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
+router.get('/list', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     var data = {};
-    var brandPromise = brandService.list().then(docs => data.brands = docs);
-    var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
-    var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
-    var queryPromise = queryService.list().then(docs => data.queries = docs);
+    var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
+    var addressPromise = addressService.list().then(docs => res.locals.addresses = docs);
+    var listPromise = listService.list().then(docs => res.locals.lists = listService.listsObject(docs));
+    var monthlyPromise = service.monthlyList().then(docs => res.locals.monthly = docs);
+    var queryPromise = queryService.list().then(docs => res.locals.queries = docs);
 
 
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, queryPromise]).then(function(obj) {
-        data.searchObjs = new Item().toSearchObject();
-        data.categories = data.lists.categories;
-        data.reasons = data.lists.reasons;
-        data.monthly = data.lists.monthly;
-        data.units = data.lists.units;
-        data.types = data.lists.types;
-        data.status = data.lists.status;
-        data.currencies = data.lists.currencies;
-        res.render("items/list", data);
+        res.locals.searchObjs = new Item().toSearchObject();
+        res.locals.categories = res.locals.lists.categories;
+        res.locals.reasons = res.locals.lists.reasons;
+        res.locals.monthly = res.locals.lists.monthly;
+        res.locals.units = res.locals.lists.units;
+        res.locals.types = res.locals.lists.types;
+        res.locals.status = res.locals.lists.status;
+        res.locals.currencies = res.locals.lists.currencies;
+        res.render("items/list");
     }, handleError);
 });
 
-router.post('/search', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
+router.post('/search', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
 
-    var data = {};
-    var brandPromise = brandService.list().then(docs => data.brands = docs);
-    var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var monthlyPromise = service.monthlyList().then(docs => data.monthly = docs);
-    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
+    var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
+    var addressPromise = addressService.list().then(docs => res.locals.addresses = docs);
+    var monthlyPromise = service.monthlyList().then(docs => res.locals.monthly = docs);
+    var listPromise = listService.list().then(docs => res.locals.lists = listService.listsObject(docs));
 
-    var itemListPromise = service.paginate(req.body).then(docs => data.list = docs, handleError);
+    var itemListPromise = service.paginate(req.body).then(docs => res.locals.list = docs, handleError);
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
-        data.categories = data.lists.categories;
-        data.reasons = data.lists.reasons;
-        data.monthly = data.lists.monthly;
-        data.units = data.lists.units;
-        data.types = data.lists.types;
-        data.currencies = data.lists.currencies;
-        res.locals = data;
+        res.locals.categories = res.locals.lists.categories;
+        res.locals.reasons = res.locals.lists.reasons;
+        res.locals.monthly = res.locals.lists.monthly;
+        res.locals.units = res.locals.lists.units;
+        res.locals.types = res.locals.lists.types;
+        res.locals.currencies = res.locals.lists.currencies;
         res.render("items/search", {
             layout: false
         });
@@ -63,20 +61,20 @@ router.post('/search', lists.loggedRole(["reviewer","user","admin"]), function(r
 });
 
 
-router.get('/detail/:id', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
+router.get('/detail/:id', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify(obj));
     }, handleError);
 });
 
-router.delete('/:id', lists.loggedRole(["user","admin"]), function(req, res, next) {
+router.delete('/:id', lists.loggedRole(["user", "admin"]), function(req, res, next) {
     service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
     }, handleError);
 });
 
-router.get('/form', lists.loggedRole(["user","admin"]), function(req, res, next) {
+router.get('/form', lists.loggedRole(["user", "admin"]), function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => data.brands = docs);
     var addressPromise = addressService.list().then(docs => data.addresses = docs);
@@ -99,7 +97,6 @@ router.get('/form', lists.loggedRole(["user","admin"]), function(req, res, next)
 
         data.categories = data.lists.categories;
         data.reasons = data.lists.reasons;
-        console.log(data.reasons);
         data.monthly = data.lists.monthly;
         data.units = data.lists.units;
         data.types = data.lists.types;
@@ -118,7 +115,7 @@ router.get('/form', lists.loggedRole(["user","admin"]), function(req, res, next)
 
 });
 
-router.post('/update', lists.loggedRole(["user","admin"]), function(req, res, next) {
+router.post('/update', lists.loggedRole(["user", "admin"]), function(req, res, next) {
     if (req.body.id) {
         service.update(req.body.id, req.body).then(function(obj) {
             res.setHeader("Content-Type", "application/json");

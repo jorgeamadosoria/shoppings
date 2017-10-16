@@ -1,4 +1,6 @@
+{{#in user.role 'user,admin'}}
 <a class="add-link" href="/queries/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+{{/in}}
 <div class="panel panel-black">
     <div class="panel-body">
         <div class="col-lg-offset-8 col-lg-4 ">
@@ -11,22 +13,35 @@
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
+                    {{#in user.role 'user,admin'}}
                     <th>Actions</th>
+                    {{/in}}
                 </tr>
             </thead>
             <tbody id="modal-row-container">
-                {{#list}}
-                <tr id="{{_id}}" data-query="{{query}}">
-                    <td id="name" class="col-lg-2">{{name}}&nbsp;
-                    </td>
-                    <td id="description" class="col-lg-9">{{description}}&nbsp;
-                    </td>
-                    <td id="actions" class="col-lg-1">
-                        <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
-                        <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
-                    </td>
-                </tr>
-                {{/list}}
+                {{#in user.role 'user,admin'}}
+                    {{#list}}
+                    <tr id="{{_id}}" data-query="{{query}}">
+                        <td id="name" class="col-lg-2">{{name}}&nbsp;
+                        </td>
+                        <td id="description" class="col-lg-9">{{description}}&nbsp;
+                        </td>
+                        <td id="actions" class="col-lg-1">
+                            <a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;
+                            <a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
+                        </td>
+                    </tr>
+                    {{/list}}
+                {{else}}
+                    {{#list}}
+                    <tr id="{{_id}}" data-query="{{query}}">
+                        <td id="name" class="col-lg-2">{{name}}&nbsp;
+                        </td>
+                        <td id="description" class="col-lg-9">{{description}}&nbsp;
+                        </td>
+                    </tr>
+                    {{/list}}
+                {{/in}}
             </tbody>
         </table>
     </div>

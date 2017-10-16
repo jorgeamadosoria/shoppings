@@ -16,7 +16,7 @@ var Handlebars = require('hbs');
 
 Handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 
-Handlebars.registerHelper('json', function (context) {
+Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);
 });
 
@@ -24,7 +24,7 @@ Handlebars.registerHelper('json', function (context) {
 Handlebars.registerHelper('round', lists.round);
 
 
-Handlebars.registerHelper('map', function (obj, options) {
+Handlebars.registerHelper('map', function(obj, options) {
     return options.fn(Object.keys(obj).map((k) => {
         return {
             key: k,
@@ -33,11 +33,11 @@ Handlebars.registerHelper('map', function (obj, options) {
     }));
 });
 
-Handlebars.registerHelper('currentMonth', function (date, today, notToday, options) {
+Handlebars.registerHelper('currentMonth', function(date, today, notToday, options) {
     return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
 });
 
-Handlebars.registerHelper('times', function (n, step, active, options) {
+Handlebars.registerHelper('times', function(n, step, active, options) {
     var accum = '';
     accum += options.inverse(1);
     for (i = Math.max(2, active - step); i <= Math.min(n - 1, active - (-step)); ++i) {
@@ -49,7 +49,7 @@ Handlebars.registerHelper('times', function (n, step, active, options) {
     return accum;
 });
 
-Handlebars.registerHelper('equal', function (lvalue, rvalue, options) {
+Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
     if (lvalue != rvalue) {
         return options.inverse(this);
     } else {
@@ -57,8 +57,11 @@ Handlebars.registerHelper('equal', function (lvalue, rvalue, options) {
     }
 });
 
-Handlebars.registerHelper('in', function (role, roles, options) {
-    if (_.contains(roles,role)) {
+Handlebars.registerHelper('in', function(role, roles, options) {
+    console.log(role + " in " + roles);
+    console.log(_.contains(roles.split(","), role));
+    //  console.log(options.fn(this));
+    if (_.contains(roles.split(","), role)) {
         return options.fn(this);
     } else {
         return options.inverse(this);
@@ -122,14 +125,14 @@ app.use('/reports', require('./routes/reports'));
 // email gets their emails
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

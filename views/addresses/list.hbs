@@ -1,4 +1,6 @@
+{{#in user.role 'user,admin'}}
 <a class="add-link" href="/addresses/form"><i class="fa fa-4x fa-plus-circle"></i></a>
+{{/in}}
 <div class="panel panel-black">
     <div class="panel-body">
         <div class="col-lg-offset-8 col-lg-4 ">
@@ -13,20 +15,33 @@
                     <th>Address</th>
                     <th>Region</th>
                     <th>Country</th>
+                    {{#in user.role 'user,admin'}}
                     <th>Actions</th>
+                    {{/in}}
                 </tr>
             </thead>
             <tbody id="modal-row-container">
-                {{#list}}
-                <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
-                    <td class="col-lg-3">{{name}}</td>
-                    <td class="col-lg-5">{{address}}</td>
-                    <td class="col-lg-2">{{region}}</td>
-                    <td class="col-lg-1">{{country}}</td>
-                    <td class="col-lg-1"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
-                    </td>
-                </tr>
-                {{/list}}
+                {{#in user.role 'user,admin'}}
+                    {{#list}}
+                    <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
+                        <td class="col-lg-3">{{name}}</td>
+                        <td class="col-lg-5">{{address}}</td>
+                        <td class="col-lg-2">{{region}}</td>
+                        <td class="col-lg-1">{{country}}</td>
+                        <td id="actions" class="col-lg-1"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
+                        </td>
+                    </tr>
+                    {{/list}}
+                {{else}}
+                    {{#list}}
+                    <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
+                        <td class="col-lg-3">{{name}}</td>
+                        <td class="col-lg-5">{{address}}</td>
+                        <td class="col-lg-2">{{region}}</td>
+                        <td class="col-lg-1">{{country}}</td>
+                    </tr>
+                    {{/list}}
+                {{/in}}
             </tbody>
         </table>
     </div>
@@ -61,7 +76,7 @@
                         url: id,
                         method: "DELETE",
                         success: function (data) {
-                            $("#" + id).remove();
+                            $("#item-" + id).remove();
                         }
                     }
                 );
@@ -70,23 +85,11 @@
     });
 
 
-    $("#modal-row-container td").on('click', function (e) {
+    $("#modal-row-container td:not(#actions)").on('click', function (e) {
         //$("#myModal modal-body").text($(e.target).parent().attr("id"));
         $("#detailsModal .modal-title").text($(e.target).parent().data("full"));
         $("#detailsModal .modal-body #mapSrc").attr("src",$(e.target).parent().data("src"));
         $("#detailsModal").modal({keyboard: true});
-    });
-
-    $("a#del-link").on("click", function (event) {
-        $.ajax(
-            {
-                url: $(this).data("id"),
-                method: "DELETE",
-                success: function (data) {
-                    $("#item-" + $(this).data("id")).remove();
-                }
-            }
-        );
     });
 
 </script>
