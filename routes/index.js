@@ -14,6 +14,8 @@ var handleError = function(err) {
     return null;
 };
 
+
+
 router.get('/login', function(req, res) {
     res.render('login', { layout: false });
 });
@@ -23,37 +25,33 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-router.get('/', lists.isLoggedIn, function(req, res, next) {
-    var data = {};
-    var brandPromise = brandService.list().then(docs => data.brands = docs);
-    var monthlyPromise = service.monthlyList().then(docs => data.monthlyTags = lists.stripNAorNull(docs));
-    var addressPromise = addressService.list().then(docs => data.addresses = docs);
-    var listPromise = listService.list().then(docs => data.lists = listService.listsObject(docs));
+router.get('/', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
+    var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
+    var monthlyPromise = service.monthlyList().then(docs => res.locals.monthlyTags = lists.stripNAorNull(docs));
+    var addressPromise = addressService.list().then(docs => res.locals.addresses = docs);
+    var listPromise = listService.list().then(docs => res.locals.lists = listService.listsObject(docs));
 
-    var itemListPromise = service.list({ "date": { "name": "date", "fields": [{ "key": "from", "value": new moment().format("YYYY-MM-DD") }] } }).then(docs => data.list = docs);
+    var itemListPromise = service.list({ "date": { "name": "date", "fields": [{ "key": "from", "value": new moment().format("YYYY-MM-DD") }] } }).then(docs => res.locals.list = docs);
 
     Promise.all([brandPromise, addressPromise, monthlyPromise, listPromise, itemListPromise]).then(function(obj) {
-        data.categories = data.lists.categories;
-        data.reasons = data.lists.reasons;
-        data.units = data.lists.units;
-        data.monthly = data.lists.monthly;
+        res.locals.categories = res.locals.lists.categories;
+        res.locals.reasons = res.locals.lists.reasons;
+        res.locals.units = res.locals.lists.units;
+        res.locals.monthly = res.locals.lists.monthly;
 
         tempMonthlyTags = [];
-        _.each(data.monthly, function(e) {
-            if (!_.find(data.monthlyTags, function(e2) {
+        _.each(res.locals.monthly, function(e) {
+            if (!_.find(res.locals.monthlyTags, function(e2) {
                     return e2._id == e;
                 })) {
                 tempMonthlyTags.push({ _id: e, lastDate: null });
             }
         });
-        console.log(tempMonthlyTags);
-        data.monthlyTags = data.monthlyTags.concat(tempMonthlyTags);
-        console.log(data.monthlyTags);
+        res.locals.monthlyTags = res.locals.monthlyTags.concat(tempMonthlyTags);
 
-        data.types = data.lists.types;
-        data.currencies = data.lists.currencies;
-        //  console.log(JSON.stringify(data.monthly));
-        res.render("index", data);
+        res.locals.types = res.locals.lists.types;
+        res.locals.currencies = res.locals.lists.currencies;
+        res.render("index");
     }, handleError);
 });
 

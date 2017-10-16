@@ -1,5 +1,8 @@
 var express = require('express');
 var service = require('../services/brand');
+var listService = require('../services/list');
+var lists = require('../data/lists');
+
 var router = express.Router();
 
 var handleError = function(err) {
@@ -7,7 +10,7 @@ var handleError = function(err) {
     return null;
 };
 
-router.get('/list', lists.isLoggedIn, function(req, res, next) {
+router.get('/list', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
     service.list().then(function(obj) {
         res.render("brands/list", {
             "list": obj
@@ -15,20 +18,20 @@ router.get('/list', lists.isLoggedIn, function(req, res, next) {
     }, handleError());
 });
 
-router.get('/detail/:id', lists.isLoggedIn, function(req, res, next) {
+router.get('/detail/:id', lists.loggedRole(["reviewer","user","admin"]), function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
         res.render("brands/detail", obj);
     }, handleError());
 });
 
-router.delete('/:id', lists.isLoggedIn, function(req, res, next) {
+router.delete('/:id', lists.loggedRole(["user","admin"]), function(req, res, next) {
     service.delete(req.params.id).then(function(obj) {
         res.sendStatus(200).end();
     }, handleError());
 
 });
 
-router.get('/form', lists.isLoggedIn, function(req, res, next) {
+router.get('/form', lists.loggedRole(["user","admin"]), function(req, res, next) {
     if (req.query.id)
         service.findById(req.query.id).then(function(obj) {
             res.render("brands/form", obj);
@@ -37,7 +40,7 @@ router.get('/form', lists.isLoggedIn, function(req, res, next) {
         res.render("brands/form");
 });
 
-router.post('/form', lists.isLoggedIn, function(req, res, next) {
+router.post('/form', lists.loggedRole(["user","admin"]), function(req, res, next) {
 
     if (req.query.id)
         service.update(req.query.id, req.body).then(function(obj) {

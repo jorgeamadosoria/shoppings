@@ -1,0 +1,21 @@
+<form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="" method="post">
+    <div class="form-group">
+        <label for="name" class="col-xs-2 control-label">Name</label>
+        <div class="col-xs-10">
+            {{google.name}}
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <label for="role" class="control-label">Role</label>
+        <select class="form-control" name="role" id="role">
+            {{#lists.roles}}
+                <option>{{this}}</option>
+            {{/lists.roles}}
+        </select>
+    </div>
+    <div class="form-group">
+        <div class="pull-right col-xs-10">
+            <button class="pull-right btn btn-default" type="submit">Upsert</button>
+        </div>
+    </div>
+</form>

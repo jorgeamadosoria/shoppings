@@ -1,10 +1,10 @@
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // load up the user model
-var User = require('data/user');
+var User = require('../data/user');
 
 // load the auth variables
-var configAuth = require('config/oauth');
+var configAuth = require('./oauth');
 
 module.exports = function(passport) {
 
@@ -28,7 +28,7 @@ module.exports = function(passport) {
             clientID: configAuth.googleAuth.clientID,
             clientSecret: configAuth.googleAuth.clientSecret,
             callbackURL: configAuth.googleAuth.callbackURL,
-
+            realm : configAuth.googleAuth.realm
         },
         function(token, refreshToken, profile, done) {
 
@@ -42,7 +42,6 @@ module.exports = function(passport) {
                         return done(err);
 
                     if (user) {
-
                         // if a user is found, log them in
                         return done(null, user);
                     } else {
@@ -54,7 +53,6 @@ module.exports = function(passport) {
                         newUser.google.token = token;
                         newUser.google.name = profile.displayName;
                         newUser.google.email = profile.emails[0].value; // pull the first email
-
                         // save the user
                         newUser.save(function(err) {
                             if (err)

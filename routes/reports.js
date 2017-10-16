@@ -13,7 +13,8 @@ var handleError = function(err) {
     return null;
 };
 
-router.get('/monthly', lists.isLoggedIn, function(req, res, next) {
+
+router.get('/monthly', lists.loggedRole(["user","admin"]), function(req, res, next) {
 
     listService.list().then(function(docs) {
         data = {};
@@ -23,7 +24,7 @@ router.get('/monthly', lists.isLoggedIn, function(req, res, next) {
     });
 });
 
-router.get('/mreport', lists.isLoggedIn, function(req, res, next) {
+router.get('/mreport', lists.loggedRole(["user","admin"]), function(req, res, next) {
     data = {};
     data.currency = req.query.currency;
     data.month = req.query.month;

@@ -29,6 +29,10 @@ module.exports = {
         }).lean().exec();
     },
 
+    findList: function(name) {
+        return model.find({name:name}).lean().exec();
+    },
+
     listsObject: function(lists) {
         var response = {};
 
