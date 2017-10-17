@@ -1,4 +1,5 @@
 mongoose = require('./connect');
+var mongoose_csv = require('mongoose-csv');
 
 var AddressSchema = new mongoose.Schema({
     "name": {
@@ -30,11 +31,15 @@ var AddressSchema = new mongoose.Schema({
     }
 });
 
+function fullAddress() {
+    return [this.name, this.address, this.region, this.country].join(",");
+}
 
+AddressSchema.virtual('toCSVString')
+    .get(fullAddress);
+
+AddressSchema.plugin(mongoose_csv);
 AddressSchema.virtual('fullAddress')
-    .get(function() {
-        return [this.name, this.address, this.region, this.country].join(",");
-    });
-var addressModel = mongoose.model("Address", AddressSchema);
+    .get(fullAddress);
 
-module.exports = addressModel;
+module.exports = mongoose.model("Address", AddressSchema);

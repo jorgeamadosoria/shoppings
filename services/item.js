@@ -38,11 +38,12 @@ module.exports = {
         return model.findByIdAndRemove(_id).exec();
     },
 
-
     list: function(query) {
         return model.find(this.buildQuery(query)).populate("brand").populate("address").exec();
     },
-
+    csv: function(res) {
+        return model.find().populate("brand").populate("address").csv(res);
+    },
     buildQuery: function(clientQuery) {
 
         var _in = function(query, clientQuery, field) {

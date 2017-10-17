@@ -1,6 +1,7 @@
 mongoose = require('./connect');
+var mongoose_csv = require('mongoose-csv');
 
-var brandModel = mongoose.model("Brand", new mongoose.Schema({
+var brandSchema = new mongoose.Schema({
     "logo": {
         type: String,
         default: ""
@@ -17,6 +18,13 @@ var brandModel = mongoose.model("Brand", new mongoose.Schema({
         type: String,
         default: ""
     }
-}));
+});
 
-module.exports = brandModel;
+brandSchema.virtual('toCSVString')
+    .get(function() {
+        return this.name;
+    });
+
+brandSchema.plugin(mongoose_csv);
+
+module.exports = mongoose.model("Brand", brandSchema);

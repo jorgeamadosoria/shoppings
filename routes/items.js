@@ -17,10 +17,11 @@ var handleError = function(err) {
 };
 
 router.get('/csv', lists.loggedRole(["admin"]), function(req, res, next) {
-    service.list({}).then(function(obj) {
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify(obj));
-    }, handleError);
+    res.writeHead(200, {
+        'Content-Type': 'text/csv',
+        //     'Content-Disposition': 'attachment; filename=sample.csv'
+    });
+    service.csv(res);
 });
 
 router.get('/list', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {

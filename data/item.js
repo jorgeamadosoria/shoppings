@@ -2,7 +2,7 @@ mongoose = require('./connect');
 lists = require('./lists');
 var _ = require("underscore");
 var paginate = require('mongoose-paginate');
-
+var mongoose_csv = require('mongoose-csv');
 
 var ItemSchema = new mongoose.Schema({
     "date": {
@@ -103,10 +103,11 @@ var ItemSchema = new mongoose.Schema({
     }
 });
 
+
 ItemSchema.virtual('totalItemCost')
     .get(function() {
         if (this.units_bought && this.item_cost)
-            return lists.round(this.units_bought * this.item_cost,2);
+            return lists.round(this.units_bought * this.item_cost, 2);
         return null;
     });
 
@@ -117,5 +118,6 @@ ItemSchema.methods.toSearchObject = function() {
 };
 
 ItemSchema.plugin(paginate);
+ItemSchema.plugin(mongoose_csv);
 
 module.exports = mongoose.model("Item", ItemSchema);
