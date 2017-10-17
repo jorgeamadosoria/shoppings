@@ -19,6 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
   <script src="/js/custom.js"></script>
 </head>
 
@@ -28,6 +29,7 @@
       <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
                 <h1><i class="fa fa-shopping-cart"></i>&nbsp;Monthly Expenditure Report</h1>
+        <a id="download" href="#"><i class="fa fa-file-pdf fa-4x"></i>Download</a>
         </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -39,7 +41,7 @@
             <div class="col-lg-2">
                 <div class="panel panel-black">
                     <div class="panel-heading bg-dark"><i class="fa fa-calendar"></i>&nbsp;Month</div>
-                    <div class="panel-body">
+                    <div id="monthPanel" class="panel-body">
                         {{month}}
                     </div>
                 </div>
@@ -98,63 +100,63 @@
                                 <tbody>
                                         <tr>
                                             <td>
-                                                <h1>{{categoriesChart10.0._id.value}}</h1>
+                                                <h1 id = "categories1v">{{categoriesChart10.0._id.value}}</h1>
                                             </td>
-                                            <td><h1>{{round categoriesChart10.0.total 2}}</h1></td>
+                                            <td><h1 id = "categories1t">{{round categoriesChart10.0.total 2}}</h1></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <h2>{{categoriesChart10.1._id.value}}</h2>
+                                                <h2 id = "categories2v">{{categoriesChart10.1._id.value}}</h2>
                                             </td>
-                                            <td><h2>{{round categoriesChart10.1.total 2}}</h2>
+                                            <td><h2 id = "categories2t">{{round categoriesChart10.1.total 2}}</h2></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <h3>{{categoriesChart10.2._id.value}}</h3>
+                                                <h3 id = "categories3v">{{categoriesChart10.2._id.value}}</h3>
                                             </td>
-                                            <td><h3>{{round categoriesChart10.2.total 2}}</h3>
+                                            <td><h3 id = "categories3t">{{round categoriesChart10.2.total 2}}</h3></td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories4v">
                                                 {{categoriesChart10.3._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.3.total 2}}
+                                            <td id = "categories4t">{{round categoriesChart10.3.total 2}}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories5v">
                                                 {{categoriesChart10.4._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.4.total 2}}
+                                            <td id = "categories5t">{{round categoriesChart10.4.total 2}}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories6v">
                                                 {{categoriesChart10.5._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.5.total 2}}
+                                            <td id = "categories6t">{{round categoriesChart10.5.total 2}}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories7v">
                                                 {{categoriesChart10.6._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.6.total 2}}
+                                            <td id = "categories7t">{{round categoriesChart10.6.total 2}}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories8v">
                                                 {{categoriesChart10.7._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.7.total 2}}
+                                            <td id = "categories8t">{{round categoriesChart10.7.total 2}}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories9v">
                                                 {{categoriesChart10.8._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.8.total 2}}
+                                            <td id = "categories9t">{{round categoriesChart10.8.total 2}}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td id = "categories10v">
                                                 {{categoriesChart10.9._id.value}}
                                             </td>
-                                            <td>{{round categoriesChart10.9.total 2}}
+                                            <td id = "categories10t">{{round categoriesChart10.9.total 2}}</td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -174,63 +176,63 @@
                                 <tbody>
                                     <tr>
                                         <td >
-                                            <h1>{{reasonsChart10.0._id.value}}</h1>
+                                            <h1 id = "reasons1v">{{reasonsChart10.0._id.value}}</h1>
                                         </td>
-                                        <td><h1>{{round reasonsChart10.0.total 2}}</h1></td>
+                                        <td><h1 id = "reasons1t">{{round reasonsChart10.0.total 2}}</h1></td>
                                     </tr>
                                     <tr>
                                         <td >
-                                            <h2>{{reasonsChart10.1._id.value}}</h2>
+                                            <h2 id = "reasons2v">{{reasonsChart10.1._id.value}}</h2>
                                         </td>
-                                        <td><h2>{{round reasonsChart10.1.total 2}}</h2></td>
+                                        <td><h2 id = "reasons2t">{{round reasonsChart10.1.total 2}}</h2></td>
                                     </tr>
                                     <tr>
                                         <td >
-                                            <h3>{{reasonsChart10.2._id.value}}</h3>
+                                            <h3 id = "reasons3v">{{reasonsChart10.2._id.value}}</h3>
                                         </td>
-                                        <td><h3>{{round reasonsChart10.2.total 2}}</h3></td>
+                                        <td><h3 id = "reasons3st">{{round reasonsChart10.2.total 2}}</h3></td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons4v">
                                             {{reasonsChart10.3._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.3.total 2}}</td>
+                                        <td id = "reasons4t">{{round reasonsChart10.3.total 2}}</td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons5v">
                                             {{reasonsChart10.4._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.4.total 2}}</td>
+                                        <td id = "reasons5t">{{round reasonsChart10.4.total 2}}</td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons6v">
                                             {{reasonsChart10.5._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.5.total 2}}</td>
+                                        <td id = "reasons6t">{{round reasonsChart10.5.total 2}}</td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons7t">
                                             {{reasonsChart10.6._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.6.total 2}}</td>
+                                        <td id = "reasons7v">{{round reasonsChart10.6.total 2}}</td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons8v">
                                             {{reasonsChart10.7._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.7.total 2}}</td>
+                                        <td id = "reasons8t">{{round reasonsChart10.7.total 2}}</td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons9v">
                                             {{reasonsChart10.8._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.8.total 2}}</td>
+                                        <td id = "reasons9t">{{round reasonsChart10.8.total 2}}</td>
                                     </tr>
                                     <tr>
-                                        <td >
+                                        <td id = "reasons10v">
                                             {{reasonsChart10.9._id.value}}
                                         </td>
-                                        <td>{{round reasonsChart10.9.total 2}}</td>
+                                        <td id = "reasons10t">{{round reasonsChart10.9.total 2}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -370,5 +372,71 @@
     barChart("timelineChart",$("#timelineChart").data("dataset"),$("#timelineChart").data("currency"),$("#timelineChart").data("max"));
     hBarChartAddress("addressesChart",$("#addressesChart").data("dataset"),$("#addressesChart").data("currency"));
     hBarChartItems("itemsChart",$("#itemsChart").data("dataset"),$("#itemsChart").data("currency"));
+
+
+var shoppingCart = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAABp1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABk7Y+rAAAAjHRSTlMAAQIDBAUGBwgJCgsMDhAREhMUFRcaHB0eHyAiIyQmKSorLS4vMDQ1Njc4OTs8PT4/QEFDRUZHSUpLTE1OT1BRUlRWV1hZW11eX2JjZGZnaGlsbW9xc3V3eXx+f4WGiIuMjo+RkpSVl5ibnqCmq62vsLK0tbm6vL7DxcjO0dPX2dre5unr7e/z9fn7/aM7NoQAAAKTSURBVGje7dj7W0xBGAfw2UvWOrUpEiklcll3SiEpG9a13LIkW6yNsksJK1tRRJo/2g+mdeY5s807e97zPjz2+/PMfJ4z1zPDWDnl/Otpig/KudyATfhecmeSyMhFrkobLjKvRN7jIstKhG9ARcbUCO7YW+pPOYPbX9aoihnxdNV84riZ61UgDzh2xp1IFB3hTQ6kGh+JO7eZn+jIoLO/XlMgVymQZgokTIGwJQrkOQVylgLZRoEEKBCWp0ASFMghCqSaAsHeiJUIm6JArlEgLRRImAJh3yiQNAXSTYHUUyBBCoTNUSAPKZDDFMhmCsS3SoCwtxTIDUQkXgzZjYi0FkM24Rk540cE86SDxZEXbhv/kUsNtLdsCax31e4ptfHPrxJ9++srA5D7/HbDtpffJa+f3FVj9iYD3IhX8xP3u9vqLH9pTxPz6za+OPX4ypHGSIXL949hVdsrs+O3O1u3hn1IjyxH7Y1/yTyKRXdUBRlyakT72ebakI95lLWNOMu8zIwYBk+RW6K/Kr1ETgmkwUskT/Alx4TxwUPDvyiQvR4i59fWYdeJknLQAqySr65Pq5gWOYBwJu7RIRkEZEaHYJzu33UIxoVOO/njCEhUO7vcv9/dBSyUus5RzjnnkxfM8vtdebijFrQcL4knliGTI8ufFH9dp0HF/1yzp+G/IsHZQq0EoPiArXdTYCRrq3VOW7pKGsNGoCHtEyshXfE7EjIJRHJSrT5d8QX5PxE29hXyHJ423FY2gpCIXGnpr0BIukse+ImSBr7XbArvBCL7pCmsv6vctBV/Cl6M9rOuC1D+WaH0G4Nt5WOh1hCoQkxskPeMNsgRcSq2AyuEOsayqR6LmSXSn848Oe72ClZOOf9dfgER83h8FqHwqgAAAABJRU5ErkJggg==";
+
+
+        $('#download').click(function (e) {
+                var doc = new jsPDF('p','mm','A2');
+                
+                //each column has 20 width
+                // width 504mm
+                var colW = 35;
+                var margin = 2;
+                var sep = 4;
+                //header
+                doc.addImage(shoppingCart, 'PNG', margin, 5);
+                doc.setFontSize(40);
+                doc.text("Monthly Expenditure Report",margin + colW,25);	
+                
+                //summary
+                //x,y,w,h
+                doc.roundedRect( margin + colW*0, 40,colW*2-sep, 20,2,2);	
+                doc.roundedRect( margin + colW*2, 40,colW*2-sep, 20,2,2);	
+                doc.roundedRect( margin + colW*4, 40,colW*2-sep, 20,2,2);	
+                doc.roundedRect( margin + colW*6, 40,colW*2-sep, 20,2,2);	
+                doc.roundedRect( margin + colW*8, 40,colW*2-sep, 20,2,2);	
+                doc.roundedRect( margin + colW*10,40,colW*2-sep, 20,2,2);	
+
+                //pie charts and top 10 tables
+                doc.roundedRect( margin,65, colW*6-sep,colW*12,2,2);	
+                doc.addImage(($("#categoriesChart")[0]).toDataURL('image/png'), 'PNG', margin, 65,colW*6-sep,colW*3);
+                doc.setFontSize(40);
+                doc.text($("#categories1v").text(),margin + colW  ,65+colW*4);	
+                doc.text($("#categories1t").text(),margin + colW*3,65+colW*4);	
+                doc.setFontSize(35);
+                doc.text($("#categories2v").text(),margin + colW  ,65+colW*5);	
+                doc.text($("#categories2t").text(),margin + colW*3,65+colW*5);	
+                doc.setFontSize(30);
+                doc.text($("#categories3v").text(),margin + colW  ,65+colW*6);	
+                doc.text($("#categories3t").text(),margin + colW*3,65+colW*6);	
+            //    doc.setFontSize(20);
+                doc.text($("#categories4v").text(),margin - colW*2  ,65+colW*7);	
+                doc.text($("#categories4t").text(),margin + colW*3,65+colW*7);	
+                doc.text($("#categories5v").text(),margin + colW  ,65+colW*8);	
+                doc.text($("#categories5t").text(),margin + colW*3,65+colW*8);	
+                doc.text($("#categories6v").text(),margin + colW  ,65+colW*9);	
+                doc.text($("#categories6t").text(),margin + colW*3,65+colW*9);	
+                doc.text($("#categories7v").text(),margin + colW  ,65+colW*10);	
+                doc.text($("#categories7t").text(),margin + colW*3,65+colW*10);	
+                doc.text($("#categories8v").text(),margin + colW  ,65+colW*11);	
+                doc.text($("#categories8t").text(),margin + colW*3,65+colW*11);	
+                doc.text($("#categories9v").text(),margin + colW  ,65+colW*12);	
+                doc.text($("#categories9t").text(),margin + colW*3,65+colW*12);	
+                doc.text($("#categories10v").text(),margin +colW  ,65+colW*13);	
+                doc.text($("#categories10t").text(),margin +colW*3,65+colW*13);	
+                
+                doc.roundedRect( margin+colW*6,65, colW*6-sep,colW*12,2,2);	
+                doc.addImage(($("#reasonsChart")[0]).toDataURL('image/png'), 'PNG', margin + colW*6, 65,colW*6-sep,colW*3);
+                
+                //horizontal bar and top 10 tables
+                //daily expenses
+                doc.addPage();
+                //item list
+                
+                doc.save('sample-file.pdf');
+            
+        });
 </script>
 </html>
