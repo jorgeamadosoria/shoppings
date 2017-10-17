@@ -58,8 +58,6 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
 });
 
 Handlebars.registerHelper('in', function(role, roles, options) {
-    console.log(role + " in " + roles);
-    console.log(_.contains(roles.split(","), role));
     //  console.log(options.fn(this));
     if (_.contains(roles.split(","), role)) {
         return options.fn(this);

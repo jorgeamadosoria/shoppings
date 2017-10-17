@@ -14,7 +14,7 @@ router.get('/list', lists.loggedRole(["reviewer", "user", "admin"]), function(re
     service.list().then(function(obj) {
         res.locals.list = obj;
         res.render("brands/list");
-    }, handleError());
+    }, handleError);
 });
 
 router.get('/detail/:id', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {

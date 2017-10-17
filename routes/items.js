@@ -16,6 +16,13 @@ var handleError = function(err) {
     return null;
 };
 
+router.get('/csv', lists.loggedRole(["admin"]), function(req, res, next) {
+    service.list({}).then(function(obj) {
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(obj));
+    }, handleError);
+});
+
 router.get('/list', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     var data = {};
     var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
