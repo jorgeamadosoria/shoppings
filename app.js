@@ -112,6 +112,7 @@ app.use('/queries', require('./routes/queries'));
 app.use('/lists', require('./routes/lists'));
 app.use('/users', require('./routes/users'));
 app.use('/reports', require('./routes/reports'));
+app.use('/backup', require('./routes/backup'));
 
 
 

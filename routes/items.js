@@ -19,7 +19,7 @@ var handleError = function(err) {
 router.get('/csv', lists.loggedRole(["admin"]), function(req, res, next) {
     res.writeHead(200, {
         'Content-Type': 'text/csv',
-        //     'Content-Disposition': 'attachment; filename=sample.csv'
+        'Content-Disposition': 'attachment; filename=items.csv'
     });
     service.csv(res);
 });

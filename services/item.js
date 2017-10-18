@@ -174,7 +174,7 @@ module.exports = {
         return model.findById(_id).exec();
     },
 
-    monthlyList: function(id) {
+    monthlyList: function() {
         return model.aggregate([{ $group: { _id: "$monthly", lastDate: { $max: "$date" } } }]).exec();
     }
 
