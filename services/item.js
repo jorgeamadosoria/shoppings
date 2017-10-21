@@ -171,7 +171,7 @@ module.exports = {
 
     findById: function(id) {
         var _id = mongoose.Types.ObjectId(id);
-        return model.findById(_id).exec();
+        return model.findById(_id).populate("brand").populate("address").exec();
     },
 
     monthlyList: function() {

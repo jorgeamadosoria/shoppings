@@ -33,9 +33,7 @@ Handlebars.registerHelper('map', function(obj, options) {
     }));
 });
 
-Handlebars.registerHelper('currentMonth', function(date, today, notToday, options) {
-    return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
-});
+Handlebars.registerHelper('currentMonth', lists.currentMonth);
 
 Handlebars.registerHelper('times', function(n, step, active, options) {
     var accum = '';
@@ -92,6 +90,7 @@ app.use(flash());
 require('./config/passport')(passport);
 
 var indexRouter = require('./routes/index');
+
 indexRouter.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }));

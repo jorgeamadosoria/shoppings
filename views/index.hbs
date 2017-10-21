@@ -4,21 +4,21 @@
 {{> items }}
 <div class="panel panel-black">
     <div class="panel-body">
-        {{#monthlyTags}}
         {{#in user.role 'user,admin'}}
-        <button data-id="{{_id}}" type="button" 
-        class="pay-link btn 
-        {{currentMonth lastDate 'btn-success' 'btn-danger'}}">
-            {{_id}} 
-        </button>
+            {{#monthlyTags}}
+                <button data-id="{{_id}}" type="button" class="pay-link btn 
+                    {{currentMonth lastDate 'btn-success' 'btn-danger'}}">
+                    {{_id}} 
+                </button>
+            {{/monthlyTags}}
         {{else}}
-            <span data-id="{{_id}}" type="button" 
-        class="pay-link btn 
-        {{currentMonth lastDate 'btn-success' 'btn-danger'}}">
-            {{_id}} 
-        </span>
+            {{#monthlyTags}}
+                <span data-id="{{_id}}" type="button" class="pay-link btn 
+                    {{currentMonth lastDate 'btn-success' 'btn-danger'}}">
+                    {{_id}} 
+                </span>
+            {{/monthlyTags}}
         {{/in}}
-        {{/monthlyTags}}
     </div>
 </div>
 <script>

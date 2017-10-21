@@ -39,26 +39,26 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/">Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="/items/list">Items</a></li>
-          <li><a href="/brands/list">Brands</a></li>
-          <li><a href="/addresses/list">Addresses</a></li>
-          <li><a href="/queries/list">Queries</a></li>
+          <li><a href="/"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+          <li><a href="/items/list"><i class="fa fa-list-alt"></i>&nbsp;Items</a></li>
+          <li><a href="/brands/list"><i class="fa fa-trademark"></i>&nbsp;Brands</a></li>
+          <li><a href="/addresses/list"><i class="fa fa-map-marker"></i>&nbsp;Addresses</a></li>
+          <li><a href="/queries/list"><i class="fa fa-terminal"></i>&nbsp;Queries</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-circle-o"></i><span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-circle-o"></i>&nbsp;{{user.google.name}}<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#"><i class="fa fa-user"></i>&nbsp;{{user.google.name}}</a></li>
               <li role="separator" class="divider"></li>
               {{#in user.role 'admin'}}
                 <li><a href="/lists/list"><i class="fa fa-list"></i>&nbsp;Lists</a></li>
-                <li><a href="/users/list">Users</a></li>
-                <li><a href="/items/csv">CSV</a></li>
-                <li><a href="/backup/export">Export JSON</a></li>
+                <li><a href="/users/list"><i class="fa fa-users"></i>&nbsp;Users</a></li>
+                <li><a href="/items/csv"><i class="fa fa-file-o"></i>&nbsp;CSV</a></li>
+                <li><a href="/backup/export"><i class="fa fa-file-zip-o"></i>&nbsp;Zipped JSON</a></li>
               {{/in}}
               {{#in user.role 'user,admin'}}
-                <li><a href="/reports/monthly"><i class="fa fa-file"></i>&nbsp;Report</a></li>
+                <li><a href="/reports/monthly"><i class="fa fa-file-pdf-o"></i>&nbsp;Report</a></li>
                 <li role="separator" class="divider"></li>
               {{/in}}
               <li><a href="/logout"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
@@ -71,15 +71,63 @@
   <div class="container-fluid">
     {{{body}}}
   </div>
-
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="container-fluid">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" title="About"><i class="fa fa-3x fa-info"></i></a></li>
+        <li><a data-toggle="modal" href="#aboutModal" title="About"><i class="fa fa-3x fa-info"></i></a>
+        </li>
         <li><a href="https://github.com/jorgeamadosoria/shoppings" title="Repository"><i class="fa fa-3x fa-github"></i></a></li>
       </ul>
     </div>
   </nav>
+  <div id="aboutModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="bg-dark modal-header">
+                <b>About Shoppings</b>
+                <button type="button" class="close" data-dismiss="modal"><b>&times;</b></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label for="reason" class="control-label">Reason</label>
+                        <div id="reason"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-1">
+                        <label for="promotion" class="control-label">Prom</label>
+                        <div>
+                            <center><i id="promotion"></i></center>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="good_buy" class="control-label">Good</label>
+                        <div>
+                            <center><i id="good_buy"></i></center>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="monthly" class="control-label">Monthly</label>
+                        <div id="monthly"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="Comments" class="control-label">Comments</label>
+                        <div id="comments"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script>
 
+</script>
 </html>

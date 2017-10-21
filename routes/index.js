@@ -42,12 +42,12 @@ router.get('/', lists.loggedRole(["reviewer", "user", "admin"]), function(req, r
         tempMonthlyTags = [];
         _.each(res.locals.monthly, function(e) {
             if (!_.find(res.locals.monthlyTags, function(e2) {
-                    return e2._id == e;
-                })) {
+                return e2._id == e;
+            })) {
                 tempMonthlyTags.push({ _id: e, lastDate: null });
             }
         });
-        res.locals.monthlyTags = res.locals.monthlyTags.concat(tempMonthlyTags);
+        res.locals.monthlyTags = lists.stripNAorNull(tempMonthlyTags.concat(_.filter(res.locals.monthlyTags,e => lists.currentMonth(e.lastDate,true,false)))) ;
 
         res.locals.types = res.locals.lists.types;
         res.locals.currencies = res.locals.lists.currencies;

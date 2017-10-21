@@ -1,13 +1,16 @@
 var _ = require("underscore");
+var moment = require("moment");
 
 module.exports = {
 
     loggedRole: function(roles) {
         return function(req, res, next) {
-            res.locals.user = req.user;
+           res.locals.user = req.user;
             if (req.user && req.isAuthenticated() && _.contains(roles, req.user.role))
                 return next();
             res.redirect('/login');
+      //      res.locals.user = {google:{name:"DEBUG",email:"email"},role:"admin"};
+      //      return next();
         }
     },
 
@@ -52,5 +55,8 @@ module.exports = {
                 temp.push(element);
         });
         return temp;
+    },
+    currentMonth: function(date, today, notToday, options) {
+            return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
     }
 };

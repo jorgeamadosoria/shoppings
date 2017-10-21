@@ -31,7 +31,6 @@ module.exports = function(passport) {
             realm : configAuth.googleAuth.realm
         },
         function(token, refreshToken, profile, done) {
-
             // make the code asynchronous
             // User.findOne won't fire until we have all our data back from Google
             process.nextTick(function() {

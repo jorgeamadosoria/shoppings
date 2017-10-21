@@ -16,6 +16,7 @@ function itemDeleteCallback(event) {
 };
 
 function itemDetailCallback(data) {
+    
     $("#detailModal .modal-body #date").text(moment(data.date).utc().format("YYYY-MM-DD"));
     $("#detailModal .modal-body #product").text(data.product);
     if (data.brand)
@@ -25,7 +26,8 @@ function itemDetailCallback(data) {
     if (data.weight) {
         $("#detailModal .modal-body #weight").text(data.weight);
         $("#detailModal .modal-body #unit").text(data.unit);
-        $("#detailModal .modal-body #unit_cost").text(data.unit_cost);
+        if (data.unit_cost)
+            $("#detailModal .modal-body #unit_cost").text(" x " + data.unit_cost);
     }
     $("#detailModal .modal-body #units_bought").text(data.units_bought);
     $("#detailModal .modal-body #item_cost").text(data.item_cost);
@@ -48,6 +50,7 @@ function itemDetailCallback(data) {
 };
 
 function itemUpsertCallback(data) {
+    
     if (!data)
         data = {};
     $("#upsertModal .modal-body #id").val(data._id);
@@ -106,6 +109,7 @@ function itemRowUpsertCallback(data) {
     if (data.date)
         row.find("#date").text(moment(data.date).utc().format("YYYY-MM-DD"));
     row.find("td#product").text(data.product);
+
     if (data.brand)
         row.find("#brand").text(data.brand.name);
     if (data.address)

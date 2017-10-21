@@ -20,7 +20,7 @@ router.get('/export', lists.loggedRole(["admin"]), function(req, res, next) {
     var zip = new JSZip();
     var brandPromise    = brandService.list().then(         docs => zip.file("brand.json"  , JSON.stringify(docs)));
     var addressPromise  = addressService.list().then(       docs => zip.file("brands.json" , JSON.stringify(docs)));
-    var itemPromise     = itemService.list({}).then(          docs => zip.file("items.json"  , JSON.stringify(docs)));
+    var itemPromise     = itemService.list({}).then(        docs => zip.file("items.json"  , JSON.stringify(docs)));
     var userPromise     = userService.list().then(          docs => zip.file("users.json"  , JSON.stringify(docs)));
     var queryPromise    = queryService.list().then(         docs => zip.file("queries.json", JSON.stringify(docs)));
     var listPromise     = listService.list().then(          docs => zip.file("lists.json"  , JSON.stringify(docs)));
