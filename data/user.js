@@ -14,6 +14,9 @@ var userSchema = mongoose.Schema({
         email: String,
         name: String
     },
+    photo: {
+        type: String,
+    },
     role: {
         type: String,
         default:"reviewer"

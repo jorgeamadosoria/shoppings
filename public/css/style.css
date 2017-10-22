@@ -1,11 +1,11 @@
     body {
-        padding-top: 100px;
+        padding-top: 8.0em;
         padding-bottom: 70px;
     }
     
     .add-link {
         position: absolute;
-        top: 5.2em;
+        top: 6.0em;
         left: 2.2em;
         background-color: white;
         color: #080808;

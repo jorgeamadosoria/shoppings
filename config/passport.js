@@ -34,7 +34,7 @@ module.exports = function(passport) {
             // make the code asynchronous
             // User.findOne won't fire until we have all our data back from Google
             process.nextTick(function() {
-
+console.log(profile);
                 // try to find the user based on their google id
                 User.findOne({ 'google.id': profile.id }, function(err, user) {
                     if (err)
@@ -50,6 +50,7 @@ module.exports = function(passport) {
                         // set all of the relevant information
                         newUser.google.id = profile.id;
                         newUser.google.token = token;
+                        newUser.photo = profile.photos[0].value;
                         newUser.google.name = profile.displayName;
                         newUser.google.email = profile.emails[0].value; // pull the first email
                         // save the user

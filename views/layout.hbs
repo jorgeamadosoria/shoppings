@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Shoppings</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
   <link rel='stylesheet' href='/css/font-awesome.min.css' />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
   <link rel="stylesheet" href="/css/font-awesome-animation.min.css">
@@ -29,39 +29,76 @@
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
           aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/"><i class="fa fa-home"></i>&nbsp;Home</a></li>
-          <li><a href="/items/list"><i class="fa fa-list-alt"></i>&nbsp;Items</a></li>
-          <li><a href="/brands/list"><i class="fa fa-trademark"></i>&nbsp;Brands</a></li>
-          <li><a href="/addresses/list"><i class="fa fa-map-marker"></i>&nbsp;Addresses</a></li>
-          <li><a href="/queries/list"><i class="fa fa-terminal"></i>&nbsp;Queries</a></li>
+          <li>
+            <a href="/">
+              <i class="fa fa-3x fa-home" title="Home"></i></a>
+          </li>
+          <li>
+            <a href="/items/list">
+              <i class="fa fa-3x fa-list-alt" title="Items"></i></a>
+          </li>
+          <li>
+            <a href="/brands/list">
+              <i class="fa fa-3x fa-trademark" title="Brands"></i></a>
+          </li>
+          <li>
+            <a href="/addresses/list">
+              <i class="fa fa-3x fa-map-marker" title="Addresses"></i></a>
+          </li>
+          <li>
+            <a href="/queries/list">
+              <i class="fa fa-3x fa-terminal" title="Queries"></i></a>
+          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-circle-o"></i>&nbsp;{{user.google.name}}<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+              <img src="{{user.photo}}" class="img-circle"></img>
+            </a>
             <ul class="dropdown-menu">
-              <li><a href="#"><i class="fa fa-user"></i>&nbsp;{{user.google.name}}</a></li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-user"></i>&nbsp;{{user.google.name}}</a>
+              </li>
               <li role="separator" class="divider"></li>
               {{#in user.role 'admin'}}
-                <li><a href="/lists/list"><i class="fa fa-list"></i>&nbsp;Lists</a></li>
-                <li><a href="/users/list"><i class="fa fa-users"></i>&nbsp;Users</a></li>
-                <li><a href="/items/csv"><i class="fa fa-file-o"></i>&nbsp;CSV</a></li>
-                <li><a href="/backup/export"><i class="fa fa-file-zip-o"></i>&nbsp;Zipped JSON</a></li>
+              <li>
+                <a href="/lists/list">
+                  <i class="fa fa-list"></i>&nbsp;Lists</a>
+              </li>
+              <li>
+                <a href="/users/list">
+                  <i class="fa fa-users"></i>&nbsp;Users</a>
+              </li>
+              <li>
+                <a href="/items/csv">
+                  <i class="fa fa-file-o"></i>&nbsp;CSV</a>
+              </li>
+              <li>
+                <a href="/backup/export">
+                  <i class="fa fa-file-zip-o"></i>&nbsp;Zipped JSON</a>
+              </li>
+              {{/in}} {{#in user.role 'user,admin'}}
+              <li>
+                <a href="/reports/monthly">
+                  <i class="fa fa-file-pdf-o"></i>&nbsp;Report</a>
+              </li>
+              <li role="separator" class="divider"></li>
               {{/in}}
-              {{#in user.role 'user,admin'}}
-                <li><a href="/reports/monthly"><i class="fa fa-file-pdf-o"></i>&nbsp;Report</a></li>
-                <li role="separator" class="divider"></li>
-              {{/in}}
-              <li><a href="/logout"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
+              <li>
+                <a href="/logout">
+                  <i class="fa fa-sign-out"></i>&nbsp;Logout</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -74,60 +111,78 @@
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="container-fluid">
       <ul class="nav navbar-nav navbar-right">
-        <li><a data-toggle="modal" href="#aboutModal" title="About"><i class="fa fa-3x fa-info"></i></a>
+        <li>
+          <a data-toggle="modal" href="#aboutModal" title="About">
+            <i class="fa fa-3x fa-info"></i>
+          </a>
         </li>
-        <li><a href="https://github.com/jorgeamadosoria/shoppings" title="Repository"><i class="fa fa-3x fa-github"></i></a></li>
+        <li>
+          <a href="https://github.com/jorgeamadosoria/shoppings" title="Repository">
+            <i class="fa fa-3x fa-github"></i>
+          </a>
+        </li>
       </ul>
     </div>
   </nav>
   <div id="aboutModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="bg-dark modal-header">
-                <b>About Shoppings</b>
-                <button type="button" class="close" data-dismiss="modal"><b>&times;</b></button>
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-2">
-                        <label for="reason" class="control-label">Reason</label>
-                        <div id="reason"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-1">
-                        <label for="promotion" class="control-label">Prom</label>
-                        <div>
-                            <center><i id="promotion"></i></center>
-                        </div>
-                    </div>
-                    <div class="col-lg-1">
-                        <label for="good_buy" class="control-label">Good</label>
-                        <div>
-                            <center><i id="good_buy"></i></center>
-                        </div>
-                    </div>
-                    <div class="col-lg-1">
-                        <label for="monthly" class="control-label">Monthly</label>
-                        <div id="monthly"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label for="Comments" class="control-label">Comments</label>
-                        <div id="comments"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+      <div class="modal-content">
+        <div class="bg-dark modal-header">
+          <b>About Shoppings v0.8.0</b>
+          <button type="button" class="close" data-dismiss="modal">
+            <b>&times;</b>
+          </button>
+          <h4 class="modal-title"></h4>
         </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+                <p>Shoppings is a study application to keep track of expenditure activities. It aims to be a test bed for JS
+                  technologies while providing a centralized list of all shoppings. While you can use the code however you
+                  choose, this app is not intended to be used for sensitive data keeping. It is not a shining example of
+                  Good Practices. Issues can be tracked on
+                  <a href="https://github.com/jorgeamadosoria/Shoppings/issues">
+                    <i class="fa fa-github"></i>
+                  </a>
+                </p>
+            </div>
+            <div class="col-lg-12">
+              <hr>
+                <ul class="list-inline">
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/csk6o6/nodejs_logo_e1497443346889.png" title="NodeJS"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/ditjQm/zf_Y6l_L7e_Fa_3000x3000.png" title="Express"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/fyMUQm/mongoose.png" title="Mongoose"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/cMsQy6/handlebars_company_brand_logo_360bb6b9aad6cd3c_512x512.png" title="Handlebars"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/gjUYkm/jquery.png" title="jQuery"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/ctnm5m/momentjs_logo_4_DF96_FC733_seeklogo_com.png" title="MomentJS"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/jCa0WR/underscore.png" title="UnderscoreJS"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/eyrw5m/bootstrap_logo_vector_download.jpg" title="Bootstrap"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/fjzSBR/font_awesome_128.png" title="Font Awesome"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/jGCHd6/DMrPoJtc.png" title="Passport"></img></li>
+                  <li class="list-inline-item"><img class="img-responsive" height="50" width="50" src="https://image.ibb.co/f0Q3J6/photo.jpg" title="mongodb"></img></li>
+                </ul>
+            </div>
+            <div class="col-lg-12">
+              <hr>
+              <span class="left-side">Contact me on:</span>
+                <ul class="right-side list-inline">
+                  <li class="list-inline-item"><a href="https://www.linkedin.com/in/jorge-soria-98323122/"><i class="fa fa-3x fa-linkedin-square"></i></a></li>
+                  <li class="list-inline-item"><a href="https://www.facebook.com/jorgeamado.soriaramirez"><i class="fa fa-3x fa-facebook-square"></i></a></li>
+                  <li class="list-inline-item"><a href="https://github.com/jorgeamadosoria"><i class="fa fa-3x fa-github-square"></i></a></li>
+                  <li class="list-inline-item"><a href="mailto:darksoul.uci@gmail.com"><i class="fa fa-3x fa-google-plus-square"></i></a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </body>
 <script>
 
 </script>
+
 </html>
