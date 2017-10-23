@@ -14,10 +14,6 @@ var brandSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    "website": {
-        type: String,
-        default: ""
-    }
 });
 
 brandSchema.virtual('toCSVString')
