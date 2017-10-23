@@ -58,6 +58,7 @@
                 <h4 class="modal-title">Brand details</h4>
             </div>
             <div class="modal-body">
+                <i id="loading" class="fa faa-burst animated fa-3x fa-circle-o"></i>
                 <img onerror="this.src = 'https://image.ibb.co/eW2A6k/st4Sp6Aw.jpg';" id="logo" class="img-logo img-rounded img-responsive">
                 <p id="description"></p>
             </div>
@@ -88,9 +89,16 @@
             });
     });
 
+    $('#detailsModal .modal-body #logo').on('load', function(){
+        $('#detailsModal .modal-body #loading').hide();
+        $('#detailsModal .modal-body #logo').show();
+    });
+
     $("#modal-row-container td:not(#actions)").on('click', function (e) {
         $("#detailsModal .modal-title").text($(e.target).parent().find("#name").text());
         $("#detailsModal .modal-body #description").text($(e.target).parent().find("#description").text());
+        $('#detailsModal .modal-body #logo').hide();
+        $('#detailsModal .modal-body #loading').show();
         $("#detailsModal .modal-body #logo").attr("src", $(e.target).parent().data("logo"));
         $("#detailsModal").modal({ keyboard: true });
     });
