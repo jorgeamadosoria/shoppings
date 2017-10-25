@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
+        {{error}}
         <div class="panel panel-black">
             <div class="panel-body">
                 <form method="GET" action="mreport">
@@ -15,3 +16,9 @@
         </div>
     </div>
 </div>
+  {{#if error}}
+  <script>
+     bootbox.alert("<i class='fa fa-warning fa-3x text-danger'></i> The monthly report requested does not have data or could not be generated!");
+  </script>
+  {{/if}}
+  

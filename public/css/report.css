@@ -6,6 +6,15 @@
         color: #080808;
         padding: 0px 5px 0px 5px;
     }
+
+    .row{
+        overflow: hidden; 
+    }
+    
+    [class*="col-"]{
+        margin-bottom: -99999px;
+        padding-bottom: 99999px;
+    }
     
     canvas {
         width: 400px;
