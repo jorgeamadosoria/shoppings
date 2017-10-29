@@ -247,7 +247,6 @@ function barChart(card, data, cur, max) {
 
 
 function dohBarChart(card, data, cur,dataset,labels) {
-        //   $("#debug").text( dataset);
         new Chart($("#" + card), {
             type: 'horizontalBar',
             data: {
@@ -274,6 +273,8 @@ function dohBarChart(card, data, cur,dataset,labels) {
     }
 
     function hBarChartAddress(card, data, cur) {
+        console.log( data);
+        
         var dataset = _.map(data, (e) => e.total);
         var labels = _.map(data, (e) => e._id.value[0].name);
         dohBarChart(card, data, cur,dataset,labels);
