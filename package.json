@@ -25,5 +25,8 @@
         "mongoose-paginate": "*",
         "morgan": "*",
         "serve-favicon": "*"
+    },
+    "devDependencies": {
+        "jsdoc": "~3.5.5"
     }
 }
