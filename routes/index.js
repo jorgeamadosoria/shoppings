@@ -1,20 +1,13 @@
 var express = require('express');
 var _ = require("underscore");
 var moment = require('moment');
-var lists = require('../data/lists');
+var utils = require('../data/utils');
 var service = require('../services/item');
 var listService = require('../services/list');
 var brandService = require('../services/brand');
 var addressService = require('../services/address');
 
 var router = express.Router();
-
-var handleError = function(err) {
-    console.log("ERROR:" + err);
-    return null;
-};
-
-
 
 router.get('/login', function(req, res) {
     res.render('login', { layout: false });
@@ -25,9 +18,9 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-router.get('/', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
+router.get('/', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
-    var monthlyPromise = service.monthlyList().then(docs => res.locals.monthlyTags = lists.stripNAorNull(docs));
+    var monthlyPromise = service.monthlyList().then(docs => res.locals.monthlyTags = utils.stripNAorNull(docs));
     var addressPromise = addressService.list().then(docs => res.locals.addresses = docs);
     var listPromise = listService.list().then(docs => res.locals.lists = listService.listsObject(docs));
 
@@ -42,17 +35,17 @@ router.get('/', lists.loggedRole(["reviewer", "user", "admin"]), function(req, r
         tempMonthlyTags = [];
         _.each(res.locals.monthly, function(e) {
             if (!_.find(res.locals.monthlyTags, function(e2) {
-                return e2._id == e;
-            })) {
+                    return e2._id == e;
+                })) {
                 tempMonthlyTags.push({ _id: e, lastDate: null });
             }
         });
-        res.locals.monthlyTags = lists.stripNAorNull(tempMonthlyTags.concat(_.filter(res.locals.monthlyTags,e => lists.currentMonth(e.lastDate,true,false)))) ;
+        res.locals.monthlyTags = utils.stripNAorNull(tempMonthlyTags.concat(_.filter(res.locals.monthlyTags, e => utils.currentMonth(e.lastDate, true, false))));
 
         res.locals.types = res.locals.lists.types;
         res.locals.currencies = res.locals.lists.currencies;
         res.render("index");
-    }, handleError);
+    }, utils.handleError);
 });
 
 

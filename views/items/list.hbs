@@ -80,9 +80,9 @@
                 <div class="col-lg-2 col-sm-2">
                     <select id="value" class="form-control">
                             <option value=""></option>
-                            {{#units}}
+                            {{#lists.units}}
                                 <option value="{{this}}">{{this}}</option>
-                            {{/units}}
+                            {{/lists.units}}
                         </select>
                 </div>
                 <div class="col-lg-offset-1 col-lg-2 col-sm-offset-1 col-sm-2">
@@ -92,21 +92,9 @@
             <div id="reasons-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" data-live-search="true" class="selectpicker" multiple>
-                            {{#reasons}}
+                            {{#lists.reasons}}
                                 <option value= "{{this}}" >{{this}}</option>
-                            {{/reasons}}
-                        </select>
-                </div>
-                <div class="col-lg-2 col-sm-2">
-                    <button class="add-button btn btn-default">Add</button>
-                </div>
-            </div>
-            <div id="normalized-search" class="hide search-box">
-                <div class="col-lg-10 col-sm-10">
-                    <select id="select" data-live-search="true" class="selectpicker" multiple>
-                            {{#normalized}}
-                                <option value= "{{this}}" >{{this}}</option>
-                            {{/normalized}}
+                            {{/lists.reasons}}
                         </select>
                 </div>
                 <div class="col-lg-2 col-sm-2">
@@ -116,9 +104,9 @@
             <div id="currencies-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" multiple data-live-search="true" class="selectpicker">
-                            {{#currencies}}
+                            {{#lists.currencies}}
                                 <option value="{{this}}">{{this}}</option>
-                            {{/currencies}}
+                            {{/lists.currencies}}
                         </select>
                 </div>
                 <div class="col-lg-2 col-sm-2">
@@ -152,9 +140,9 @@
             <div id="monthly-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" data-live-search="true" class="selectpicker" multiple>
-                            {{#monthly}}
+                            {{#lists.monthly}}
                                 <option>{{this}}</option>
-                            {{/monthly}}
+                            {{/lists.monthly}}
                         </select>
                 </div>
                 <div class="col-lg-2 col-sm-2">
@@ -164,9 +152,9 @@
             <div id="types-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" data-live-search="true" class="selectpicker" multiple>
-                            {{#types}}
+                            {{#lists.types}}
                                 <option value= "{{this}}" >{{this}}</option>
-                            {{/types}}
+                            {{/lists.types}}
                         </select>
                 </div>
                 <div class="col-lg-2 col-sm-2">
@@ -176,9 +164,9 @@
             <div id="categories-search" class="hide search-box">
                 <div class="col-lg-10 col-sm-10">
                     <select id="select" data-live-search="true" class="selectpicker" multiple>
-                        {{#categories}}
+                        {{#lists.categories}}
                             <option value= "{{this}}" >{{this}}</option>
-                        {{/categories}}
+                        {{/lists.categories}}
                     </select>
                 </div>
                 <div class="col-lg-2 col-sm-2">

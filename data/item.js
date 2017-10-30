@@ -1,5 +1,5 @@
 mongoose = require('./connect');
-lists = require('./lists');
+var utils = require('./utils');
 var _ = require("underscore");
 var paginate = require('mongoose-paginate');
 var mongoose_csv = require('mongoose-csv');
@@ -107,7 +107,7 @@ var ItemSchema = new mongoose.Schema({
 ItemSchema.virtual('totalItemCost')
     .get(function() {
         if (this.units_bought && this.item_cost)
-            return lists.round(this.units_bought * this.item_cost, 2);
+            return utils.round(this.units_bought * this.item_cost, 2);
         return null;
     });
 

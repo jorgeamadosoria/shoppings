@@ -4,10 +4,8 @@ var _ = require("underscore");
 module.exports = {
 
     insert: function(obj) {
-        console.log("insert" + JSON.stringify(obj));
         if (obj.values)
             obj.values = obj.values.split(",");
-        console.log("insert " + obj.values);
         return model.create(obj);
     },
 
@@ -15,7 +13,6 @@ module.exports = {
         obj._id = mongoose.Types.ObjectId(id);
         if (obj.values)
             obj.values = obj.values.split(",");
-        console.log("update " + obj.values);
         return model.findByIdAndUpdate(obj._id, obj).exec();
     },
 
@@ -30,7 +27,7 @@ module.exports = {
     },
 
     findList: function(name) {
-        return model.find({name:name}).lean().exec();
+        return model.find({ name: name }).lean().exec();
     },
 
     listsObject: function(lists) {

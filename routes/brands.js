@@ -1,54 +1,40 @@
 var express = require('express');
 var service = require('../services/brand');
 var listService = require('../services/list');
-var lists = require('../data/lists');
+var utils = require('../data/utils');
 
 var router = express.Router();
 
-var handleError = function(err) {
-    console.log("ERROR:" + err);
-    return null;
-};
-
-router.get('/list', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
+router.get('/list', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     service.list().then(function(obj) {
         res.locals.list = obj;
         res.render("brands/list");
-    }, handleError);
+    }, utils.handleError);
 });
 
-router.get('/detail/:id', lists.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
+router.get('/detail/:id', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
         res.render("brands/detail", obj);
-    }, handleError());
+    }, utils.handleError);
 });
 
-router.delete('/:id', lists.loggedRole(["user", "admin"]), function(req, res, next) {
-    service.delete(req.params.id).then(function(obj) {
-        res.sendStatus(200).end();
-    }, handleError());
+router.delete('/:id', utils.loggedRole(["user", "admin"]), utils.deleteMw);
 
-});
-
-router.get('/form', lists.loggedRole(["user", "admin"]), function(req, res, next) {
+router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next) {
     if (req.query.id)
         service.findById(req.query.id).then(function(obj) {
             res.render("brands/form", obj);
-        }, handleError());
+        }, utils.handleError);
     else
         res.render("brands/form");
 });
 
-router.post('/form', lists.loggedRole(["user", "admin"]), function(req, res, next) {
-
+router.post('/form', utils.loggedRole(["user", "admin"]), function(req, res, next) {
+    var callback = obj => res.redirect("list");
     if (req.query.id)
-        service.update(req.query.id, req.body).then(function(obj) {
-            res.redirect("list");
-        }, handleError());
+        service.update(req.query.id, req.body).then(callback, utils.handleError);
     else
-        service.insert(req.body).then(function(obj) {
-            res.redirect("list");
-        }, handleError());
+        service.insert(req.body).then(callback, utils.handleError);
 });
 
 module.exports = router;

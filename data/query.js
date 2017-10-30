@@ -1,5 +1,5 @@
 mongoose = require('./connect');
-lists = require('./lists');
+var utils = require('./utils');
 var _ = require("underscore");
 var paginate = require('mongoose-paginate');
 

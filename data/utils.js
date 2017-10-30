@@ -3,14 +3,22 @@ var moment = require("moment");
 
 module.exports = {
 
+    deleteMw: function(req, res, next) {
+        service.delete(req.params.id).then(function(obj) {
+            res.sendStatus(200).end();
+        }, handleError);
+
+    },
+
+
     loggedRole: function(roles) {
         return function(req, res, next) {
-           res.locals.user = req.user;
+            res.locals.user = req.user;
             if (req.user && req.isAuthenticated() && _.contains(roles, req.user.role))
                 return next();
             res.redirect('/login');
-      //      res.locals.user = {google:{name:"DEBUG",email:"email"},role:"admin"};
-      //      return next();
+            //      res.locals.user = {google:{name:"DEBUG",email:"email"},role:"admin"};
+            //      return next();
         }
     },
 
@@ -32,12 +40,12 @@ module.exports = {
         return isNaN(value) ? value : (Number.isInteger(value) ? (value + ".00") : Number(Math.round(value + 'e' + decimals) + 'e-' + decimals));
     },
 
-    prepare: function(list, item) {
-        var temp = list.slice();
-        temp.splice(list.indexOf(item), 1);
-        return temp;
+    handleError: function(err) {
+        console.log("ERROR:" + err);
+        return null;
     },
-    prepareObj: function(list, obj) {
+
+    listSansObj: function(list, obj) {
         if (obj) {
             var temp = [];
             list.forEach(function(element) {
@@ -57,6 +65,6 @@ module.exports = {
         return temp;
     },
     currentMonth: function(date, today, notToday, options) {
-            return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
+        return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
     }
 };
