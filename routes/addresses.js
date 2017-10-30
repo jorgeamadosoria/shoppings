@@ -23,7 +23,7 @@ router.delete('/:id', utils.loggedRole(["user", "admin"]), utils.deleteMw);
 
 router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next) {
 
-    var listPromise = listService.list().then(function(obj) {
+    listService.list().then(function(obj) {
         res.locals.lists = listService.listsObject(docs);
         if (req.query.id) {
             service.findById(req.query.id).then(function(obj) {
@@ -38,15 +38,10 @@ router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next
 });
 
 router.post('/form', utils.loggedRole(["user", "admin"]), function(req, res, next) {
-
-    var callback = function(obj) {
-        res.redirect("list");
-    };
-
     if (req.query.id)
-        service.update(req.query.id, req.body).then(callback, utils.handleError);
+        service.update(req.query.id, req.body).then(obj => res.redirect("list"), utils.handleError);
     else
-        service.insert(req.body).then(callback, utils.handleError);
+        service.insert(req.body).then(obj => res.redirect("list"), utils.handleError);
 });
 
 module.exports = router;
