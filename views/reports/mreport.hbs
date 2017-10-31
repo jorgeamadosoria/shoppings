@@ -378,57 +378,42 @@ var shoppingCart = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAA
 
 
         $('#download').click(function (e) {
-                var doc = new jsPDF('p','mm','A2');
-                
-                //each column has 20 width
-                // width 504mm
-                var colW = 35;
-                var margin = 2;
-                var sep = 4;
+                var doc = new jsPDF({
+  orientation: 'portrait',
+  unit: 'mm',
+  format: [594, 420]
+});
+                // width 594mm
                 //header
-                doc.addImage(shoppingCart, 'PNG', margin, 5);
+                doc.addImage(shoppingCart, 'PNG', 0, 5);
                 doc.setFontSize(40);
-                doc.text("Monthly Expenditure Report",margin + colW,25);	
+                doc.text("Monthly Expenditure Report",colW,25);	
                 
                 //summary
-                //x,y,w,h
-                doc.roundedRect( margin + colW*0, 40,colW*2-sep, 20,2,2);	
-                doc.roundedRect( margin + colW*2, 40,colW*2-sep, 20,2,2);	
-                doc.roundedRect( margin + colW*4, 40,colW*2-sep, 20,2,2);	
-                doc.roundedRect( margin + colW*6, 40,colW*2-sep, 20,2,2);	
-                doc.roundedRect( margin + colW*8, 40,colW*2-sep, 20,2,2);	
-                doc.roundedRect( margin + colW*10,40,colW*2-sep, 20,2,2);	
-
                 //pie charts and top 10 tables
-                doc.roundedRect( margin,65, colW*6-sep,colW*12,2,2);	
-                doc.addImage(($("#categoriesChart")[0]).toDataURL('image/png'), 'PNG', margin, 65,colW*6-sep,colW*3);
-                doc.setFontSize(40);
-                doc.text($("#categories1v").text(),margin + colW  ,65+colW*4);	
-                doc.text($("#categories1t").text(),margin + colW*3,65+colW*4);	
-                doc.setFontSize(35);
-                doc.text($("#categories2v").text(),margin + colW  ,65+colW*5);	
-                doc.text($("#categories2t").text(),margin + colW*3,65+colW*5);	
-                doc.setFontSize(30);
-                doc.text($("#categories3v").text(),margin + colW  ,65+colW*6);	
-                doc.text($("#categories3t").text(),margin + colW*3,65+colW*6);	
-            //    doc.setFontSize(20);
-                doc.text($("#categories4v").text(),margin - colW*2  ,65+colW*7);	
-                doc.text($("#categories4t").text(),margin + colW*3,65+colW*7);	
-                doc.text($("#categories5v").text(),margin + colW  ,65+colW*8);	
-                doc.text($("#categories5t").text(),margin + colW*3,65+colW*8);	
-                doc.text($("#categories6v").text(),margin + colW  ,65+colW*9);	
-                doc.text($("#categories6t").text(),margin + colW*3,65+colW*9);	
-                doc.text($("#categories7v").text(),margin + colW  ,65+colW*10);	
-                doc.text($("#categories7t").text(),margin + colW*3,65+colW*10);	
-                doc.text($("#categories8v").text(),margin + colW  ,65+colW*11);	
-                doc.text($("#categories8t").text(),margin + colW*3,65+colW*11);	
-                doc.text($("#categories9v").text(),margin + colW  ,65+colW*12);	
-                doc.text($("#categories9t").text(),margin + colW*3,65+colW*12);	
-                doc.text($("#categories10v").text(),margin +colW  ,65+colW*13);	
-                doc.text($("#categories10t").text(),margin +colW*3,65+colW*13);	
+s                doc.addImage(($("#categoriesChart")[0]).toDataURL('image/png'), 'PNG', 0, 65,colW*3,colH*2);
+                doc.text($("#categories1v").text(),colW  ,65+colH*7);	
+                doc.text($("#categories1t").text(),colW*3,65+colH*7);	
+                doc.text($("#categories2v").text(),colW  ,65+colH*8);	
+                doc.text($("#categories2t").text(),colW*3,65+colH*8);	
+                doc.text($("#categories3v").text(),colW  ,65+colH*9);	
+                doc.text($("#categories3t").text(),colW*3,65+colH*9);	
+                doc.text($("#categories4v").text(),colW*2,65+colH*10);	
+                doc.text($("#categories4t").text(),colW*3,65+colH*10);	
+                doc.text($("#categories5v").text(),colW  ,65+colH*11);	
+                doc.text($("#categories5t").text(),colW*3,65+colH*11);	
+                doc.text($("#categories6v").text(),colW  ,65+colH*12);	
+                doc.text($("#categories6t").text(),colW*3,65+colH*12);	
+                doc.text($("#categories7v").text(),colW  ,65+colH*13);	
+                doc.text($("#categories7t").text(),colW*3,65+colH*13);	
+                doc.text($("#categories8v").text(),colW  ,65+colH*14);	
+                doc.text($("#categories8t").text(),colW*3,65+colH*14);	
+                doc.text($("#categories9v").text(),colW  ,65+colH*15);	
+                doc.text($("#categories9t").text(),colW*3,65+colH*15);	
+                doc.text($("#categories10v").text(),colW  ,65+colH*16);	
+                doc.text($("#categories10t").text(),colW*3,65+colH*16);	
                 
-                doc.roundedRect( margin+colW*6,65, colW*6-sep,colW*12,2,2);	
-                doc.addImage(($("#reasonsChart")[0]).toDataURL('image/png'), 'PNG', margin + colW*6, 65,colW*6-sep,colW*3);
+                doc.addImage(($("#reasonsChart")[0]).toDataURL('image/png'), 'PNG', colW*3, 65,colW*3,colH*2);
                 
                 //horizontal bar and top 10 tables
                 //daily expenses
