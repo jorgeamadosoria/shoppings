@@ -89,7 +89,7 @@ router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, n
         }, 0);
         res.locals.monthlyAvg /= res.locals.dailyTotal.length;
 
-        if (req.param.pdf)
+        if (req.query.pdf)
         res.render("reports/preport", {
             layout: false
         });
