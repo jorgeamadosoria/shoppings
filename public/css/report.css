@@ -7,6 +7,11 @@
         padding: 0px 5px 0px 5px;
     }
 
+    .break {
+        page-break-before : always;
+        page-break-after : always;
+    }
+
     .row{
         overflow: hidden; 
     }

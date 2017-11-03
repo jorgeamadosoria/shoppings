@@ -15,9 +15,9 @@
         <label for="country" class="col-xs-2 control-label">Country</label>
         <div class="col-xs-10">
             <select class="form-control" name="country" id="country">
-                {{#countries}}
+                {{#lists.countries}}
                     <option>{{this}}</option>
-                {{/countries}}
+                {{/lists.countries}}
                 {{#if obj}}
                     <option selected >{{obj.country}}</option>   
                 {{/if}}

@@ -23,7 +23,7 @@ router.delete('/:id', utils.loggedRole(["user", "admin"]), utils.deleteMw);
 
 router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next) {
 
-    listService.list().then(function(obj) {
+    listService.list().then(function(docs) {
         res.locals.lists = listService.listsObject(docs);
         if (req.query.id) {
             service.findById(req.query.id).then(function(obj) {
