@@ -81,7 +81,7 @@ router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next
             res.locals.addresses = utils.listSansObj(res.locals.addresses, res.locals.obj.address);
         }
 
-        res.render("items/form", res.locals);
+        res.render("items/form");
     });
 
 });
@@ -93,9 +93,7 @@ router.post('/update', utils.loggedRole(["user", "admin"]), function(req, res, n
             res.end(JSON.stringify(obj));
         }, utils.handleError);
     } else
-        service.insert(req.body).then(function(obj) {
-            res.sendStatus(200).end();
-        }, utils.handleError);
+        service.insert(req.body).then(obj => res.sendStatus(200).end(), utils.handleError);
 
 });
 

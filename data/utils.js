@@ -1,12 +1,47 @@
+var express = require('express');
 var _ = require("underscore");
 var moment = require("moment");
 
 module.exports = {
 
-    deleteMw: function(req, res, next) {
-        service.delete(req.params.id).then(function(obj) {
-            res.sendStatus(200).end();
-        }, handleError);
+    createCrudRouter: function(service, entity, readRoles, writeRoles, formMw) {
+        router = express.Router();
+        router.get('/list', this.loggedRole(readRoles), this.listMw(service, entity));
+        router.get('/detail/:id', this.loggedRole(readRoles), this.detailsMw(service, entity));
+        router.delete('/:id', this.loggedRole(writeRoles), this.deleteMw(service));
+        router.post('/form', this.loggedRole(writeRoles), this.upsertMw(service));
+        router.get('/form', this.loggedRole(writeRoles), formMw);
+        return router;
+    },
+
+    deleteMw: function(service) {
+        return function(req, res, next) {
+            service.delete(req.params.id).then(function(obj) {
+                res.sendStatus(200).end();
+            }, this.handleError);
+        }
+    },
+
+    listMw: function(service, entity) {
+        return function(req, res, next) {
+            service.list().then(function(objs) {
+                res.locals.list = objs;
+                res.render(entity + "/list");
+            }, this.handleError);
+        };
+
+    },
+
+    upsertMw: function(service) {
+        return function(req, res, next) {
+            service.upsert(req.body, req.query.id).then(obj => res.redirect("list"), this.handleError);
+        };
+    },
+
+    detailsMw: function(service, entity) {
+        return function(req, res, next) {
+            service.findById(req.params.id).then(obj => res.render(entity + "/detail", obj), this.handleError);
+        };
     },
 
     loggedRole: function(roles) {
@@ -14,15 +49,14 @@ module.exports = {
         var alwaysLoggedIn = true;
 
         return function(req, res, next) {
-            if (!alwaysLoggedIn){
+            if (!alwaysLoggedIn) {
 
                 res.locals.user = req.user;
                 if (req.user && req.isAuthenticated() && _.contains(roles, req.user.role))
                     return next();
                 res.redirect('/login');
-            }
-            else{
-                res.locals.user = {google:{name:"DEBUG",email:"email"},role:"admin"};
+            } else {
+                res.locals.user = { google: { name: "DEBUG", email: "email" }, role: "admin" };
                 return next();
             }
         }

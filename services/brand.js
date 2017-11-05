@@ -2,13 +2,13 @@ var model = require('../data/brand');
 
 module.exports = {
 
-    insert: function(obj) {
-        return model.create(obj);
-    },
-
-    update: function(id, obj) {
-        obj._id = mongoose.Types.ObjectId(id);
-        return model.findByIdAndUpdate(obj._id, obj).exec();
+    upsert: function(obj, id) {
+        if (id === undefined)
+            return model.create(obj);
+        else {
+            obj._id = mongoose.Types.ObjectId(id);
+            return model.findByIdAndUpdate(obj._id, obj).exec();
+        }
     },
 
     delete: function(id) {
@@ -16,7 +16,7 @@ module.exports = {
     },
 
     list: function() {
-        return model.find().sort({name:'asc'}).lean().exec();
+        return model.find().sort({ name: 'asc' }).lean().exec();
     },
 
     findById: function(id) {
