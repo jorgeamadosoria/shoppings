@@ -1,32 +1,33 @@
 {
-    "name": "shoppings",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "node ./bin/www"
-    },
-    "dependencies": {
-        "body-parser": "*",
-        "cookie-parser": "*",
-        "debug": "*",
-        "bcrypt-nodejs": "*",
-        "connect-flash": "*",
-        "express": "*",
-        "express-session": "*",
-        "handlebars-dateformat": "^1.1.0",
-        "handlebars-intl": "*",
-        "passport": "*",
-        "jszip": "*",
-        "underscore": "*",
-        "hbs": "*",
-        "passport-google-oauth": "*",
-        "moment": "^2.18.1",
-        "mongoose": "^4.11.10",
-        "mongoose-paginate": "*",
-        "morgan": "*",
-        "serve-favicon": "*"
-    },
-    "devDependencies": {
-        "jsdoc": "~3.5.5"
-    }
+  "name": "shoppings",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "debug": "*",
+    "bcrypt-nodejs": "*",
+    "connect-flash": "*",
+    "express": "*",
+    "express-session": "*",
+    "handlebars-dateformat": "^1.1.0",
+    "handlebars-intl": "*",
+    "passport": "*",
+    "jszip": "*",
+    "underscore": "*",
+    "hbs": "*",
+    "passport-google-oauth": "*",
+    "moment": "^2.18.1",
+    "mongoose": "^4.11.10",
+    "mongoose-paginate": "*",
+    "morgan": "*",
+    "serve-favicon": "*"
+  },
+  "devDependencies": {
+    "jsdoc": "~3.5.5",
+    "tui-jsdoc-template": "^1.2.2"
+  }
 }

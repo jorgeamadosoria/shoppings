@@ -1,0 +1,22 @@
+{
+    "source": {
+        "include": ["app.js", "config", "data", "routes", "services"],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "template": "templates/default",
+        "encoding": "utf8",
+        "destination": "./docs/",
+        "recurse": true
+    },
+    "recurseDepth": 10,
+    "plugins": [],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "default": {
+            "outputSourceFiles": true
+        }
+    }
+}

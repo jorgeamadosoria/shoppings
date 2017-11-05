@@ -3,7 +3,19 @@ var _ = require("underscore");
 var moment = require("moment");
 
 module.exports = {
-
+    /**
+     * This function creates a CRUD Router, that is, a Router to manage entities other than the main one.
+     *
+     * @param {string} service - The corresponding service to the entity we want to CRUD
+     * @param {string} entity - The corresponding service to the entity we want to CRUD
+     * @param {string[]} readRoles - Array of roles for read endpoints (list, detail)
+     * @param {string[]} writeRoles - Array of roles for write endpoints (insert, update, delete)
+     * @param {Object} formMw - Middleware for the "form" url. This is different for each router because each form requires different nomenclator entities
+     * @return {Object} a fully configured CRUD router for the entity specified
+     *
+     * @example
+     *     createCrudRouter(service, "brands", ["reviewer", "user", "admin"], ["user", "admin"], function(req, res, next) { ... });
+     */
     createCrudRouter: function(service, entity, readRoles, writeRoles, formMw) {
         router = express.Router();
         router.get('/list', this.loggedRole(readRoles), this.listMw(service, entity));

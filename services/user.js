@@ -1,7 +1,13 @@
 var model = require('../data/user');
 
 module.exports = {
-
+    /**
+     * This function inserts a new user.
+     *
+     * @param {Object} user - new user coming from the google OAuth configuration.
+     * @return {Object} a Mongoose model representing the user after insertion
+     *
+     */
     insert: function(obj) {
         return model.create(obj);
     },
