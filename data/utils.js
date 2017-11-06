@@ -34,6 +34,13 @@ module.exports = {
         return router;
     },
 
+    /**
+     * This function creates a CRUD middleware that calls a provided service for deletion
+     *
+     * @param {string} service - The corresponding service to the entity we want to CRUD
+     * @return {Object} default CRUD middleware for deletion
+     *
+     */
     deleteMw: function(service) {
         return function(req, res, next) {
             service.delete(req.params.id).then(function(obj) {
@@ -42,6 +49,14 @@ module.exports = {
         }
     },
 
+    /**
+     * This function creates a CRUD middleware that calls a provided service for list of entities
+     *
+     * @param {string} service - The corresponding service to the entity we want to CRUD
+     * @param {string} entity - The corresponding service to the entity we want to CRUD
+     * @return {Object} default CRUD middleware for list of entites
+     *
+     */
     listMw: function(service, entity) {
         return function(req, res, next) {
             service.list().then(function(objs) {
@@ -52,18 +67,40 @@ module.exports = {
 
     },
 
+    /**
+     * This function creates a CRUD middleware that calls a provided service for the entity update
+     *
+     * @param {string} service - The corresponding service to the entity we want to CRUD
+     * @return {Object} default CRUD middleware for update
+     *
+     */
     upsertMw: function(service) {
         return function(req, res, next) {
             service.upsert(req.body, req.query.id).then(obj => res.redirect("list"), this.handleError);
         };
     },
 
+    /**
+     * This function creates a CRUD middleware that calls a provided service for the full details of an entity, gotten from the db by id
+     *
+     * @param {string} service - The corresponding service to the entity we want to CRUD
+     * @param {string} entity - The corresponding service to the entity we want to CRUD
+     * @return {Object} default CRUD middleware for detailed view of entity by id
+     *
+     */
     detailsMw: function(service, entity) {
         return function(req, res, next) {
             service.findById(req.params.id).then(obj => res.render(entity + "/detail", obj), this.handleError);
         };
     },
 
+    /**
+     * This function creates a middleware that intercept calls and only allows those with the proper roles to continue down the chain
+     *
+     * @param {string[]} roles - array of roles that allow the user to reach the next middleware.
+     * @return {function} standard middleware to intercept all requests to url
+     *
+     */
     loggedRole: function(roles) {
         //debugging switch
         var alwaysLoggedIn = true;
@@ -100,11 +137,26 @@ module.exports = {
         return isNaN(value) ? value : (Number.isInteger(value) ? (value + ".00") : Number(Math.round(value + 'e' + decimals) + 'e-' + decimals));
     },
 
+    /**
+     * This function creates a default error handler for all promises used in the app. It merely writes the error message to the console
+     *
+     * @param {string} err - error message string to print
+     * @return {any} always return null
+     *
+     */
     handleError: function(err) {
         console.log("ERROR:" + err);
         return null;
     },
 
+    /**
+     * This function takes a list of values and take away the one corresponding with the current item
+     *
+     * @param {Object[]} list - complete list of values
+     * @param {Object} obj - particular object value to take away from the list
+     * @return {function} list without the object selected
+     *
+     */
     listSansObj: function(list, obj) {
         if (obj) {
             var temp = [];
@@ -117,6 +169,13 @@ module.exports = {
             return list.slice();
     },
 
+    /**
+     * This function takes a list of values and take away a null value or NA value if any is present
+     *
+     * @param {Object[]} list - complete list of values
+     * @return {Object[]} list without NA or null values
+     *
+     */
     stripNAorNull: function(list) {
         var temp = [];
         list.forEach(function(element) {

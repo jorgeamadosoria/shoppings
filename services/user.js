@@ -1,23 +1,31 @@
 var model = require('../data/user');
 
 module.exports = {
+
     /**
-     * This function inserts a new user.
+     * This function insert or updates an entity. In this case only the role can be updated
      *
-     * @param {Object} user - new user coming from the google OAuth configuration.
-     * @return {Object} a Mongoose model representing the user after insertion
+     * @param {User} obj - entity to upsert. 
+     * @param {Number} id - id of the object to update. Optional, if it is undefined, the entity will be inserted
+     * @return {Object} a promise for the insert operation
      *
      */
-    insert: function(obj) {
-        return model.create(obj);
+    upsert: function(obj, id) {
+        if (id === undefined)
+            return model.create(obj);
+        else {
+            obj._id = mongoose.Types.ObjectId(id);
+            return model.findByIdAndUpdate(obj._id, { $set: { role: obj.role } }).exec();
+        }
     },
 
-    update: function(id, obj) {
-        obj._id = mongoose.Types.ObjectId(id);
-        console.log(obj.role);
-        return model.findByIdAndUpdate(obj._id, { $set: { role: obj.role } }).exec();
-    },
-
+    /**
+     * This function deletes an entity
+     *
+     * @param {Number} id - id of the object to delete.
+     * @return {Object} a promise for this operation
+     *
+     */
     delete: function(id) {
         return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
     },

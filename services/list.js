@@ -3,19 +3,36 @@ var _ = require("underscore");
 
 module.exports = {
 
-    insert: function(obj) {
-        if (obj.values)
-            obj.values = obj.values.split(",");
-        return model.create(obj);
+ /**
+     * This function insert or updates an entity
+     *
+     * @param {List} obj - entity to upsert. If the entity has id it will be updated, if not, it will be inserted
+     * @param {Number} id - id of the object to update. Optional, if it is undefined, the entity will be inserted
+     * @return {Object} a promise for the insert operation
+     *
+     */
+    upsert: function(obj, id) {
+        if (id === undefined)
+        {
+            if (obj.values)
+                obj.values = obj.values.split(",");
+            return model.create(obj);
+        }
+        else {
+            obj._id = mongoose.Types.ObjectId(id);
+            if (obj.values)
+                obj.values = obj.values.split(",");
+            return model.findByIdAndUpdate(obj._id, obj).exec();
+        }
     },
 
-    update: function(id, obj) {
-        obj._id = mongoose.Types.ObjectId(id);
-        if (obj.values)
-            obj.values = obj.values.split(",");
-        return model.findByIdAndUpdate(obj._id, obj).exec();
-    },
-
+    /**
+     * This function deletes an entity
+     *
+     * @param {Number} id - id of the object to delete.
+     * @return {Object} a promise for this operation
+     *
+     */
     delete: function(id) {
         return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
     },
