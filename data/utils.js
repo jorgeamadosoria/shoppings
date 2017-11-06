@@ -1,7 +1,15 @@
 var express = require('express');
 var _ = require("underscore");
 var moment = require("moment");
-
+/**
+ * @fileOverview Utils model with functions for CRUD router, response data massaging and role authorization
+ *
+ * @requires underscore
+ * @requires express
+ * @requires moment
+ * 
+ * @exports module
+ */
 module.exports = {
     /**
      * This function creates a CRUD Router, that is, a Router to manage entities other than the main one.
@@ -108,6 +116,7 @@ module.exports = {
         } else
             return list.slice();
     },
+
     stripNAorNull: function(list) {
         var temp = [];
         list.forEach(function(element) {
@@ -116,6 +125,7 @@ module.exports = {
         });
         return temp;
     },
+    
     currentMonth: function(date, today, notToday, options) {
         return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
     }

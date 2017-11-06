@@ -1,6 +1,17 @@
 mongoose = require('./connect');
 var mongoose_csv = require('mongoose-csv');
 
+/**
+ * Address
+ * @requires connect
+ * @requires mongoose-csv
+ * @typedef {Object} Address
+ * @property {string} name - the name of the store, or point of sale 
+ * @property {string} address - street address
+ * @property {string} country - country of the item
+ * @property {string} region - province, county, city or region of the item
+ * @property {string} mapSrc - url of the Google Maps medium embedded frame
+ */
 var AddressSchema = new mongoose.Schema({
     "name": {
         type: String,

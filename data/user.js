@@ -5,7 +5,20 @@ mongoose = require('./connect');
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
-// define the schema for our user model
+/**
+ * User
+ * @requires connect
+ * @requires mongoose
+ * @requires bcrypt-nodejs
+ * @typedef {Object} User
+ * @property {string} google.id - google id for the current user
+ * @property {string} google.token - google token for the current user
+ * @property {string} google.email - google email array for the current user
+ * @property {string} google.name - google name for the current user
+ * 
+ * @property {string} photo.type - profile photo url for the current user
+ * @property {number} role - role assigned to the current user inside the app. "reviewer" as default
+ */
 var userSchema = mongoose.Schema({
 
     google: {
@@ -23,14 +36,14 @@ var userSchema = mongoose.Schema({
     }
 
 });
-
+ 
 // methods ======================
 // generating a hash
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-// checking if password is valid
+// This function checks if the google oauth password is valid.
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };

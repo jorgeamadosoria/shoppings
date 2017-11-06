@@ -1,0 +1,228 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: data/item.js | Source: data/item.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="">
+        
+            <img src="img/toast-ui.png" width="100%" height="100%">
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Source: data/item.js</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Modules</h3><ul><li><a href="app.module_js.html">app.js</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="app.module:js_sub"></div></li><li><a href="config_passport.module_js.html">config/passport.js</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="config/passport.module:js_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="config_passport.module_js.html#~userCallback">userCallback</a></li></ul></div></li><li><a href="data_utils.module_js.html">data/utils.js</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="data/utils.module:js_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="data_utils.module_js.html#.createCrudRouter">createCrudRouter</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>mongoose = require('./connect');
+var utils = require('./utils');
+var _ = require("underscore");
+var paginate = require('mongoose-paginate');
+var mongoose_csv = require('mongoose-csv');
+
+/**
+ * Item
+ * @requires connect
+ * @requires underscore
+ * @requires mongoose-csv
+ * @requires mongoose-paginate
+ * @requires utils
+ * @typedef {Object} Item
+ * @property {string} date - date of this buy
+ * @property {string} product - product bought
+ * @property {string} brand - a reference to an object from the list of brands
+ * @property {string} upp - units in the product bought, if applicable
+ * @property {string} weight - weight of the product bought, if applicable
+ * @property {string} unit - the unit of measurement of this item
+ * @property {string} units_bought - amount of items bought.
+ * @property {string} monthly - a value from the list of monthly payments
+ * @property {string} unit_cost - unit cost of the product. The item cost would be unit cost times weight
+ * @property {string} item_cost - item cost in the currency used
+ * @property {string} reason - a value from the list of reasons
+ * @property {boolean} good_buy - a true / false value indicating that the item was a good buy
+ * @property {boolean} promotion - a true / false value indicating that the item is promotional
+ * @property {Address} address - A reference to an object from the list of addresses
+ * @property {string} type - a value from the list of types
+ * @property {string} category - a value from the list of categories
+ * @property {string} comments - a brief comment on the item, promotion or reasoning for the buy
+ * @property {string} currency - a value from the list of currencies
+ * 
+ */
+var ItemSchema = new mongoose.Schema({
+    "date": {
+        type: Date,
+        default: Date.now,
+        search: "date-search"
+    },
+    "product": {
+        type: String,
+        default: "",
+        search: "string-search"
+    },
+    "brand": {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Brand',
+        search: "brands-search"
+    },
+    "upp": {
+        type: Number,
+        default: 0,
+        search: "number-search"
+    },
+    "weight": {
+        type: Number,
+        default: 0,
+        search: "weight-search"
+    },
+    "unit": {
+        type: String,
+        default: "",
+    },
+    "units_bought": {
+        type: Number,
+        default: 0,
+        search: "number-search"
+    },
+    "monthly": {
+        type: String,
+        ref: "",
+        search: "monthly-search"
+    },
+    "unit_cost": {
+        type: Number,
+        default: 0,
+        search: "currency-search"
+    },
+    "item_cost": {
+        type: Number,
+        default: 0,
+        search: "currency-search"
+    },
+    "reason": {
+        type: String,
+        default: "",
+        search: "reasons-search"
+    },
+    "good_buy": {
+        type: Boolean,
+        default: false,
+        search: "boolean-search"
+    },
+    "promotion": {
+        type: Boolean,
+        default: false,
+        search: "boolean-search"
+    },
+    "address": {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address',
+        search: "addresses-search"
+    },
+    "type": {
+        type: String,
+        default: "",
+        search: "types-search"
+    },
+    "category": {
+        type: String,
+        default: "",
+        search: "categories-search"
+    },
+    "comments": {
+        type: String,
+        default: "",
+        search: "string-search"
+    },
+    "currency": {
+        type: String,
+        default: "",
+        search: "currencies-search"
+    },
+}, {
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    }
+});
+
+
+ItemSchema.virtual('totalItemCost')
+    .get(function() {
+        if (this.units_bought &amp;&amp; this.item_cost)
+            return utils.round(this.units_bought * this.item_cost, 2);
+        return null;
+    });
+
+ItemSchema.methods.toSearchObject = function() {
+    //   console.log(this.schema.paths);
+    //  console.log(_.filter(_.map(this.schema.paths, k => { return { path: k.path, search: k.options.search, type: k.instance }; }), v => !v.path.startsWith("_")));
+    return _.filter(_.map(this.schema.paths, k => { return { path: k.path, search: k.options.search, type: k.instance }; }), v => v.search &amp;&amp; !v.path.startsWith("_"));
+};
+
+ItemSchema.plugin(paginate);
+ItemSchema.plugin(mongoose_csv);
+
+module.exports = mongoose.model("Item", ItemSchema);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="img/toast-ui.png" style="">
+    <div class="footer-text">NHN Entertainment. Frontend Development Lab</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

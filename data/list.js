@@ -1,5 +1,13 @@
 mongoose = require('./connect');
 
+
+/**
+ * List
+ * @requires connect
+ * @typedef {Object} List
+ * @property {string} name - name of the list 
+ * @property {string} values - list of values
+ */
 var ListSchema = new mongoose.Schema({
     "name": {
         type: String,

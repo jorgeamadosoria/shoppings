@@ -135,4 +135,22 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
+/**
+ * @fileOverview App configuration including router config, OAuth config, custom modules and Handlebars helpers
+ * @requires config/passport
+ * @requires hbs
+ * @requires express-session
+ * @requires underscore
+ * @requires connect-flash
+ * @requires passport
+ * @requires data/utils
+ * @requires moment
+ * @requires body-parser
+ * @requires cookie-parser
+ * @requires express
+ * @requires path
+ * @requires morgan
+ * 
+ * @exports module
+ */
 module.exports = app;
