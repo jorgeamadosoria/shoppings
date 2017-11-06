@@ -19,6 +19,13 @@ module.exports = {
         }
     },
 
+    /**
+     * This function deletes an entity
+     *
+     * @param {Number} id - id of the object to delete.
+     * @return {Object} a promise for this operation
+     *
+     */
     delete: function(id) {
         return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
     },
