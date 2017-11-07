@@ -13,14 +13,38 @@ var session = require('express-session');
 
 var Handlebars = require('hbs');
 
+/**
+ * This helper takes a date and presents it in the given format, optionally converting to UTC first.
+ * utc should be set to true in all instances for this app
+ * @param {Date} date - Date to format. It is converted to moment for the formatting task
+ * @param {String} format - Date format
+ * @param {boolean} utc - Convert to UTC prior to formatting
+ */
 Handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 
+/**
+ * This helper takes an object and stringifies it to present it in JSON format.
+ * It is used mostly for debugging
+ * @param {Date} context - the object to JSON.stringify
+ */
 Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);
 });
 
+/**
+ * This helper takes a number value and rounds it to the specified decimals. Usually 2 decimals for this app
+ *
+ * @param {Number} number - Number to round up. Usually a currency value
+ * @param {Number} decimals - decimal places to round the number param
+ */
 Handlebars.registerHelper('round', utils.round);
 
+/**
+ * This helper takes a number value and rounds it to the specified decimals. Usually 2 decimals for this app
+ *
+ * @param {Number} number - Number to round up. Usually a currency value
+ * @param {Number} decimals - decimal places to round the number param
+ */
 Handlebars.registerHelper('map', function(obj, options) {
     return options.fn(Object.keys(obj).map((k) => {
         return {
@@ -30,8 +54,21 @@ Handlebars.registerHelper('map', function(obj, options) {
     }));
 });
 
+/**
+ * This helper takes no argument and return the current month. Useful to filter current items for the index page
+ *
+ */
 Handlebars.registerHelper('currentMonth', utils.currentMonth);
 
+/**
+ * This helper provides the feature of repeating a HTML block an N amount of times.
+ * It´s used specifically for pagination purposes 
+ * 
+ * @param {Number} n - total amount of repetitions
+ * @param {Number} step - the numeric step for each of the pagination
+ * @param {Number} active - the active page, which serves as an anchor point to render n blocks to each side of it
+ *
+ */
 Handlebars.registerHelper('times', function(n, step, active, options) {
     var accum = '';
     accum += options.inverse(1);
@@ -44,6 +81,14 @@ Handlebars.registerHelper('times', function(n, step, active, options) {
     return accum;
 });
 
+/**
+ * This helper takes two arguments and compares then, something that Handlebars does not provide, surprinsingly.
+ * It allows conditional rendering of HTML blocks if the values are equal or not.
+ * 
+ * @param {Number} lvalue - first value to compare
+ * @param {Number} rvalue - second value to compare
+ *
+ */
 Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
     if (lvalue != rvalue) {
         return options.inverse(this);
@@ -52,6 +97,15 @@ Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
     }
 });
 
+/**
+ * This helper takes one value and a list, and checks if the value is contained in the list.
+ * It allows conditional rendering of HTML blocks if the values are equal or not.
+ * It´s used to provide conditional rendering if a role is contained in a list of permissible roles.
+ * 
+ * @param {Number} role - the role to check
+ * @param {Number} roles - the list of authorized roles to render
+ *
+ */
 Handlebars.registerHelper('in', function(role, roles, options) {
     //  console.log(options.fn(this));
     if (_.contains(roles.split(","), role)) {
