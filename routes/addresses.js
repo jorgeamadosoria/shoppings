@@ -1,7 +1,15 @@
 var service = require('../services/address');
 var listService = require('../services/list');
 var utils = require('../data/utils');
-
+/**
+ * @fileOverview CRUD Router for addresses
+ *
+ * @requires services/address
+ * @requires services/list
+ * @requires data/utils
+ * 
+ * @exports module
+ */
 module.exports = utils.createCrudRouter(service, "addresses", ["reviewer", "user", "admin"], ["user", "admin"], function(req, res, next) {
 
     listService.list().then(function(docs) {

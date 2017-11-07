@@ -2,6 +2,15 @@ var service = require('../services/user');
 var listService = require('../services/list');
 var utils = require('../data/utils');
 
+/**
+ * @fileOverview CRUD Router for the users
+ *
+ * @requires services/user
+ * @requires services/list
+ * @requires data/utils
+ * 
+ * @exports module
+ */
 module.exports = utils.createCrudRouter(service, "users", ["admin"], ["admin"], function(req, res, next) {
     var listPromise = listService.list().then(docs =>
         res.locals.lists = listService.listsObject(docs));

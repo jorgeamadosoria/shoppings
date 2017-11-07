@@ -9,9 +9,14 @@ var addressService = require('../services/address');
 
 var router = express.Router();
 
+/**
+ * This function renders the login page prior to any other app access
+ *
+ */
 router.get('/login', function(req, res) {
     res.render('login', { layout: false });
 });
+
 
 router.get('/logout', function(req, res) {
     req.logout();
@@ -48,7 +53,18 @@ router.get('/', utils.loggedRole(["reviewer", "user", "admin"]), function(req, r
     }, utils.handleError);
 });
 
-
-
-
+/**
+ * @fileOverview CRUD Router for the home page. It deals with items and monthly pages, mostly.
+ *
+ * @requires express
+ * @requires underscore
+ * @requires moment
+ * @requires services/brand
+ * @requires services/address
+ * @requires services/list
+ * @requires services/item
+ * @requires data/utils
+ * 
+ * @exports module
+ */
 module.exports = router;

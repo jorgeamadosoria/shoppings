@@ -8,6 +8,10 @@ var utils = require('../data/utils');
 
 var router = express.Router();
 
+/**
+ * This function exposes the UI form for report generation to standard users and admins
+ *
+ */
 router.get('/monthly', utils.loggedRole(["user", "admin"]), function(req, res, next) {
     listService.list().then(function(docs) {
         res.locals.error = req.query.error;
@@ -17,6 +21,13 @@ router.get('/monthly', utils.loggedRole(["user", "admin"]), function(req, res, n
     });
 });
 
+/**
+ * This function exposes the data to format a HTML report to standard users and admins. 
+ * The data is meant to be massaged on the client side to generate the charts.
+ * If the specified month in the query does not have data or there is any issue with the data, 
+ * the user is redirected to the report generation form
+ *
+ */
 router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, next) {
     res.locals.currency = req.query.currency;
     res.locals.month = req.query.month;
@@ -98,4 +109,18 @@ router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, n
         res.redirect("/reports/monthly?error=true");
     });
 });
+
+/**
+ * @fileOverview Router for the monthly reports
+ *
+ * @requires express
+ * @requires underscore
+ * @requires moment
+ * @requires services/list
+ * @requires services/item
+ * @requires services/reports
+ * @requires data/utils
+ * 
+ * @exports module
+ */
 module.exports = router;

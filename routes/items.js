@@ -10,6 +10,11 @@ var queryService = require('../services/query');
 
 var router = express.Router();
 
+/**
+ * This function exposes the csv endpoint to admin users. It allows us to get a list of items in csv format.
+ * Useful for data comparisons and exports. It exports dependent entities in readable format
+ *
+ */
 router.get('/csv', utils.loggedRole(["admin"]), function(req, res, next) {
     res.writeHead(200, {
         'Content-Type': 'text/csv',
@@ -18,6 +23,10 @@ router.get('/csv', utils.loggedRole(["admin"]), function(req, res, next) {
     service.csv(res);
 });
 
+/**
+ * This function exposes the list of items to all logged users. Important for both the home page and the search page
+ *
+ */
 router.get('/list', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
 
     Promise.all([brandService.list().then(docs => res.locals.brands = docs),
@@ -31,6 +40,11 @@ router.get('/list', utils.loggedRole(["reviewer", "user", "admin"]), function(re
     }, utils.handleError);
 });
 
+/**
+ * This function exposes the search feature for items, allowing the logged users to search using any 
+ * combination of criteria or saved queries. It renders without layout to allow embedding
+ *
+ */
 router.post('/search', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
 
     Promise.all([brandService.list().then(docs => res.locals.brands = docs),
@@ -46,7 +60,11 @@ router.post('/search', utils.loggedRole(["reviewer", "user", "admin"]), function
 
 });
 
-
+/**
+ * This function exposes the detailed view of one item to all logged users as a JSON response.
+ * Useful to show in a dialog window
+ *
+ */
 router.get('/detail/:id', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     service.findById(req.params.id).then(function(obj) {
         res.setHeader("Content-Type", "application/json");
@@ -54,8 +72,16 @@ router.get('/detail/:id', utils.loggedRole(["reviewer", "user", "admin"]), funct
     }, utils.handleError);
 });
 
+/**
+ * This function exposes the delete feature to standard users and admins
+ *
+ */
 router.delete('/:id', utils.loggedRole(["user", "admin"]), utils.deleteMw);
 
+/**
+ * This function exposes the upsert UI feature to standard users and admins
+ *
+ */
 router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next) {
 
     var promises = [brandService.list().then(docs => res.locals.brands = docs),
@@ -86,6 +112,10 @@ router.get('/form', utils.loggedRole(["user", "admin"]), function(req, res, next
 
 });
 
+/**
+ * This function exposes the backend upsert feature to standard users and admins
+ *
+ */
 router.post('/update', utils.loggedRole(["user", "admin"]), function(req, res, next) {
     if (req.body.id) {
         service.update(req.body.id, req.body).then(function(obj) {
@@ -97,4 +127,19 @@ router.post('/update', utils.loggedRole(["user", "admin"]), function(req, res, n
 
 });
 
+/**
+ * @fileOverview CRUD Router for items.It also contains additional features like search by criteria and csv exporting
+ *
+ * @requires express
+ * @requires underscore
+ * @requires services/brand
+ * @requires services/address
+ * @requires services/query
+ * @requires services/list
+ * @requires services/item
+ * @requires data/item
+ * @requires data/utils
+ * 
+ * @exports module
+ */
 module.exports = router;
