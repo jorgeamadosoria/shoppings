@@ -17,12 +17,20 @@ router.get('/login', function(req, res) {
     res.render('login', { layout: false });
 });
 
-
+/**
+ * This function exposes the logout feature to all logged users
+ *
+ */
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
 
+/**
+ * This function exposes the home page feature to all logged users. It includes the features to add new items,
+ * this month´s items and monthly payments fulfilled or not.
+ *
+ */
 router.get('/', utils.loggedRole(["reviewer", "user", "admin"]), function(req, res, next) {
     var brandPromise = brandService.list().then(docs => res.locals.brands = docs);
     var monthlyPromise = service.monthlyList().then(docs => res.locals.monthlyTags = utils.stripNAorNull(docs));
