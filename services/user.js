@@ -1,5 +1,12 @@
 var model = require('../data/user');
 
+/**
+ * @fileOverview CRUD serivce for mongoose queries for users
+ *
+ * @requires data/user
+ * 
+ * @exports module
+ */
 module.exports = {
 
     /**
@@ -7,7 +14,7 @@ module.exports = {
      *
      * @param {User} obj - entity to upsert. 
      * @param {Number} id - id of the object to update. Optional, if it is undefined, the entity will be inserted
-     * @return {Object} a promise for the insert operation
+     * @return {Object} a promise for the operation
      *
      */
     upsert: function(obj, id) {
@@ -30,10 +37,22 @@ module.exports = {
         return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
     },
 
+    /**
+     * This function lists all entities in alphabethical order
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
     list: function() {
         return model.find().sort({ "google.name": 'asc' }).exec();
     },
 
+    /**
+     * This function returns one entity by id
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
     findById: function(id) {
         return model.findById(mongoose.Types.ObjectId(id)).exec();
     }

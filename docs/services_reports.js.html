@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: config/passport.js | Source: config/passport.js</title>
+    <title>Source: services/reports.js | Source: services/reports.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: config/passport.js</a></h1>
+        <h1><a href="index.html" class="link">Source: services/reports.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -46,97 +46,246 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-// load up the user model
-var User = require('../data/user');
+            <pre class="prettyprint source linenums"><code>var model = require('../data/item');
+var moment = require('moment');
 
 /**
- * @fileOverview Google OAuth configuration
+ * @fileOverview Service for report mongoose queries. All methods are supposed
+ * to return data for each section of the report.
  *
- * @requires passport-google-oauth
- * @requires data/user
+ * @requires data/item
+ * @requires moment
+ * 
  * @exports module
  */
-module.exports = function(passport) {
-
-    // load the auth variables
-    var configAuth = {
-    
-        'googleAuth': {
-            'clientID': '369036491083-thet031ugc0f9pv1r5g5ljq0dokp8t6c.apps.googleusercontent.com',
-            'clientSecret': 'KJ-mJ3X-Hz9ISsyKNRXRqYQl',
-            'callbackURL': 'http://localhost:3000/auth/google/callback',
-            'realm':'http://localhost:3000'
-        }
-    
-    };
-
-
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
-
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+module.exports = {
 
     /**
-     * This function authenticates an users by their Google OAuth credentials. If the user logs in for the first time, a record is created on the database for them. This allows later change of role.
+     * This function defines the $match filter for the mongoose pipeline of all report sections
      *
-     * @param {string} token - google OAuth token
-     * @param {string} refreshToken - google OAuth refresh token
-     * @param {Object} profile - google profile scope object
-     * @param {function} done - authentication callback to verify users
-     * @return {User} the authenticated user or an error message if authentication fails
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a $match object
      *
      */
-    function userCallback(token, refreshToken, profile, done) {
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
-            // try to find the user based on their google id
-            User.findOne({ 'google.id': profile.id }, function(err, user) {
-                if (err)
-                    return done(err);
+    getMatch: function(currency, month) {
+        var fromD = moment(month + "-01T00:00:00.000Z");
+        return {
+            $match: {
+                $and: [
+                    { $or: [{ item_cost: { $type: 18 } }, { item_cost: { $type: 19 } }, { item_cost: { $type: 16 } }, { item_cost: { $type: 1 } }] },
 
-                if (user) {
-                    // if a user is found, log them in
-                    return done(null, user);
-                } else {
-                    // if the user isnt in our database, create a new user
-                    var newUser = new User();
+                    { units_bought: { $type: 16 } },
+                    {
+                        date: {
+                            "$gte": fromD.utc().toDate()
+                        }
+                    },
+                    {
+                        date: {
+                            "$lt": fromD.add(1, "month").utc().toDate()
+                        }
+                    },
+                    {
+                        currency: currency
+                    }
+                ]
+            }
+        };
+    },
 
-                    // set all of the relevant information
-                    newUser.google.id = profile.id;
-                    newUser.google.token = token;
-                    newUser.photo = profile.photos[0].value;
-                    newUser.google.name = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; // pull the first email
-                    // save the user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
-                    });
+    /**
+     * This function defines the list days and the total expense 
+     * for each one, ordered chronologically
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
+    dailyTotal: function(currency, month) {
+        return model.aggregate([this.getMatch(currency, month),
+            {
+                $project: {
+                    date: 1,
+                    total: {
+                        $multiply: ["$item_cost", "$units_bought"]
+                    }
                 }
-            });
-        });
+            },
+            {
+                $group: {
+                    _id: {
+                        value: "$date"
+                    },
+                    total: {
+                        $sum: "$total"
+                    }
+                }
+            },
+            {
+                $sort: {
+                    date: 1
+                }
+            }
+        ]).exec();
+    },
 
-    }
+    /**
+     * This function defines the list of categories and the total expense 
+     * for each one, ordered descendently
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
+    categoriesChart: function(currency, month) {
+        return model.aggregate([this.getMatch(currency, month), {
+                $project: {
+                    date: 1,
+                    category: 1,
+                    total: {
+                        $multiply: ["$item_cost", "$units_bought"]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        value: "$category"
+                    },
+                    total: {
+                        $sum: "$total"
+                    }
+                }
+            }, {
+                $sort: {
+                    total: -1
+                }
+            }
+        ]).exec();
+    },
 
-    passport.use(new GoogleStrategy({
+    /**
+     * This function defines the list of reasons and the total expense 
+     * for each one, ordered descendently
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
+    reasonsChart: function(currency, month) {
+        return model.aggregate([this.getMatch(currency, month), {
+                $project: {
+                    date: 1,
+                    reason: 1,
+                    total: {
+                        $multiply: ["$item_cost", "$units_bought"]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        value: "$reason"
+                    },
+                    total: {
+                        $sum: "$total"
+                    }
+                }
+            }, {
+                $sort: {
+                    total: -1
+                }
+            }
+        ]).exec();
+    },
 
-            clientID: configAuth.googleAuth.clientID,
-            clientSecret: configAuth.googleAuth.clientSecret,
-            callbackURL: configAuth.googleAuth.callbackURL,
-            realm: configAuth.googleAuth.realm
-        },userCallback
-        ));
+    /**
+     * This function defines the top 10 addresses where the most 
+     * expenses where made on the selected month
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
+    topAddresses: function(currency, month) {
+        return model.aggregate([this.getMatch(currency, month), {
+                $project: {
+                    address: 1,
+                    total: {
+                        $multiply: ["$item_cost", "$units_bought"]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        value: "$address"
+                    },
+                    total: {
+                        $sum: "$total"
+                    }
+                }
+            }, {
+                $sort: {
+                    total: -1
+                }
+            },
+            { $limit: 10 },
+            {
+                $lookup: {
+                    from: "addresses",
+                    localField: "_id.value",
+                    foreignField: "_id",
+                    as: "_id.value"
+                }
+            }
+        ]).exec();
+    },
 
+    /**
+     * This function defines the top 10 addresses where the most 
+     * expenses where made on the selected month
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
+    itemList: function(currency, month) {
+        return model.find(
+            this.getMatch(currency, month)["$match"]
+        ).populate("address").populate("brand").sort("date").exec();
+    },
+
+    /**
+     * This function defines the total monthly expenses
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
+    monthlyTotal: function(currency, month) {
+
+        return model.aggregate([this.getMatch(currency, month),
+            {
+                $group: {
+                    _id: null,
+                    total: {
+                        $sum: 
+                        { 
+                            $multiply: ["$item_cost", "$units_bought"]
+                        }    
+                    }
+                }
+            }
+        ]).exec();
+    },
 };</code></pre>
         </article>
     </section>

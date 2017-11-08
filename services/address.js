@@ -1,5 +1,12 @@
 var model = require('../data/address');
 
+/**
+ * @fileOverview CRUD serivce for mongoose queries for addresses
+ *
+ * @requires data/address
+ * 
+ * @exports module
+ */
 module.exports = {
 
     /**
@@ -30,12 +37,24 @@ module.exports = {
         return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
     },
 
+    /**
+     * This function lists all entities in alphabethical order
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
     list: function () {
         //can't use lean because of virtuals
         return model.find().sort({name:'asc'}).exec();
 
     },
 
+    /**
+     * This function returns one entity by id
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
     findById: function (id) {
         return model.findById(mongoose.Types.ObjectId(id)).lean().exec();
     }

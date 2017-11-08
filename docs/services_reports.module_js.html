@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Global | Global</title>
+    <title>Module: services/reports.js | Module: services/reports.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -24,7 +24,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Global</a></h1>
+        <h1><a href="index.html" class="link">Module: services/reports.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -46,15 +46,68 @@
 
 <header>
     
-        <h2>Global</h2>
-    
 </header>
 
 <article>
     
+        <div class="container-overview">
+        
+            
+                <div class="description">Service for report mongoose queries. All methods are supposedto return data for each section of the report.</div>
+            
+
+            
+
+
+<dl class="details">
 
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:data/item</li>
+        
+            <li>module:moment</li>
+        </ul>
     
 
     
@@ -75,14 +128,14 @@
 
 <dt>
     
-        <h4 class="name" id="zipper">
+        <h4 class="name" id=".categoriesChart">
             
-                <span class="type-signature"></span>zipper<span class="signature">(file)</span><span class="type-signature"> &rarr; {function}</span>
+                <span class="type-signature"><span class="icon green">static</span> </span>categoriesChart<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
                 
             
             <div class="container-source members">
-                <code><a href="routes_backup.js.html">routes/backup.js</a></code>,
-                <code><a href="routes_backup.js.html#line22">line 22</a></code>
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line95">line 95</a></code>
             </div>
             
         </h4>
@@ -94,7 +147,7 @@
 
     
     <div class="description">
-        This function creates a lambda that zips a file containing a JSON representation of all the entites of the application. Useful as backup
+        This function defines the list of categories and the total expense for each one, ordered descendently
     </div>
     
 
@@ -130,7 +183,7 @@
 
         <tr>
             
-                <td class="name"><code>file</code></td>
+                <td class="name"><code>currency</code></td>
             
 
             <td class="type">
@@ -146,7 +199,30 @@
 
             
 
-            <td class="description last">the name of the JSON file, corresponding to the entity to be zipped</td>
+            <td class="description last">the currency to generate the report on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>month</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">month and year to generate the report.</td>
         </tr>
 
     
@@ -174,13 +250,13 @@
 
 
 
-<span class="param-type">function</span>
+<span class="param-type">Object</span>
 
 
 
 
 
-- a lambda corresponding to a zipping action to respond to a fulfilled promise
+- a promise for this object
 
 
 
@@ -227,65 +303,48 @@
 
 
     
-        <h5>Example</h5>
-        
-    <pre class="prettyprint"><code>zipper("brands.json")</code></pre>
-
-    
 
 </dd>
 
-            </dl>
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        <dl>
+            
                 
 
 <dt>
-<h4 class="name" id="Address">
-    Address
     
-    <div class="container-source members">
-        <code><a href="data_address.js.html">data/address.js</a></code>,
-        <code><a href="data_address.js.html#line4">line 4</a></code>
-    </div>
+        <h4 class="name" id=".dailyTotal">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>dailyTotal<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line58">line 58</a></code>
+            </div>
+            
+        </h4>
+
+        
     
-</h4>
-
-
 </dt>
 <dd>
+
     
     <div class="description">
-        Address
+        This function defines the list days and the total expense for each one, ordered chronologically
     </div>
     
 
-    <!--
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
 
     
 
-
-    <h5 class="subsection-title">Properties:</h5>
-
     
 
-<table class="props">
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
     <thead>
     <tr>
         
@@ -303,797 +362,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the name of the store, or point of sale</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>address</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">street address</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>country</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">country of the item</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>region</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">province, county, city or region of the item</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mapSrc</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">url of the Google Maps medium embedded frame</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-            
-                
-
-<dt>
-<h4 class="name" id="Brand">
-    Brand
-    
-    <div class="container-source members">
-        <code><a href="data_brand.js.html">data/brand.js</a></code>,
-        <code><a href="data_brand.js.html#line4">line 4</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        Brand
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>logo</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">url to imgBB for the logo of the bran</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">name of the brand</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a brief description of the main products of the brand, history and other trivia</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-            
-                
-
-<dt>
-<h4 class="name" id="Item">
-    Item
-    
-    <div class="container-source members">
-        <code><a href="data_item.js.html">data/item.js</a></code>,
-        <code><a href="data_item.js.html#line7">line 7</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        Item
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>date</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">date of this buy</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>product</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">product bought</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>brand</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a reference to an object from the list of brands</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>upp</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">units in the product bought, if applicable</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>weight</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">weight of the product bought, if applicable</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>unit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the unit of measurement of this item</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>units_bought</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">amount of items bought.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>monthly</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a value from the list of monthly payments</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>unit_cost</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">unit cost of the product. The item cost would be unit cost times weight</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>item_cost</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">item cost in the currency used</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reason</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a value from the list of reasons</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>good_buy</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a true / false value indicating that the item was a good buy</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>promotion</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a true / false value indicating that the item is promotional</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>address</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Address">Address</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A reference to an object from the list of addresses</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a value from the list of types</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>category</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a value from the list of categories</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>comments</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a brief comment on the item, promotion or reasoning for the buy</td>
-        </tr>
-
     
 
         <tr>
@@ -1114,14 +382,73 @@
 
             
 
-            <td class="description last">a value from the list of currencies</td>
+            <td class="description last">the currency to generate the report on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>month</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">month and year to generate the report.</td>
         </tr>
 
     
     </tbody>
 </table>
 
+    </div>
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this object
+
+
+
+
+            
+    </div>
+    
+
+    
 
 
 <dl class="details">
@@ -1160,54 +487,47 @@
 
     
 
-    
 </dd>
 
             
                 
 
 <dt>
-<h4 class="name" id="List">
-    List
     
-    <div class="container-source members">
-        <code><a href="data_list.js.html">data/list.js</a></code>,
-        <code><a href="data_list.js.html#line4">line 4</a></code>
-    </div>
+        <h4 class="name" id=".getMatch">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>getMatch<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line23">line 23</a></code>
+            </div>
+            
+        </h4>
+
+        
     
-</h4>
-
-
 </dt>
 <dd>
+
     
     <div class="description">
-        List
+        This function defines the $match filter for the mongoose pipeline of all report sections
     </div>
     
 
-    <!--
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
 
     
 
-
-    <h5 class="subsection-title">Properties:</h5>
-
     
 
-<table class="props">
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
     <thead>
     <tr>
         
@@ -1229,7 +549,7 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>currency</code></td>
             
 
             <td class="type">
@@ -1245,14 +565,14 @@
 
             
 
-            <td class="description last">name of the list</td>
+            <td class="description last">the currency to generate the report on.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>values</code></td>
+                <td class="name"><code>month</code></td>
             
 
             <td class="type">
@@ -1268,14 +588,50 @@
 
             
 
-            <td class="description last">list of values</td>
+            <td class="description last">month and year to generate the report.</td>
         </tr>
 
     
     </tbody>
 </table>
 
+    </div>
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a $match object
+
+
+
+
+            
+    </div>
+    
+
+    
 
 
 <dl class="details">
@@ -1314,54 +670,47 @@
 
     
 
-    
 </dd>
 
             
                 
 
 <dt>
-<h4 class="name" id="Query">
-    Query
     
-    <div class="container-source members">
-        <code><a href="data_query.js.html">data/query.js</a></code>,
-        <code><a href="data_query.js.html#line6">line 6</a></code>
-    </div>
+        <h4 class="name" id=".itemList">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>itemList<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line211">line 211</a></code>
+            </div>
+            
+        </h4>
+
+        
     
-</h4>
-
-
 </dt>
 <dd>
+
     
     <div class="description">
-        Query
+        This function defines the top 10 addresses where the most expenses where made on the selected month
     </div>
     
 
-    <!--
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
 
     
 
-
-    <h5 class="subsection-title">Properties:</h5>
-
     
 
-<table class="props">
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
     <thead>
     <tr>
         
@@ -1383,7 +732,7 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>currency</code></td>
             
 
             <td class="type">
@@ -1399,14 +748,14 @@
 
             
 
-            <td class="description last">name of the saved query</td>
+            <td class="description last">the currency to generate the report on.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>query</code></td>
+                <td class="name"><code>month</code></td>
             
 
             <td class="type">
@@ -1422,37 +771,50 @@
 
             
 
-            <td class="description last">json array of criteria object describing this query</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">brief description of the query. Optional</td>
+            <td class="description last">month and year to generate the report.</td>
         </tr>
 
     
     </tbody>
 </table>
 
+    </div>
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this object
+
+
+
+
+            
+    </div>
+    
+
+    
 
 
 <dl class="details">
@@ -1491,54 +853,47 @@
 
     
 
-    
 </dd>
 
             
                 
 
 <dt>
-<h4 class="name" id="User">
-    User
     
-    <div class="container-source members">
-        <code><a href="data_user.js.html">data/user.js</a></code>,
-        <code><a href="data_user.js.html#line8">line 8</a></code>
-    </div>
+        <h4 class="name" id=".monthlyTotal">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>monthlyTotal<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line225">line 225</a></code>
+            </div>
+            
+        </h4>
+
+        
     
-</h4>
-
-
 </dt>
 <dd>
+
     
     <div class="description">
-        User
+        This function defines the total monthly expenses
     </div>
     
 
-    <!--
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
 
     
 
-
-    <h5 class="subsection-title">Properties:</h5>
-
     
 
-<table class="props">
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
     <thead>
     <tr>
         
@@ -1560,7 +915,7 @@
 
         <tr>
             
-                <td class="name"><code>google.id</code></td>
+                <td class="name"><code>currency</code></td>
             
 
             <td class="type">
@@ -1576,14 +931,14 @@
 
             
 
-            <td class="description last">google id for the current user</td>
+            <td class="description last">the currency to generate the report on.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>google.token</code></td>
+                <td class="name"><code>month</code></td>
             
 
             <td class="type">
@@ -1599,106 +954,50 @@
 
             
 
-            <td class="description last">google token for the current user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>google.email</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">google email array for the current user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>google.name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">google name for the current user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>photo.type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">profile photo url for the current user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>role</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">role assigned to the current user inside the app. "reviewer" as default</td>
+            <td class="description last">month and year to generate the report.</td>
         </tr>
 
     
     </tbody>
 </table>
 
+    </div>
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this object
+
+
+
+
+            
+    </div>
+    
+
+    
 
 
 <dl class="details">
@@ -1737,10 +1036,377 @@
 
     
 
+</dd>
+
+            
+                
+
+<dt>
     
+        <h4 class="name" id=".reasonsChart">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>reasonsChart<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line131">line 131</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function defines the list of reasons and the total expense for each one, ordered descendently
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currency</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the currency to generate the report on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>month</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">month and year to generate the report.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this object
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id=".topAddresses">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>topAddresses<span class="signature">(currency, month)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_reports.js.html">services/reports.js</a></code>,
+                <code><a href="services_reports.js.html#line167">line 167</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function defines the top 10 addresses where the most expenses where made on the selected month
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currency</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the currency to generate the report on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>month</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">month and year to generate the report.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this object
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
 </dd>
 
             </dl>
+    
+
     
 
     
@@ -1763,7 +1429,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'services/reports.module:js_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

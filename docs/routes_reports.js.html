@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: config/passport.js | Source: config/passport.js</title>
+    <title>Source: routes/reports.js | Source: routes/reports.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: config/passport.js</a></h1>
+        <h1><a href="index.html" class="link">Source: routes/reports.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -46,98 +46,131 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+            <pre class="prettyprint source linenums"><code>var express = require('express');
+var _ = require("underscore");
+var moment = require('moment');
+var itemService = require('../services/item');
+var listService = require('../services/list');
+var service = require('../services/reports');
+var utils = require('../data/utils');
 
-// load up the user model
-var User = require('../data/user');
+var router = express.Router();
 
 /**
- * @fileOverview Google OAuth configuration
+ * This function exposes the UI form for report generation to standard users and admins
  *
- * @requires passport-google-oauth
- * @requires data/user
+ */
+router.get('/monthly', utils.loggedRole(["user", "admin"]), function(req, res, next) {
+    listService.list().then(function(docs) {
+        res.locals.error = req.query.error;
+        res.locals.lists = listService.listsObject(docs);
+        res.locals.currencies = utils.stripNAorNull(res.locals.lists.currencies);
+        res.render("reports/monthly");
+    });
+});
+
+/**
+ * This function exposes the data to format a HTML report to standard users and admins. 
+ * The data is meant to be massaged on the client side to generate the charts.
+ * If the specified month in the query does not have data or there is any issue with the data, 
+ * the user is redirected to the report generation form
+ *
+ */
+router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, next) {
+    res.locals.currency = req.query.currency;
+    res.locals.month = req.query.month;
+    Promise.all([service.categoriesChart(req.query.currency, req.query.month).then(obj => res.locals.categoriesChart = obj),
+        service.reasonsChart(req.query.currency, req.query.month).then(obj => res.locals.reasonsChart = obj),
+        service.topAddresses(req.query.currency, req.query.month).then(obj => res.locals.topAddresses = obj),
+        service.itemList(req.query.currency, req.query.month).then(obj => res.locals.items = obj),
+        service.dailyTotal(req.query.currency, req.query.month).then(obj => res.locals.dailyTotal = obj),
+        service.monthlyTotal(req.query.currency, req.query.month).then(obj => res.locals.monthlyTotal = obj[0].total)
+    ]).then(function(obj) {
+        res.locals.dailyTotal = _.sortBy(res.locals.dailyTotal, e => moment(e._id.value).utc());
+
+        var days = moment(res.locals.dailyTotal[1]._id.value).daysInMonth();
+        res.locals.dailyTotal = _.map(res.locals.dailyTotal, function(e) {
+            return {
+                _id: {
+                    value: moment(e._id.value).utc().date()
+                },
+                total: e.total
+            };
+        });
+
+        var dailyTotalTemp = new Array(days + 1);
+        _.each(res.locals.dailyTotal, e => dailyTotalTemp[e._id.value] = e);
+        _.each(dailyTotalTemp, e => console.log(e));
+        res.locals.dailyTotal = _.map(dailyTotalTemp, function(e, i) {
+            if (!e) return {
+                _id: {
+                    value: i
+                },
+                total: 0
+            };
+            else return e;
+        }).slice(1, days + 1);
+
+        res.locals.categoriesChart10 = [];
+        if (res.locals.categoriesChart10.length &lt; 10) {
+            for (i = 0; i &lt; 10; i++)
+                if (i &lt; res.locals.categoriesChart.length)
+                    res.locals.categoriesChart10.push(res.locals.categoriesChart[i]);
+                else
+                    res.locals.categoriesChart10.push({
+                        _id: {
+                            value: "-"
+                        },
+                        total: "-"
+                    });
+        }
+
+        res.locals.reasonsChart10 = [];
+        if (res.locals.reasonsChart10.length &lt; 10) {
+            for (i = 0; i &lt; 10; i++)
+                if (i &lt; res.locals.reasonsChart.length)
+                    res.locals.reasonsChart10.push(res.locals.reasonsChart[i]);
+                else
+                    res.locals.reasonsChart10.push({
+                        _id: {
+                            value: "-"
+                        },
+                        total: "-"
+                    });
+        }
+
+        res.locals.topItems = _.sortBy(res.locals.items, e => e.totalItemCost * -1);
+        res.locals.topItems = _.filter(res.locals.topItems, (e, i) => i &lt; 10);
+        res.locals.dayMax = _.max(res.locals.dailyTotal, e => e.total).total;
+        res.locals.monthlyMedian = utils.median(_.map(res.locals.dailyTotal, e => moment(e.total).utc()));
+        res.locals.monthlyAvg = _.reduce(res.locals.dailyTotal, function(memo, num) {
+            return memo + num.total;
+        }, 0);
+        res.locals.monthlyAvg /= res.locals.dailyTotal.length;
+
+        res.render("reports/mreport", {
+            layout: false
+        });
+    }, function() {
+        res.locals.month = req.query.month;
+        res.redirect("/reports/monthly?error=true");
+    });
+});
+
+/**
+ * @fileOverview Router for the monthly reports
+ *
+ * @requires express
+ * @requires underscore
+ * @requires moment
+ * @requires services/list
+ * @requires services/item
+ * @requires services/reports
+ * @requires data/utils
+ * 
  * @exports module
  */
-module.exports = function(passport) {
-
-    // load the auth variables
-    var configAuth = {
-    
-        'googleAuth': {
-            'clientID': '369036491083-thet031ugc0f9pv1r5g5ljq0dokp8t6c.apps.googleusercontent.com',
-            'clientSecret': 'KJ-mJ3X-Hz9ISsyKNRXRqYQl',
-            'callbackURL': 'http://localhost:3000/auth/google/callback',
-            'realm':'http://localhost:3000'
-        }
-    
-    };
-
-
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
-
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
-
-    /**
-     * This function authenticates an users by their Google OAuth credentials. If the user logs in for the first time, a record is created on the database for them. This allows later change of role.
-     *
-     * @param {string} token - google OAuth token
-     * @param {string} refreshToken - google OAuth refresh token
-     * @param {Object} profile - google profile scope object
-     * @param {function} done - authentication callback to verify users
-     * @return {User} the authenticated user or an error message if authentication fails
-     *
-     */
-    function userCallback(token, refreshToken, profile, done) {
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
-            // try to find the user based on their google id
-            User.findOne({ 'google.id': profile.id }, function(err, user) {
-                if (err)
-                    return done(err);
-
-                if (user) {
-                    // if a user is found, log them in
-                    return done(null, user);
-                } else {
-                    // if the user isnt in our database, create a new user
-                    var newUser = new User();
-
-                    // set all of the relevant information
-                    newUser.google.id = profile.id;
-                    newUser.google.token = token;
-                    newUser.photo = profile.photos[0].value;
-                    newUser.google.name = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; // pull the first email
-                    // save the user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
-                    });
-                }
-            });
-        });
-
-    }
-
-    passport.use(new GoogleStrategy({
-
-            clientID: configAuth.googleAuth.clientID,
-            clientSecret: configAuth.googleAuth.clientSecret,
-            callbackURL: configAuth.googleAuth.callbackURL,
-            realm: configAuth.googleAuth.realm
-        },userCallback
-        ));
-
-};</code></pre>
+module.exports = router;</code></pre>
         </article>
     </section>
 

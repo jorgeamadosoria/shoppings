@@ -1,5 +1,12 @@
 var model = require('../data/brand');
 
+/**
+ * @fileOverview CRUD serivce for mongoose queries for brands
+ *
+ * @requires data/brand
+ * 
+ * @exports module
+ */
 module.exports = {
 
     /**
@@ -30,10 +37,22 @@ module.exports = {
         return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
     },
 
+    /**
+     * This function lists all entities in alphabethical order
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
     list: function() {
         return model.find().sort({ name: 'asc' }).lean().exec();
     },
 
+    /**
+     * This function returns one entity by id
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
     findById: function(id) {
         return model.findById(mongoose.Types.ObjectId(id)).lean().exec();
     }

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: config/passport.js | Source: config/passport.js</title>
+    <title>Source: services/address.js | Source: services/address.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: config/passport.js</a></h1>
+        <h1><a href="index.html" class="link">Source: services/address.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -46,97 +46,66 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-// load up the user model
-var User = require('../data/user');
+            <pre class="prettyprint source linenums"><code>var model = require('../data/address');
 
 /**
- * @fileOverview Google OAuth configuration
+ * @fileOverview CRUD serivce for mongoose queries for addresses
  *
- * @requires passport-google-oauth
- * @requires data/user
+ * @requires data/address
+ * 
  * @exports module
  */
-module.exports = function(passport) {
-
-    // load the auth variables
-    var configAuth = {
-    
-        'googleAuth': {
-            'clientID': '369036491083-thet031ugc0f9pv1r5g5ljq0dokp8t6c.apps.googleusercontent.com',
-            'clientSecret': 'KJ-mJ3X-Hz9ISsyKNRXRqYQl',
-            'callbackURL': 'http://localhost:3000/auth/google/callback',
-            'realm':'http://localhost:3000'
-        }
-    
-    };
-
-
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
-
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+module.exports = {
 
     /**
-     * This function authenticates an users by their Google OAuth credentials. If the user logs in for the first time, a record is created on the database for them. This allows later change of role.
+     * This function insert or updates an entity
      *
-     * @param {string} token - google OAuth token
-     * @param {string} refreshToken - google OAuth refresh token
-     * @param {Object} profile - google profile scope object
-     * @param {function} done - authentication callback to verify users
-     * @return {User} the authenticated user or an error message if authentication fails
+     * @param {Address} obj - entity to upsert. If the entity has id it will be updated, if not, it will be inserted
+     * @param {Number} id - id of the object to update. Optional, if it is undefined, the entity will be inserted
+     * @return {Object} a promise for this operation
      *
      */
-    function userCallback(token, refreshToken, profile, done) {
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
-            // try to find the user based on their google id
-            User.findOne({ 'google.id': profile.id }, function(err, user) {
-                if (err)
-                    return done(err);
+    upsert: function(obj, id) {
+        if (id === undefined)
+            return model.create(obj);
+        else {
+            obj._id = mongoose.Types.ObjectId(id);
+            return model.findByIdAndUpdate(obj._id, obj).exec();
+        }
+    },
 
-                if (user) {
-                    // if a user is found, log them in
-                    return done(null, user);
-                } else {
-                    // if the user isnt in our database, create a new user
-                    var newUser = new User();
+    /**
+     * This function deletes an entity
+     *
+     * @param {Number} id - id of the object to delete.
+     * @return {Object} a promise for this operation
+     *
+     */
+    delete: function (id) {
+        return model.findByIdAndRemove(mongoose.Types.ObjectId(id)).exec();
+    },
 
-                    // set all of the relevant information
-                    newUser.google.id = profile.id;
-                    newUser.google.token = token;
-                    newUser.photo = profile.photos[0].value;
-                    newUser.google.name = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; // pull the first email
-                    // save the user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
-                    });
-                }
-            });
-        });
+    /**
+     * This function lists all entities in alphabethical order
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
+    list: function () {
+        //can't use lean because of virtuals
+        return model.find().sort({name:'asc'}).exec();
 
+    },
+
+    /**
+     * This function returns one entity by id
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
+    findById: function (id) {
+        return model.findById(mongoose.Types.ObjectId(id)).lean().exec();
     }
-
-    passport.use(new GoogleStrategy({
-
-            clientID: configAuth.googleAuth.clientID,
-            clientSecret: configAuth.googleAuth.clientSecret,
-            callbackURL: configAuth.googleAuth.callbackURL,
-            realm: configAuth.googleAuth.realm
-        },userCallback
-        ));
-
 };</code></pre>
         </article>
     </section>

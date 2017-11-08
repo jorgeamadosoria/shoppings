@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: config/passport.js | Source: config/passport.js</title>
+    <title>Source: services/item.js | Source: services/item.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +26,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: config/passport.js</a></h1>
+        <h1><a href="index.html" class="link">Source: services/item.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -46,96 +46,254 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+            <pre class="prettyprint source linenums"><code>var model = require('../data/item');
+var _ = require("underscore");
+var moment = require('moment');
 
-// load up the user model
-var User = require('../data/user');
-
-/**
- * @fileOverview Google OAuth configuration
- *
- * @requires passport-google-oauth
- * @requires data/user
- * @exports module
- */
-module.exports = function(passport) {
-
-    // load the auth variables
-    var configAuth = {
-    
-        'googleAuth': {
-            'clientID': '369036491083-thet031ugc0f9pv1r5g5ljq0dokp8t6c.apps.googleusercontent.com',
-            'clientSecret': 'KJ-mJ3X-Hz9ISsyKNRXRqYQl',
-            'callbackURL': 'http://localhost:3000/auth/google/callback',
-            'realm':'http://localhost:3000'
-        }
-    
-    };
-
-
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
-
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+module.exports = {
 
     /**
-     * This function authenticates an users by their Google OAuth credentials. If the user logs in for the first time, a record is created on the database for them. This allows later change of role.
-     *
-     * @param {string} token - google OAuth token
-     * @param {string} refreshToken - google OAuth refresh token
-     * @param {Object} profile - google profile scope object
-     * @param {function} done - authentication callback to verify users
-     * @return {User} the authenticated user or an error message if authentication fails
+     * This function insert an entity. 
+     * 
+     * @param {User} obj - entity to insert. 
+     * @return {Object} a promise for the insert operation
      *
      */
-    function userCallback(token, refreshToken, profile, done) {
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
-            // try to find the user based on their google id
-            User.findOne({ 'google.id': profile.id }, function(err, user) {
-                if (err)
-                    return done(err);
+    insert: function(obj) {
 
-                if (user) {
-                    // if a user is found, log them in
-                    return done(null, user);
-                } else {
-                    // if the user isnt in our database, create a new user
-                    var newUser = new User();
+        if (obj.brand)
+            obj.brand = mongoose.Types.ObjectId(obj.brand);
+        if (obj.address) {
+            obj.address = mongoose.Types.ObjectId(obj.address);
+        }
+        return model.create(obj);
+    },
 
-                    // set all of the relevant information
-                    newUser.google.id = profile.id;
-                    newUser.google.token = token;
-                    newUser.photo = profile.photos[0].value;
-                    newUser.google.name = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; // pull the first email
-                    // save the user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
+    /**
+     * This function updates an entity.
+     * 
+     * @param {User} obj - entity to update. 
+     * @param {Number} id - id of the object to update. 
+     * @return {Object} a promise for the update operation
+     *
+     */
+    update: function(id, obj) {
+
+        obj.good_buy = (obj.good_buy) ? true : false;
+        obj.promotion = (obj.promotion) ? true : false;
+
+        obj._id = mongoose.Types.ObjectId(id);
+
+
+        if (obj.brand)
+            obj.brand = mongoose.Types.ObjectId(obj.brand);
+        if (obj.address) {
+            obj.address = mongoose.Types.ObjectId(obj.address);
+        }
+
+        return model.findByIdAndUpdate(obj._id, obj, {
+            new: true
+        }).populate("brand").populate("address").exec();
+    },
+    /**
+     * This function deletes an entity
+     *
+     * @param {Number} id - id of the object to delete.
+     * @return {Object} a promise for this operation
+     *
+     */
+    delete: function(id) {
+        var _id = mongoose.Types.ObjectId(id);
+        return model.findByIdAndRemove(_id).exec();
+    },
+
+    /**
+     * This function lists entities corresponding to the query.
+     * It includes population from depending references
+     * @param {Object} query - json collection of query criteria. This is processed into a mongoose query
+     * @return {Object} a promise for this operation
+     *
+     */
+    list: function(query) {
+        return model.find(this.buildQuery(query)).populate("brand").populate("address").exec();
+    },
+
+    /**
+     * This function lists all items in csv format.
+     * It includes population from depending references, also in csv format
+     * @param {Object} res - response object to which the csv string can be stream to
+     * @return {Object} csv string. Moot since it is also streamed directly into the response object
+     *
+     */
+    csv: function(res) {
+        return model.find().populate("brand").populate("address").csv(res);
+    },
+
+    /**
+     * This function builds a mongoose query from the user search criteria.
+     * Each criteria is processed by an internal function, specific for each 
+     * search field. These functions each one contribute to the final Mongoose query object.
+     * 
+     * @param {Object} clientQuery - array of search criteria as selected by the user
+     * @return {Object} mongoose query object created from search criteria specified
+     *
+     */
+    buildQuery: function(clientQuery) {
+
+        var _in = function(query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    query[field] = {};
+                    query[field]["$in"] = _.map(clientQuery[field].fields, (ele) => ele.key);
+                }
+            }
+        };
+
+        var _regexp = function(query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length &amp;&amp; clientQuery[field].fields[0].value) {
+                    query[field] = {};
+                    query[field] = new RegExp(clientQuery[field].fields[0].value);
+                }
+            }
+        };
+
+        var _bool = function(query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length &amp;&amp; clientQuery[field].fields[0].value) {
+                    query[field] = {};
+                    query[field] = clientQuery[field].fields[0].value;
+                }
+            }
+        };
+
+        var _date = function(query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    _.each(clientQuery[field].fields, (ele) => {
+                        if (ele.key === 'to' &amp;&amp; ele.value) {
+                            query[field] = {};
+                            query[field]["$lte"] = moment(ele.value).format("YYYY-MM-DD");
+                        }
+                        if (ele.key === 'from' &amp;&amp; ele.value) {
+                            if (!query[field])
+                                query[field] = {};
+                            query[field]["$gte"] = moment(ele.value).format("YYYY-MM-DD");
+                        }
                     });
                 }
-            });
-        });
+            }
+        };
 
+        var _range = function(query, clientQuery, field) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    _.each(clientQuery[field].fields, (ele) => {
+                        if (ele.key === 'to' &amp;&amp; ele.value) {
+                            query[field] = {};
+                            query[field]["$lte"] = ele.value;
+                        }
+                        if (ele.key === 'from' &amp;&amp; ele.value) {
+                            if (!query[field])
+                                query[field] = {};
+                            query[field]["$gte"] = ele.value;
+                        }
+                    });
+                }
+            }
+        };
+
+        var _weight = function(query, clientQuery, field, field2) {
+            if (clientQuery[field]) {
+                if (clientQuery[field].fields.length) {
+                    _.each(clientQuery[field].fields, (ele) => {
+                        if (ele.key === 'to' &amp;&amp; ele.value) {
+                            query[field] = {};
+                            query[field]["$lte"] = ele.value;
+                        }
+                        if (ele.key === 'from' &amp;&amp; ele.value) {
+                            if (!query[field])
+                                query[field] = {};
+                            query[field]["$gte"] = ele.value;
+                        }
+                        if (ele.key === 'value' &amp;&amp; ele.value) {
+                            query[field2] = {};
+                            query[field2] = ele.value;
+                        }
+                    });
+                }
+            }
+        };
+
+
+        var query = {};
+
+        _date(query, clientQuery, "date");
+        _regexp(query, clientQuery, "product");
+        _regexp(query, clientQuery, "comments");
+        _in(query, clientQuery, "monthly");
+        _in(query, clientQuery, "brand");
+        _in(query, clientQuery, "address");
+        _in(query, clientQuery, "category");
+        _in(query, clientQuery, "reason");
+        _in(query, clientQuery, "monthly");
+        _in(query, clientQuery, "currency");
+        _range(query, clientQuery, "upp");
+        _range(query, clientQuery, "units_bought");
+        _range(query, clientQuery, "unit_cost");
+        _range(query, clientQuery, "item_cost");
+        _range(query, clientQuery, "item_cost");
+        _weight(query, clientQuery, "weight", "unit");
+        _bool(query, clientQuery, "promotion");
+        _bool(query, clientQuery, "good_buy");
+
+        return query;
+    },
+
+    /**
+     * This function creates a paginated view of an item list, 
+     * corresponding to the set of search criteria specified by the user
+     * 
+     * @param {Object} query - array of search criteria as selected by the user
+     * @return {Object} a promise for this operation
+     *
+     */
+    paginate: function(query) {
+
+        //   console.log("query " + JSON.stringify(query));
+        return model.paginate(this.buildQuery(query), {
+            page: query.page, //query.page?query.page:1,
+            limit: 10, //query.limit?query.limit:10,
+            sort: {
+                date: 'desc'
+            },
+            populate: ["brand", "address"]
+        });
+    },
+
+    /**
+     * This function returns one entity by id. It also populates dependencies
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
+    findById: function(id) {
+        var _id = mongoose.Types.ObjectId(id);
+        return model.findById(_id).populate("brand").populate("address").exec();
+    },
+
+    /**
+     * This function returns a list of monthly payments, and the date on which each one was made. 
+     * This is useful for the home page and in signalling if each monthly paymen was made or not. 
+     *
+     * @return {Object} a promise for this operation
+     *
+     */
+    monthlyList: function() {
+        return model.aggregate([{ $group: { _id: "$monthly", lastDate: { $max: "$date" } } }]).exec();
     }
 
-    passport.use(new GoogleStrategy({
 
-            clientID: configAuth.googleAuth.clientID,
-            clientSecret: configAuth.googleAuth.clientSecret,
-            callbackURL: configAuth.googleAuth.callbackURL,
-            realm: configAuth.googleAuth.realm
-        },userCallback
-        ));
 
 };</code></pre>
         </article>

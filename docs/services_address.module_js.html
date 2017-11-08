@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: config/passport.js | Source: config/passport.js</title>
+    <title>Module: services/address.js | Module: services/address.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +24,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: config/passport.js</a></h1>
+        <h1><a href="index.html" class="link">Module: services/address.js</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -43,103 +41,658 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+</header>
 
-// load up the user model
-var User = require('../data/user');
-
-/**
- * @fileOverview Google OAuth configuration
- *
- * @requires passport-google-oauth
- * @requires data/user
- * @exports module
- */
-module.exports = function(passport) {
-
-    // load the auth variables
-    var configAuth = {
+<article>
     
-        'googleAuth': {
-            'clientID': '369036491083-thet031ugc0f9pv1r5g5ljq0dokp8t6c.apps.googleusercontent.com',
-            'clientSecret': 'KJ-mJ3X-Hz9ISsyKNRXRqYQl',
-            'callbackURL': 'http://localhost:3000/auth/google/callback',
-            'realm':'http://localhost:3000'
-        }
+        <div class="container-overview">
+        
+            
+                <div class="description">CRUD serivce for mongoose queries for addresses</div>
+            
+
+            
+
+
+<dl class="details">
+
     
-    };
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
+            
+        
+        </div>
+    
 
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+    
 
-    /**
-     * This function authenticates an users by their Google OAuth credentials. If the user logs in for the first time, a record is created on the database for them. This allows later change of role.
-     *
-     * @param {string} token - google OAuth token
-     * @param {string} refreshToken - google OAuth refresh token
-     * @param {Object} profile - google profile scope object
-     * @param {function} done - authentication callback to verify users
-     * @return {User} the authenticated user or an error message if authentication fails
-     *
-     */
-    function userCallback(token, refreshToken, profile, done) {
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
-            // try to find the user based on their google id
-            User.findOne({ 'google.id': profile.id }, function(err, user) {
-                if (err)
-                    return done(err);
+    
+        <h3 class="subsection-title">Requires</h3>
 
-                if (user) {
-                    // if a user is found, log them in
-                    return done(null, user);
-                } else {
-                    // if the user isnt in our database, create a new user
-                    var newUser = new User();
+        <ul>
+            <li>module:data/address</li>
+        </ul>
+    
 
-                    // set all of the relevant information
-                    newUser.google.id = profile.id;
-                    newUser.google.token = token;
-                    newUser.photo = profile.photos[0].value;
-                    newUser.google.name = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; // pull the first email
-                    // save the user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
-                    });
-                }
-            });
-        });
+    
 
-    }
+    
 
-    passport.use(new GoogleStrategy({
+    
 
-            clientID: configAuth.googleAuth.clientID,
-            clientSecret: configAuth.googleAuth.clientSecret,
-            callbackURL: configAuth.googleAuth.callbackURL,
-            realm: configAuth.googleAuth.realm
-        },userCallback
-        ));
+    
 
-};</code></pre>
-        </article>
-    </section>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id=".delete">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>delete<span class="signature">(id)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_address.js.html">services/address.js</a></code>,
+                <code><a href="services_address.js.html#line36">line 36</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function deletes an entity
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of the object to delete.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this operation
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id=".findById">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>findById<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_address.js.html">services/address.js</a></code>,
+                <code><a href="services_address.js.html#line58">line 58</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function returns one entity by id
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this operation
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id=".list">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>list<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_address.js.html">services/address.js</a></code>,
+                <code><a href="services_address.js.html#line46">line 46</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function lists all entities in alphabethical order
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this operation
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id=".upsert">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>upsert<span class="signature">(obj, id)</span><span class="type-signature"> &rarr; {Object}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="services_address.js.html">services/address.js</a></code>,
+                <code><a href="services_address.js.html#line20">line 20</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function insert or updates an entity
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Address">Address</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">entity to upsert. If the entity has id it will be updated, if not, it will be inserted</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of the object to update. Optional, if it is undefined, the entity will be inserted</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Object</span>
+
+
+
+
+
+- a promise for this operation
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -156,7 +709,7 @@ module.exports = function(passport) {
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'services/address.module:js_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

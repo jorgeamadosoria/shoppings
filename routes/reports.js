@@ -104,7 +104,6 @@ router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, n
             layout: false
         });
     }, function() {
-        console.log("catch");
         res.locals.month = req.query.month;
         res.redirect("/reports/monthly?error=true");
     });

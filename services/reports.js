@@ -1,7 +1,25 @@
 var model = require('../data/item');
 var moment = require('moment');
 
+/**
+ * @fileOverview Service for report mongoose queries. All methods are supposed
+ * to return data for each section of the report.
+ *
+ * @requires data/item
+ * @requires moment
+ * 
+ * @exports module
+ */
 module.exports = {
+
+    /**
+     * This function defines the $match filter for the mongoose pipeline of all report sections
+     *
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a $match object
+     *
+     */
     getMatch: function(currency, month) {
         var fromD = moment(month + "-01T00:00:00.000Z");
         return {
@@ -27,6 +45,16 @@ module.exports = {
             }
         };
     },
+
+    /**
+     * This function defines the list days and the total expense 
+     * for each one, ordered chronologically
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
     dailyTotal: function(currency, month) {
         return model.aggregate([this.getMatch(currency, month),
             {
@@ -54,6 +82,16 @@ module.exports = {
             }
         ]).exec();
     },
+
+    /**
+     * This function defines the list of categories and the total expense 
+     * for each one, ordered descendently
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
     categoriesChart: function(currency, month) {
         return model.aggregate([this.getMatch(currency, month), {
                 $project: {
@@ -80,6 +118,16 @@ module.exports = {
             }
         ]).exec();
     },
+
+    /**
+     * This function defines the list of reasons and the total expense 
+     * for each one, ordered descendently
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
     reasonsChart: function(currency, month) {
         return model.aggregate([this.getMatch(currency, month), {
                 $project: {
@@ -107,6 +155,15 @@ module.exports = {
         ]).exec();
     },
 
+    /**
+     * This function defines the top 10 addresses where the most 
+     * expenses where made on the selected month
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
     topAddresses: function(currency, month) {
         return model.aggregate([this.getMatch(currency, month), {
                 $project: {
@@ -142,22 +199,40 @@ module.exports = {
         ]).exec();
     },
 
+    /**
+     * This function defines the top 10 addresses where the most 
+     * expenses where made on the selected month
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
     itemList: function(currency, month) {
         return model.find(
             this.getMatch(currency, month)["$match"]
         ).populate("address").populate("brand").sort("date").exec();
     },
 
+    /**
+     * This function defines the total monthly expenses
+     * 
+     * @param {string} currency - the currency to generate the report on. 
+     * @param {string} month - month and year to generate the report. 
+     * @return {Object} a promise for this object
+     *
+     */
     monthlyTotal: function(currency, month) {
 
         return model.aggregate([this.getMatch(currency, month),
             {
                 $group: {
-                    _id: {
-                        currency: "$currency"
-                    },
+                    _id: null,
                     total: {
-                        $sum: "$item_cost"
+                        $sum: 
+                        { 
+                            $multiply: ["$item_cost", "$units_bought"]
+                        }    
                     }
                 }
             }
