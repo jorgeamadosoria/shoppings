@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var promise = mongoose.connect(process.env.MONGODB, {
+var promise = mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL +
+  process.env.OPENSHIFT_APP_NAME, {
     useMongoClient: true,
     /* other options */
   });
