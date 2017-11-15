@@ -103,7 +103,7 @@ module.exports = {
      */
     loggedRole: function(roles) {
         //debugging switch
-        var alwaysLoggedIn = true;
+        var alwaysLoggedIn = false;
 
         return function(req, res, next) {
             if (!alwaysLoggedIn) {
