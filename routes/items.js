@@ -76,7 +76,7 @@ router.get('/detail/:id', utils.loggedRole(["reviewer", "user", "admin"]), funct
  * This function exposes the delete feature to standard users and admins
  *
  */
-router.delete('/:id', utils.loggedRole(["user", "admin"]), utils.deleteMw);
+router.delete('/:id', utils.loggedRole(["user", "admin"]), this.deleteMw(service));
 
 /**
  * This function exposes the upsert UI feature to standard users and admins
