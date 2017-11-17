@@ -33,19 +33,13 @@ router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, n
     res.locals.month = req.query.month;
     promises = [];
 
-    console.log("first promise");
-    promises.push(service.categoriesChart(req.query.currency, req.query.month).then(obj => res.locals.categoriesChart = obj));
-    console.log("second promise");
-    promises.push(service.reasonsChart(req.query.currency, req.query.month).then(obj => res.locals.reasonsChart = obj));
-    console.log("third promise");
-    promises.push(service.topAddresses(req.query.currency, req.query.month).then(obj => res.locals.topAddresses = obj));
-    console.log("fourth promise");
-    promises.push(service.itemList(req.query.currency, req.query.month).then(obj => res.locals.items = obj));
-    console.log("fifth promise");
-    promises.push(service.dailyTotal(req.query.currency, req.query.month).then(obj => res.locals.dailyTotal = obj));
-    console.log("sixth promise");
-    promises.push(service.monthlyTotal(req.query.currency, req.query.month).then(obj => res.locals.monthlyTotal = obj[0].total));
-    console.log("seventh promise");
+    
+    promises.push(service.categoriesChart(req.query.currency, req.query.month).then(obj => res.locals.categoriesChart = obj).catch(e => console.log(e)));
+    promises.push(service.reasonsChart(req.query.currency, req.query.month).then(obj => res.locals.reasonsChart = obj).catch(e => console.log(e)));
+    promises.push(service.topAddresses(req.query.currency, req.query.month).then(obj => res.locals.topAddresses = obj).catch(e => console.log(e)));
+    promises.push(service.itemList(req.query.currency, req.query.month).then(obj => res.locals.items = obj).catch(e => console.log(e)));
+    promises.push(service.dailyTotal(req.query.currency, req.query.month).then(obj => res.locals.dailyTotal = obj).catch(e => console.log(e)));
+    promises.push(service.monthlyTotal(req.query.currency, req.query.month).then(obj => res.locals.monthlyTotal = obj[0].total).catch(e => console.log(e)));
 
     Promise.all(promises).then(function(obj) {
         res.locals.dailyTotal = _.sortBy(res.locals.dailyTotal, e => moment(e._id.value).utc());
