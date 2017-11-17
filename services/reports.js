@@ -25,7 +25,7 @@ module.exports = {
         return {
             $match: {
                 $and: [
-                    { $or: [{ item_cost: { $type: 18 } }, { item_cost: { $type: 19 } }, { item_cost: { $type: 16 } }, { item_cost: { $type: 1 } }] },
+                    { $or: [{ item_cost: { $type: 18 } }, /*{ item_cost: { $type: 19 } },*/ { item_cost: { $type: 16 } }, { item_cost: { $type: 1 } }] },
 
                     { units_bought: { $type: 16 } },
                     {
