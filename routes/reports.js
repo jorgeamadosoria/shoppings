@@ -31,13 +31,23 @@ router.get('/monthly', utils.loggedRole(["user", "admin"]), function(req, res, n
 router.get('/mreport', utils.loggedRole(["user", "admin"]), function(req, res, next) {
     res.locals.currency = req.query.currency;
     res.locals.month = req.query.month;
-    Promise.all([service.categoriesChart(req.query.currency, req.query.month).then(obj => res.locals.categoriesChart = obj),
-        service.reasonsChart(req.query.currency, req.query.month).then(obj => res.locals.reasonsChart = obj),
-        service.topAddresses(req.query.currency, req.query.month).then(obj => res.locals.topAddresses = obj),
-        service.itemList(req.query.currency, req.query.month).then(obj => res.locals.items = obj),
-        service.dailyTotal(req.query.currency, req.query.month).then(obj => res.locals.dailyTotal = obj),
-        service.monthlyTotal(req.query.currency, req.query.month).then(obj => res.locals.monthlyTotal = obj[0].total)
-    ]).then(function(obj) {
+    promises = [];
+
+    console.log("first promise");
+    promises.push(service.categoriesChart(req.query.currency, req.query.month).then(obj => res.locals.categoriesChart = obj));
+    console.log("second promise");
+    promises.push(service.reasonsChart(req.query.currency, req.query.month).then(obj => res.locals.reasonsChart = obj));
+    console.log("third promise");
+    promises.push(service.topAddresses(req.query.currency, req.query.month).then(obj => res.locals.topAddresses = obj));
+    console.log("fourth promise");
+    promises.push(service.itemList(req.query.currency, req.query.month).then(obj => res.locals.items = obj));
+    console.log("fifth promise");
+    promises.push(service.dailyTotal(req.query.currency, req.query.month).then(obj => res.locals.dailyTotal = obj));
+    console.log("sixth promise");
+    promises.push(service.monthlyTotal(req.query.currency, req.query.month).then(obj => res.locals.monthlyTotal = obj[0].total));
+    console.log("seventh promise");
+
+    Promise.all(promises).then(function(obj) {
         res.locals.dailyTotal = _.sortBy(res.locals.dailyTotal, e => moment(e._id.value).utc());
 
         var days = moment(res.locals.dailyTotal[1]._id.value).daysInMonth();
