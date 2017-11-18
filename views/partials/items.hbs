@@ -1,3 +1,4 @@
+
 <div class="panel panel-black">
     <div class="panel-body">
         <table class="table table-striped">
@@ -114,9 +115,9 @@
                         <div class="col-lg-2">
                             <label for="reason" class="control-label">Reason</label>
                             <select class="form-control" name="reason" id="reason">
-                            {{#reasons}}
+                            {{#lists.reasons}}
                                 <option>{{this}}</option>
-                            {{/reasons}}
+                            {{/lists.reasons}}
                         </select>
                         </div>
                         <div class="col-lg-2">
@@ -128,9 +129,9 @@
                             <div class="input-group">
                                 <input class="form-control" step=".001" min="0" type="number" name="weight" id="weight" />
                                 <select class="selectpicker" name="unit" id="unit">
-                                {{#units}}
+                                {{#lists.units}}
                                     <option>{{this}}</option>
-                                {{/units}}
+                                {{/lists.units}}
                             </select>
                             </div>
                         </div>
@@ -147,9 +148,9 @@
                             <div class="input-group">
                                 <input class="form-control" name="item_cost" id="item_cost" type="number" step=".01" min="0" />
                                 <select class="selectpicker" name="currency" id="currency">
-                                {{#currencies}}
+                                {{#lists.currencies}}
                                     <option value="{{this}}">{{this}}</option>
-                                {{/currencies}}
+                                {{/lists.currencies}}
                             </select>
                             </div>
                         </div>
@@ -164,17 +165,17 @@
                         <div class="col-lg-2">
                             <label for="type" class="control-label">Type</label>
                             <select class="form-control" name="type" id="type">
-                            {{#types}}
+                            {{#lists.types}}
                                 <option>{{this}}</option>
-                            {{/types}}
+                            {{/lists.types}}
                         </select>
                         </div>
                         <div class="col-lg-2">
                             <label for="category" class="control-label">Category</label>
                             <select class="form-control" name="category" id="category">
-                            {{#categories}}
+                            {{#lists.categories}}
                                 <option>{{this}}</option>
-                            {{/categories}}
+                            {{/lists.categories}}
                         </select>
                         </div>
                         <div class="col-lg-1">
@@ -188,9 +189,9 @@
                         <div class="col-lg-2">
                             <label for="monthly" class="control-label">Monthly</label>
                             <select class="form-control" name="monthly" id="monthly">
-                            {{#monthly}}
+                            {{#lists.monthly}}
                                 <option>{{this}}</option>
-                            {{/monthly}}
+                            {{/lists.monthly}}
                         </select>
                         </div>
                         <div class="col-lg-12">

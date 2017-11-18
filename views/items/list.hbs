@@ -186,7 +186,9 @@
             </div>
         </div>
         <div class="col-lg-1 col-sm-1">
-            <button id="save" class="pull-right btn btn-default" type="submit">Save...</button>
+            {{#in user.role 'user,admin'}}
+                <button id="save" class="pull-right btn btn-default" type="submit">Save...</button>
+            {{/in}}
         </div>
         <div class="col-lg-1 col-sm-1">
             <button id="search" class="pull-right btn btn-default btn-dark">Search</button>
@@ -206,7 +208,7 @@
 
 <div id="searchResults">
 </div>
-
+{{#in user.role 'user,admin'}}
 <div id="queryModal" class="modal fade" role="dialog">
     <form class="form-horizontal" enctype="application/x-www-form-urlencoded" action="/queries/form" method="post">
         <div class="modal-dialog modal-lg">
@@ -242,7 +244,7 @@
         </div>
     </form>
 </div>
-  
+{{/in}}
 <script>
 
     function triggerSearch(page) {
