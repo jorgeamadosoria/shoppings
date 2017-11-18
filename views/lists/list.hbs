@@ -32,22 +32,6 @@
     </div>
 </div>
 
-<div id="detailsModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="bg-dark modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">List details</h4>
-      </div>
-      <div class="modal-body">
-          <p id="values"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 <script>
     
     $("a#del-link").on("click", function (event) {
@@ -68,11 +52,5 @@
             }
         });
     });
-
-    $("#modal-row-container td:not(#actions)").on('click', function (e) {
-        $("#detailsModal .modal-title").text($(e.target).parent().find("#name").text());
-        $("#detailsModal .modal-body #values").text(JSON.stringify($(e.target).parent().data("values")));
-        $("#detailsModal").modal({keyboard: true});
-    });    
 
 </script>
