@@ -129,6 +129,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'docs')));
+
 //for passport, following tutorial: https://scotch.io/tutorials/easy-node-authentication-setup-and-local
 app.use(session({
     secret: 'shoppingSecret'

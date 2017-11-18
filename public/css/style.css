@@ -15,6 +15,10 @@
     td#date {
         font-size: 80%
     }
+
+    .values {
+        word-break: break-all;
+    }
     
     .pagebar {
         margin: 0px 0;
