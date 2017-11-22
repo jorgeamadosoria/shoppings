@@ -103,7 +103,7 @@ module.exports = {
      */
     loggedRole: function(roles) {
         //debugging switch
-        var alwaysLoggedIn = false;
+        var alwaysLoggedIn = true;
 
         return function(req, res, next) {
             if (!alwaysLoggedIn) {
@@ -184,7 +184,7 @@ module.exports = {
         });
         return temp;
     },
-    
+
     currentMonth: function(date, today, notToday, options) {
         return (moment(date).utc().format("MM") == moment().utc().format("MM")) ? today : notToday;
     }

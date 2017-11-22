@@ -16,7 +16,7 @@
                     {{/each}}
                 </select>
         </div>
-        <div class="col-lg-6 col-sm-6">
+        <div class="col-lg-5 col-md-5 col-sm-5">
             <div id="date-search" class="hide search-box">
                 <div class="col-lg-4 col-sm-4">
                     <input class="form-control" type="date" name="from" id="from" />
@@ -185,13 +185,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-1 col-sm-1">
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <span class="pull-right ">
             {{#in user.role 'user,admin'}}
-                <button id="save" class="pull-right btn btn-default" type="submit">Save...</button>
+                <button id="save" class="btn btn-default" type="submit">Save...</button>
             {{/in}}
-        </div>
-        <div class="col-lg-1 col-sm-1">
-            <button id="search" class="pull-right btn btn-default btn-dark">Search</button>
+            &nbsp;&nbsp;&nbsp;
+            <button id="clear" class="btn btn-default">Clear</button>
+            &nbsp;&nbsp;&nbsp;
+            <button id="search" class="btn btn-default btn-dark">Search</button>
+            </span>
         </div>
     </div>
     <br/>
@@ -270,6 +273,17 @@
             }
         });
     };
+
+    function doRemoveCriterion(criterion) {
+        var criterionName = criterion.attr("id");
+        delete $(".criteria").data()[criterionName];
+        criterion.remove();
+    }
+
+    $("button#clear").click(function (e) {
+        e.preventDefault();
+        $(".criteria .criterion").each((i,e) => doRemoveCriterion($(e)));
+    });
 
     $("button#save").click(function (e) {
         e.preventDefault();
@@ -351,9 +365,7 @@
 
     function removeCriterion(e) {
         var criterion = $(e.target).parent();
-        var criterionName = criterion.attr("id");
-        delete $(".criteria").data()[criterionName];
-        criterion.remove();
+        doRemoveCriterion(criterion);
     }
 
     function updateVisualCriteria(criterion) {
