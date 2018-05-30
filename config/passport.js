@@ -15,6 +15,7 @@ module.exports = function(passport) {
     // load the auth variables
     var configAuth = {
     
+        
         'googleAuth': {
             'clientID': process.env.GOOGLEAUTH_CLIENTID,
             'clientSecret': process.env.GOOGLEAUTH_CLIENTSECRET,
