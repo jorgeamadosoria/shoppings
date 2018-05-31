@@ -103,7 +103,7 @@ module.exports = {
      */
     loggedRole: function(roles) {
         //debugging switch
-        var alwaysLoggedIn = false;//(process.env.ALWAYS_LOGGED_IN)?process.env.ALWAYS_LOGGED_IN:false;
+        var alwaysLoggedIn = (process.env.ALWAYS_LOGGED_IN)?process.env.ALWAYS_LOGGED_IN:false;
 
         return function(req, res, next) {
             if (!alwaysLoggedIn) {
