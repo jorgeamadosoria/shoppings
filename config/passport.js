@@ -10,29 +10,41 @@ var User = require('../data/user');
  * @requires data/user
  * @exports module
  */
-module.exports = function(passport) {
+module.exports = function (passport) {
 
+    var clientId = "1038669607477-72jchidr8fm378pf02qncnek749737e8.apps.googleusercontent.com";
+var clientSecret = "CMOruiGo4RqEfyLH8wKqNxtq";
+var callbackURL = "http://localhost:3000/auth/google/callback";
+var authRealm = "http://localhost:3000";
+    if (process.env.GOOGLEAUTH_CLIENTID)
+        clientId = GOOGLEAUTH_CLIENTID;
+        if (process.env.GOOGLEAUTH_CLIENTSECRET)
+        clientSecret = GOOGLEAUTH_CLIENTSECRET;
+        if (process.env.GOOGLEAUTH_CALLBACKURL)
+        callbackURL = GOOGLEAUTH_CALLBACKURL;
+        if (process.env.GOOGLEAUTH_REALM)
+        authRealm = GOOGLEAUTH_REALM;
     // load the auth variables
     var configAuth = {
-    
-        
+
+
         'googleAuth': {
-            'clientID': process.env.GOOGLEAUTH_CLIENTID,
-            'clientSecret': process.env.GOOGLEAUTH_CLIENTSECRET,
-            'callbackURL': process.env.GOOGLEAUTH_CALLBACKURL,
-            'realm': process.env.GOOGLEAUTH_REALM
+            'clientID': clientId,
+            'clientSecret': clientSecret,
+            'callbackURL': callbackURL,
+            'realm': authRealm
         }
-    
+
     };
 
 
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+    passport.deserializeUser(function (id, done) {
+        User.findById(id, function (err, user) {
             done(err, user);
         });
     });
@@ -50,9 +62,11 @@ module.exports = function(passport) {
     function userCallback(token, refreshToken, profile, done) {
         // make the code asynchronous
         // User.findOne won't fire until we have all our data back from Google
-        process.nextTick(function() {
+        process.nextTick(function () {
             // try to find the user based on their google id
-            User.findOne({ 'google.id': profile.id }, function(err, user) {
+            User.findOne({
+                'google.id': profile.id
+            }, function (err, user) {
                 if (err)
                     return done(err);
 
@@ -70,7 +84,7 @@ module.exports = function(passport) {
                     newUser.google.name = profile.displayName;
                     newUser.google.email = profile.emails[0].value; // pull the first email
                     // save the user
-                    newUser.save(function(err) {
+                    newUser.save(function (err) {
                         if (err)
                             throw err;
                         return done(null, newUser);
@@ -83,11 +97,10 @@ module.exports = function(passport) {
 
     passport.use(new GoogleStrategy({
 
-            clientID: configAuth.googleAuth.clientID,
-            clientSecret: configAuth.googleAuth.clientSecret,
-            callbackURL: configAuth.googleAuth.callbackURL,
-            realm: configAuth.googleAuth.realm
-        },userCallback
-        ));
+        clientID: configAuth.googleAuth.clientID,
+        clientSecret: configAuth.googleAuth.clientSecret,
+        callbackURL: configAuth.googleAuth.callbackURL,
+        realm: configAuth.googleAuth.realm
+    }, userCallback));
 
 };
