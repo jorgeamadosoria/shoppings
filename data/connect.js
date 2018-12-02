@@ -1,12 +1,10 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var mongodburl = "mongodb://localhost:27017";
+var mongodburl = "mongodb://localhost:27017/shoppings";
 
-if (process.env.OPENSHIFT_MONGODB_DB_URL &&
-  process.env.OPENSHIFT_APP_NAME){
-    mongodburl = process.env.OPENSHIFT_MONGODB_DB_URL +
-    process.env.OPENSHIFT_APP_NAME;
+if (process.env.MONGODB_URI){
+    mongodburl = process.env.MONGODB_URI;
   }
 
 
