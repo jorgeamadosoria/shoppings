@@ -17,13 +17,13 @@ module.exports = function (passport) {
     var callbackURL = "http://localhost:3000/auth/google/callback";
     var authRealm = "http://localhost:3000";
     if (process.env.GOOGLEAUTH_CLIENTID)
-        clientId = GOOGLEAUTH_CLIENTID;
+        clientId = process.env.GOOGLEAUTH_CLIENTID;
     if (process.env.GOOGLEAUTH_CLIENTSECRET)
-        clientSecret = GOOGLEAUTH_CLIENTSECRET;
+        clientSecret = process.env.GOOGLEAUTH_CLIENTSECRET;
     if (process.env.GOOGLEAUTH_CALLBACKURL)
-        callbackURL = GOOGLEAUTH_CALLBACKURL;
+        callbackURL = process.env.GOOGLEAUTH_CALLBACKURL;
     if (process.env.GOOGLEAUTH_REALM)
-        authRealm = GOOGLEAUTH_REALM;
+        authRealm = process.env.GOOGLEAUTH_REALM;
     // load the auth variables
     var configAuth = {
 
