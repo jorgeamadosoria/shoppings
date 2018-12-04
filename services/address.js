@@ -57,5 +57,11 @@ module.exports = {
      */
     findById: function (id) {
         return model.findById(mongoose.Types.ObjectId(id)).lean().exec();
-    }
+    },
+
+    /**
+     */
+    findByName: function(name) {
+        return model.find({ name: new RegExp(name, 'i') }).lean().exec();
+     }
 };
