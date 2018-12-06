@@ -12,6 +12,19 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="type" class="col-xs-2 control-label">Type</label>
+        <div class="col-xs-10">
+            <select class="form-control" name="type" id="type">
+                {{#lists.addressTypes}}
+                    <option>{{this}}</option>
+                {{/lists.addressTypes}}
+                {{#if obj}}
+                    <option selected >{{obj.type}}</option>   
+                {{/if}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="country" class="col-xs-2 control-label">Country</label>
         <div class="col-xs-10">
             <select class="form-control" name="country" id="country">

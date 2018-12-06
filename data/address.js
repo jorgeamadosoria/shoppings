@@ -8,12 +8,17 @@ var mongoose_csv = require('mongoose-csv');
  * @typedef {Object} Address
  * @property {string} name - the name of the store, or point of sale 
  * @property {string} address - street address
+ * @property {string} type - address type (i.e., shop, airport, shopping mall, etc.)
  * @property {string} country - country of the item
  * @property {string} region - province, county, city or region of the item
  * @property {string} mapSrc - url of the Google Maps medium embedded frame
  */
 var AddressSchema = new mongoose.Schema({
     "name": {
+        type: String,
+        default: ""
+    },
+    "type": {
         type: String,
         default: ""
     },
@@ -43,7 +48,7 @@ var AddressSchema = new mongoose.Schema({
 });
 
 function fullAddress() {
-    return [this.name, this.address, this.region, this.country].join(",");
+    return [this.name, this.type, this.address, this.region, this.country].join(",");
 }
 
 AddressSchema.virtual('toCSVString')

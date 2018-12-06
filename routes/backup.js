@@ -38,22 +38,13 @@ router.get('/import', utils.loggedRole(["admin"]), function (req, res, next) {
  *
  */
 router.post('/import', utils.loggedRole(["admin"]), function (req, res, next) {
-    Promise.all([brandService.list().then(zipper("brands.json")),
-        addressService.list().then(zipper("address.json")),
-        itemService.list({}).then(zipper("items.json")),
-        userService.list().then(zipper("users.json")),
-        queryService.list().then(zipper("queries.json")),
-        listService.list().then(zipper("lists.json"))
+    Promise.all([brandService.list().then(zipper("brands.json"))
     ]).then(function (docs) {
         zip.generateAsync({
                 type: "nodebuffer",
                 compression: "STORE",
             })
             .then(function (blob) {
-                res.writeHead(200, {
-                    'Content-Type': 'application/octet-stream',
-                    'Content-Disposition': 'attachment; filename=backup.zip'
-                });
                 res.end(blob);
             });
 
