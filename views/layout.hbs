@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Shoppings</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-  <link rel='stylesheet' href='/css/font-awesome.min.css' />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
   <link rel="stylesheet" href="/css/font-awesome-animation.min.css">
   <link rel='stylesheet' href='/css/style.css' />
@@ -41,7 +41,7 @@
         <ul class="nav navbar-nav">
           <li>
             <a href="/">
-              <i class="fa fa-3x fa-home" title="Home"></i></a>
+              <i class="fas fa-3x fa-home" title="Home"></i></a>
           </li>
           <li>
             <a href="/items/list">
@@ -53,7 +53,7 @@
           </li>
           <li>
             <a href="/addresses/list">
-              <i class="fa fa-3x fa-map-marker" title="Addresses"></i></a>
+              <i class="fa fa-3x fa-map-marker-alt" title="Addresses"></i></a>
           </li>
           <li>
             <a href="/queries/list">
@@ -78,20 +78,20 @@
               </li>
               <li>
                 <a href="/users/list">
-                  <i class="fa fa-users"></i>&nbsp;Users</a>
+                  <i class="fa fa-user-circle"></i>&nbsp;Users</a>
               </li>
               <li>
                 <a href="/items/csv">
-                  <i class="fa fa-file-o"></i>&nbsp;CSV</a>
+                  <i class="fa fa-file-csv"></i>&nbsp;CSV</a>
               </li>
               <li>
                 <a href="/backup/export">
-                  <i class="fa fa-file-zip-o"></i>&nbsp;Zipped JSON</a>
+                  <i class="fa fa-file-archive"></i>&nbsp;Zipped JSON</a>
               </li>
               {{/in}} {{#in user.role 'user,admin'}}
               <li>
                 <a href="/reports/monthly">
-                  <i class="fa fa-file-pdf-o"></i>&nbsp;Report</a>
+                  <i class="fa fa-file-pdf"></i>&nbsp;Report</a>
               </li>
               <li role="separator" class="divider"></li>
               {{/in}}

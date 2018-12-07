@@ -36,7 +36,7 @@
                     <td id="category" class="hidden-xs"></td>
                     <td id="currency" class="hidden-md hidden-sm hidden-xs"></td>
                     {{#in user.role 'user,admin'}}
-                    <td id = "actions"><a id="del-link" data-id="" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="" href=""><i class="fa fa-pencil"></i></a>
+                    <td id = "actions"><a id="del-link" data-id="" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="" href=""><i class="fa fa-edit"></i></a>
                     </td>
                     {{/in}}
                 </tr>
@@ -56,7 +56,7 @@
                         <td id="type" class="hidden-md hidden-sm hidden-xs">{{type}}</td>
                         <td id="category" class="hidden-xs">{{category}}</td>
                         <td id="currency" class="hidden-md hidden-sm hidden-xs">{{currency}} {{user}}</td>
-                        <td id = "actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-pencil"></i></a>
+                        <td id = "actions"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a class="update-link" data-id="{{_id}}" href=""><i class="fa fa-edit"></i></a>
                         </td>
                     </tr>
                     {{/list.docs}}

@@ -16,11 +16,13 @@
         <div class="col-xs-10">
             <select class="form-control" name="type" id="type">
                 {{#lists.addressTypes}}
-                    <option>{{this}}</option>
-                {{/lists.addressTypes}}
+                    <option value="{{lookup ../lists.addressTypesIcons @index}}" >{{this}}</option>
                 {{#if obj}}
-                    <option selected >{{obj.type}}</option>   
+                    {{#equals obj {{lookup ../lists.addressTypesIcons @index}} }}
+                        <option selected value="{{obj.type}}">{{this}}</option>   
+                    {{/if}}
                 {{/if}}
+                {{/lists.addressTypes}}
             </select>
         </div>
     </div>

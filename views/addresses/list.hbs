@@ -25,19 +25,19 @@
                 {{#in user.role 'user,admin'}}
                     {{#list}}
                     <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
-                        <td class="col-lg-3">{{type}}</td>
+                        <td class="col-lg-1"><i class="fa {{type}}"></i></td>
                         <td class="col-lg-3">{{name}}</td>
-                        <td class="col-lg-5">{{address}}</td>
+                        <td class="col-lg-4">{{address}}</td>
                         <td class="col-lg-2">{{region}}</td>
                         <td class="col-lg-1">{{country}}</td>
-                        <td id="actions" class="col-lg-1"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-pencil"></i></a>
+                        <td id="actions" class="col-lg-1"><a id="del-link" data-id="{{_id}}" href=""><i class="fa fa-trash"></i></a>&nbsp;<a href="form?id={{_id}}"><i class="fa fa-edit"></i></a>
                         </td>
                     </tr>
                     {{/list}}
                 {{else}}
                     {{#list}}
                     <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
-                        <td class="col-lg-3">{{type}}</td>
+                        <td class="col-lg-1">{{type}}</td>
                         <td class="col-lg-3">{{name}}</td>
                         <td class="col-lg-5">{{address}}</td>
                         <td class="col-lg-2">{{region}}</td>
