@@ -15,14 +15,12 @@
         <label for="type" class="col-xs-2 control-label">Type</label>
         <div class="col-xs-10">
             <select class="form-control" name="type" id="type">
-                {{#lists.addressTypes}}
-                    <option value="{{lookup ../lists.addressTypesIcons @index}}" >{{this}}</option>
+                {{#lists.addressTypesIcons}}
+                    <option value="{{this}}" >{{lookup ../lists.addressTypes @index}}</option>
+                {{/lists.addressTypesIcons}}
                 {{#if obj}}
-                    {{#equals obj {{lookup ../lists.addressTypesIcons @index}} }}
-                        <option selected value="{{obj.type}}">{{this}}</option>   
-                    {{/if}}
+                    <option value="{{obj.type}}" selected>{{lookup lists.addressTypes selectedAddressIndex}}</option>   
                 {{/if}}
-                {{/lists.addressTypes}}
             </select>
         </div>
     </div>

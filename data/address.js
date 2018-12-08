@@ -48,7 +48,7 @@ var AddressSchema = new mongoose.Schema({
 });
 
 function fullAddress() {
-    return [this.name, this.type, this.address, this.region, this.country].join(",");
+    return [this.name, this.address, this.region, this.country].join(",");
 }
 
 AddressSchema.virtual('toCSVString')

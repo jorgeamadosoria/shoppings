@@ -11,7 +11,6 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Type</th>
                     <th>Name</th>
                     <th>Address</th>
                     <th>Region</th>
@@ -25,8 +24,7 @@
                 {{#in user.role 'user,admin'}}
                     {{#list}}
                     <tr id="item-{{_id}}" data-full="{{fullAddress}}" data-src="{{mapSrc}}">
-                        <td class="col-lg-1"><i class="fa {{type}}"></i></td>
-                        <td class="col-lg-3">{{name}}</td>
+                        <td class="col-lg-3"><i class="fa {{type}}"></i>&nbsp;{{name}}</td>
                         <td class="col-lg-4">{{address}}</td>
                         <td class="col-lg-2">{{region}}</td>
                         <td class="col-lg-1">{{country}}</td>
