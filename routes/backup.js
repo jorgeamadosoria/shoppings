@@ -38,17 +38,11 @@ router.get('/import', utils.loggedRole(["admin"]), function (req, res, next) {
  *
  */
 router.post('/import', utils.loggedRole(["admin"]), function (req, res, next) {
-    Promise.all([brandService.list().then(zipper("brands.json"))
-    ]).then(function (docs) {
-        zip.generateAsync({
-                type: "nodebuffer",
-                compression: "STORE",
-            })
-            .then(function (blob) {
-                res.end(blob);
-            });
+    if (req.params.csv)
+    {
 
-    }, utils.handleError);
+    }
+    res.render("import");
 });
 
 /**
